@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package erpimeb;
+package gui.webshop;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,15 +15,17 @@ import javafx.stage.Stage;
  *
  * @author DanielToft
  */
-public class ErPiMeb extends Application {
+public class Main extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
+        FXMLLoader loader = new FXMLLoader();
+        Parent root = loader.load(getClass().getResource("Main.fxml").openStream());
+        MainController mainController = (MainController) loader.getController();
         Scene scene = new Scene(root);
-        
+        mainController.setStageRef(stage);
         stage.setScene(scene);
+        stage.setTitle("Webshop");
         stage.show();
     }
 
