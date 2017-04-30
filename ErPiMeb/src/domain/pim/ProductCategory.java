@@ -17,4 +17,10 @@ public class ProductCategory {
     private List<String> subCategories;
     private List<String> tagList;
     private List<Integer> productList;
+    
+    public ProductCategory(String name, List<String> subCategories, List<String> tagList) {
+        this.name = name;
+        this.subCategories = subCategories;
+        this.tagList = tagList;
+    }
 }

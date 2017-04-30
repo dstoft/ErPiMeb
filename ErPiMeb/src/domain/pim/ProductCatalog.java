@@ -5,7 +5,7 @@
  */
 package domain.pim;
 
-import java.util.Set;
+import java.util.*;
 
 /**
  *
@@ -14,4 +14,12 @@ import java.util.Set;
 public class ProductCatalog {
     
     private Set<ProductCategory> productCategories;
+    
+    public ProductCatalog() {
+        productCategories = new TreeSet();
+    }
+    
+    public Set getExistingProductCategories() {
+        return productCategories;
+    }
 }
