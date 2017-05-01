@@ -28,12 +28,23 @@ public class PIM {
     }
 
     public boolean checkCredentials(String username, String password) {
-
+        // TODO: Check credentials with the database
         throw new UnsupportedOperationException("Method not yet supported.");
+    }
+    
+    public List<Integer> searchForProduct(String productName) {
+        List<Integer> products = new ArrayList<>();
+        // TODO: call searchForProduct in class ProductCatalog
+        // and fill products with that input.
+        return products;
     }
 
     public void editDescription(String newText) {
         currentProduct.editDescription(newText);
+    }
+    
+    public void pickProductToEditFromList(int productId) {
+       // TODO: Call pickProductToEditFromList on class ProductCatalog
     }
 
     public void pickAndAttachImage(Image newImage) {
