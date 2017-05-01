@@ -22,4 +22,8 @@ public class ProductCatalog {
     public Set getExistingProductCategories() {
         return productCategories;
     }
+    
+    public void saveProductCategory(ProductCategory newProductCategory) {
+        productCategories.add(newProductCategory);
+    }
 }

@@ -23,4 +23,8 @@ public class ProductCategory {
         this.subCategories = subCategories;
         this.tagList = tagList;
     }
+    
+    public void addProductToCategory(int productId) {
+        productList.add(productId);
+    }
 }

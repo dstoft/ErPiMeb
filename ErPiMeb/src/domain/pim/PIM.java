@@ -13,6 +13,13 @@ import java.util.*;
  * @author AKT
  */
 public class PIM {
+    
+    private Product currentProduct;
+    
+    public PIM () {
+        // Set current product to be equal to the product currently worked on
+        currentProduct = new Product();
+    }
 
     public boolean adminLogin(String username, String password) {
 
@@ -26,11 +33,11 @@ public class PIM {
     }
 
     public void editDescription(String newText) {
-        // TODO: call editDescription in class Product
+        currentProduct.editDescription(newText);
     }
 
     public void pickAndAttachImage(Image newImage) {
-        // TODO: call pickAndAttachImage in class Product
+        currentProduct.pickAndAttachImage(newImage);
     }
 
     public boolean uploadImage(Image image) {
@@ -38,19 +45,19 @@ public class PIM {
     }
     
     public void addTag(String tag) {
-        // TODO: call addTag in class Product
+        currentProduct.addTag(tag);
     }
     
     public void addVideoLink(String videoLink) {
-        // TODO: call addVideoLink in class Product
+        currentProduct.addVideoLink(videoLink);
     }
     
     public void addSpecification(String name, String description) {
-        // TODO: call addSpecification in class Product
+        currentProduct.addSpecification(name, description);
     }
     
     public void addRelatedProduct(int productId) {
-        // TODO: call addRelatedProduct in class Product
+        currentProduct.addRelatedProduct(productId);
     }
     
     public Set getExistingProductCategories() {
@@ -62,5 +69,13 @@ public class PIM {
     
     public void createProductCategory(String name, List<String> subCategories, List<String> tagList) {
         // TODO: Create a productCategory
+    }
+    
+    public void chooseProductCategory(String name) {
+        // TODO: Choose product category
+    }
+    
+    public void saveChanges() {
+        // TODO: Save changes
     }
 }
