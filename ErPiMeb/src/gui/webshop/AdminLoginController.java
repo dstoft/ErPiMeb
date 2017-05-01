@@ -46,20 +46,19 @@ public class AdminLoginController implements Initializable {
 
     @FXML
     private void handleLoginAction(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/PimMain.fxml"));
         Parent root = null;
         Scene scene;
         try {
-            // Figure out how to create cross package scene switches on the same stage object
-            root = loader.load(getClass().getResource("../gui.pim/Main.fxml").openStream());
+            root = loader.load();
         } catch (IOException ex) {
-            Logger.getLogger(gui.pim.MainController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminLoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
         gui.pim.MainController pimMainController = (gui.pim.MainController) loader.getController();
         pimMainController.setStageRef(this.stageRef);
         scene = new Scene(root);
         this.stageRef.setScene(scene);
-        this.stageRef.setTitle("Admin Login");
+        this.stageRef.setTitle("PIM Backend");
         this.stageRef.show();
     }
 

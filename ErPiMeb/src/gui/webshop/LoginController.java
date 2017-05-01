@@ -36,6 +36,8 @@ public class LoginController implements Initializable {
     private PasswordField password;
     @FXML
     private Button login;
+    @FXML
+    private Button createUser;
 
     /**
      * Initializes the controller class.
@@ -47,19 +49,19 @@ public class LoginController implements Initializable {
 
     @FXML
     private void handleAdminLogin(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopAdminLogin.fxml"));
         Parent root = null;
         Scene scene;
         try {
-            root = loader.load(getClass().getResource("AdminLogin.fxml").openStream());
+            root = loader.load();
         } catch (IOException ex) {
-            Logger.getLogger(AdminLoginController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
         AdminLoginController adminLoginController = (AdminLoginController) loader.getController();
         adminLoginController.setStageRef(this.stageRef);
         scene = new Scene(root);
         this.stageRef.setScene(scene);
-        this.stageRef.setTitle("Admin Login");
+        this.stageRef.setTitle("Administrator Login");
         this.stageRef.show();
     }
 
@@ -69,6 +71,24 @@ public class LoginController implements Initializable {
 
     @FXML
     private void handleLoginAction(ActionEvent event) {
+    }
+
+    @FXML
+    private void handleCreateUser(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopCreateUser.fxml"));
+        Parent root = null;
+        Scene scene;
+        try {
+            root = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        CreateUserController createUserController = (CreateUserController) loader.getController();
+        createUserController.setStageRef(this.stageRef);
+        scene = new Scene(root);
+        this.stageRef.setScene(scene);
+        this.stageRef.setTitle("Opret Bruger");
+        this.stageRef.show();
     }
     
 }

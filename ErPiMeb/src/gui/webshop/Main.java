@@ -19,8 +19,8 @@ public class Main extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader();
-        Parent root = loader.load(getClass().getResource("Main.fxml").openStream());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopMain.fxml"));
+        Parent root = loader.load();
         MainController mainController = (MainController) loader.getController();
         Scene scene = new Scene(root);
         mainController.setStageRef(stage);
