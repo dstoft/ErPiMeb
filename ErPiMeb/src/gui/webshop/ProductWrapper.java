@@ -5,7 +5,6 @@
  */
 package gui.webshop;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +36,10 @@ class ProductWrapper {
         this.image = new ArrayList<>();
         try {
             this.image.add(ImageIO.read(new File("src/test.jpg")));
+            this.image.add(ImageIO.read(new File("src/test2.jpg")));
+            this.image.add(ImageIO.read(new File("src/test3.png")));
+            this.image.add(ImageIO.read(new File("src/test4.jpg")));
+            this.image.add(ImageIO.read(new File("src/test5.png")));
         } catch (IOException ex) {
             Logger.getLogger(ProductWrapper.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -70,7 +73,7 @@ class ProductWrapper {
     
     @Override
     public String toString(){
-        return this.id + " | " + this.name + " | " + this.price + " | " + this.description;
+        return this.id + " | " + this.name + " | " + this.price + "\n" + this.description;
     }
     
 }

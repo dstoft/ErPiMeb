@@ -16,7 +16,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -28,10 +30,17 @@ public class MainController implements Initializable {
     
     @FXML
     private TextField searchTerm;
+    @FXML
+    private ListView<ProductCategoryWrapper> categoryListView;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        ProductCategoryWrapper mainCategory = new ProductCategoryWrapper("Hvidevarer",1,2);
+        ProductCategoryWrapper secondCategory = new ProductCategoryWrapper("Vaskemaskiner",3);
+        ProductCategoryWrapper thirdCategory = new ProductCategoryWrapper("Køleskabe",4,5);
+        
+        mainCategory.addSubCategories("Vaskemaskiner","Køleskabe");
+        this.categoryListView.getItems().add(mainCategory);
     }    
 
     @FXML
@@ -72,5 +81,26 @@ public class MainController implements Initializable {
         this.primaryStage.setScene(scene);
         this.primaryStage.setTitle("Søgning: " + this.searchTerm.getText());
         this.primaryStage.show();
+    }
+
+    @FXML
+    private void handleChooseCategory(MouseEvent event) {
+        if(this.categoryListView.getSelectionModel().getSelectedItem() != null){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopSortProductByCategory.fxml"));
+            Parent root = null;
+            Scene scene;
+            try {
+                root = loader.load();
+            } catch (IOException ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            SortProductByCategoryController sortProductByCategoryController = (SortProductByCategoryController) loader.getController();
+            sortProductByCategoryController.setStageRef(this.primaryStage);
+            sortProductByCategoryController.setMainCategory(this.categoryListView.getSelectionModel().getSelectedItem());
+            scene = new Scene(root);
+            this.primaryStage.setScene(scene);
+            this.primaryStage.setTitle(this.categoryListView.getSelectionModel().getSelectedItem().getName());
+            this.primaryStage.show();
+        }
     }
 }
