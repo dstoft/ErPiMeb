@@ -7,7 +7,12 @@ package gui.webshop;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -15,20 +20,37 @@ import javafx.fxml.Initializable;
  * @author chris
  */
 public class ViewProductController implements Initializable {
-    private int productId;
+    private Stage stageRef;
+    private ProductWrapper product;
+    @FXML
+    private ImageView imageView;
+    @FXML
+    private Label productName;
+    @FXML
+    private Label productPrice;
+    @FXML
+    private Label productDescription;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        /* Flow here
-        ** Query the webshop database for a products information.
-        ** The query will select the information for this.productId.
-        */
+        
     }
     
-    void setProductId(int productId){
-        this.productId = productId;
+    void setProduct(ProductWrapper product){
+        this.product = product;
+    }
+    
+    void setValues(){
+        this.imageView.setImage(SwingFXUtils.toFXImage(this.product.getImage(0), null));
+        this.productName.setText(this.product.getName());
+        this.productPrice.setText(String.valueOf(this.product.getPrice()));
+        this.productDescription.setText(this.product.getDescription());
+    }
+
+    void setStageRef(Stage stageRef) {
+        this.stageRef = stageRef;
     }
     
 }

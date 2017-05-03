@@ -5,9 +5,12 @@
  */
 package gui.webshop;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -19,7 +22,7 @@ import javax.imageio.ImageIO;
 class ProductWrapper {
     private int id;
     private String name;
-    private BufferedImage image;
+    private List<BufferedImage> image;
     private String description;
     private double price;
     
@@ -31,8 +34,9 @@ class ProductWrapper {
         ** The following values are for test purposes
         */
         this.name = "Test produkt";
+        this.image = new ArrayList<>();
         try {
-            this.image = ImageIO.read(new File("test.jpg"));
+            this.image.add(ImageIO.read(new File("src/test.jpg")));
         } catch (IOException ex) {
             Logger.getLogger(ProductWrapper.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -48,8 +52,12 @@ class ProductWrapper {
         return this.name;
     }
 
-    public BufferedImage getImage() {
-        return this.image;
+    public BufferedImage getImage(int imageNum) {
+        return this.image.get(imageNum);
+    }
+    
+    public int getImageCount(){
+        return this.image.size();
     }
 
     public String getDescription() {
@@ -58,6 +66,11 @@ class ProductWrapper {
 
     public double getPrice() {
         return this.price;
+    }
+    
+    @Override
+    public String toString(){
+        return this.id + " | " + this.name + " | " + this.price + " | " + this.description;
     }
     
 }
