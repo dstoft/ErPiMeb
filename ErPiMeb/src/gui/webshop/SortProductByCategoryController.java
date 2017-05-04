@@ -7,7 +7,10 @@ package gui.webshop;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -18,6 +21,10 @@ import javafx.stage.Stage;
 public class SortProductByCategoryController implements Initializable {
     private Stage stageRef;
     private ProductCategoryWrapper sortedBy;
+    @FXML
+    private ListView<ProductCategoryWrapper> subCategoryListview;
+    @FXML
+    private ListView<ProductWrapper> foundProducts;
     
     /**
      * Initializes the controller class.
@@ -33,6 +40,20 @@ public class SortProductByCategoryController implements Initializable {
 
     void setMainCategory(ProductCategoryWrapper mainCategory) {
         this.sortedBy = mainCategory;
+    }
+
+    @FXML
+    private void handleSelectSubCategory(MouseEvent event) {
+        if(this.subCategoryListview.getSelectionModel().getSelectedItem() != null){
+            
+        }
+    }
+
+    @FXML
+    private void handleViewProduct(MouseEvent event) {
+        if(this.foundProducts.getSelectionModel().getSelectedItem() != null){
+            
+        }
     }
     
 }

@@ -77,6 +77,7 @@ public class MainController implements Initializable {
         }
         SearchForProductController searchForProductController = (SearchForProductController) loader.getController();
         searchForProductController.setStageRef(this.primaryStage);
+        searchForProductController.setSearchTerm(this.searchTerm.getText());
         scene = new Scene(root);
         this.primaryStage.setScene(scene);
         this.primaryStage.setTitle("Søgning: " + this.searchTerm.getText());

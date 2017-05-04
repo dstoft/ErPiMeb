@@ -28,12 +28,18 @@ public class SearchForProductController implements Initializable {
     private Stage stageRef;
     @FXML
     private ListView<ProductWrapper> foundProducts;
+    private String searchTerm;
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        /*
+        Query PIM for products matching this.searchTerm
+        Create a productWrapper object for each and put them into this.foundProducts listview.
+        */
+        
         ProductWrapper pw = new ProductWrapper(1);
         this.foundProducts.getItems().add(pw);
     }    
@@ -62,5 +68,9 @@ public class SearchForProductController implements Initializable {
             this.stageRef.setTitle(this.foundProducts.getSelectionModel().getSelectedItem().getName());
             this.stageRef.show();
         }
+    }
+
+    void setSearchTerm(String term) {
+        this.searchTerm = term;
     }
 }
