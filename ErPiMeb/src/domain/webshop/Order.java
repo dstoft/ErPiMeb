@@ -18,6 +18,32 @@ public class Order {
     private List<Integer> products;
     private double total;
     private String paymentMethod;
-    private String deliveryInformation;
+    private String name;
+    private String email;
+    private Address address;
+    
+    public void setAddress(Address orderAddress) {
+        address = orderAddress;
+    }
+    
+    public void setName (String name) {
+        this.name = name;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public boolean isRequiredInformationFIlled() {
+        boolean isFilled = false;
+        if (address.getAddress() == null || address.getZip() == 0 || address.getCountry() == null) {
+            return isFilled;
+        } else {
+            isFilled = true;
+            return isFilled;
+        }
+        
+    }
+    
     
 }

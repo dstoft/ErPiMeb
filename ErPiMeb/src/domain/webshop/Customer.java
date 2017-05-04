@@ -19,4 +19,23 @@ public class Customer {
     private String phoneNumber;
     private int zip;
     
+    private Cart currentCart;
+    
+    private Order currentOrder;
+    private Address orderAddress;
+    
+    public Order goToCheckout() {
+        currentCart.createCheckout();
+        currentOrder = new Order();
+        orderAddress = new Address();
+        
+        orderAddress.createCopyOf(address);
+        currentOrder.setAddress(orderAddress);
+        
+        return currentOrder;
+    }
+    
+    public Checkout getCheckout() {
+        return currentCart.getCheckout();
+    }
 }

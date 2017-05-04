@@ -19,4 +19,19 @@ public class Checkout {
     private double checkoutPrice;
     private Order newOrder;
     
+    public void setCheckoutContents(List<Integer> checkoutContents) {
+        this.checkoutContents = checkoutContents;
+    }
+    
+    public void setCheckoutPrice(double checkoutPrice) {
+        this.checkoutPrice = checkoutPrice;
+    }
+    
+    public void setTOSVerification(boolean checkedStatus) {
+        termsOfServiceVerification = checkedStatus;
+    }
+    
+    public boolean isTOSVerified() {
+        return termsOfServiceVerification;
+    }
 }

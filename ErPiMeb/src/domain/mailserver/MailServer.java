@@ -11,4 +11,17 @@ package domain.mailserver;
  */
 public class MailServer {
     
+    public boolean validateEmail() {
+        boolean emailValidated = false;
+        // Send an email to the registered email.
+        // If the sending-process creates an error, return false.
+        return emailValidated;
+    }
+    
+    public boolean emailOrderReceipt(String emailAddress) {
+        // Send an email to emailAddress. If it fails, return false, otherwise return true.
+        boolean emailSent = false;
+        return emailSent;
+    }
+    
 }

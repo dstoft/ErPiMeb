@@ -14,5 +14,19 @@ import java.util.List;
 public class Cart {
     
     private List<Integer> products;
-    private int total;
+    private double total;
+    
+    private Checkout currentCheckout;
+    
+    public void createCheckout() {
+        currentCheckout = new Checkout();
+        
+        currentCheckout.setCheckoutContents(products);
+        currentCheckout.setCheckoutPrice(total);
+    }
+    
+    public Checkout getCheckout() {
+        return currentCheckout;
+    }
+    
 }
