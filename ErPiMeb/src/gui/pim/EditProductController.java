@@ -7,7 +7,10 @@ package gui.pim;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -17,6 +20,7 @@ import javafx.stage.Stage;
  */
 public class EditProductController implements Initializable {
     private Stage stageRef;
+    private Scene preSceneRef;
     
     /**
      * Initializes the controller class.
@@ -26,8 +30,16 @@ public class EditProductController implements Initializable {
         // TODO
     }    
 
-    void setStageRef(Stage stageRef) {
+    void setReferences(Stage stageRef,Scene preSceneRef) {
         this.stageRef = stageRef;
+        this.preSceneRef = preSceneRef;
+    }
+
+    @FXML
+    private void handleReturnToParent(ActionEvent event) {
+        this.stageRef.setScene(this.preSceneRef);
+        this.stageRef.setTitle("PIM Backend");
+        this.stageRef.show();
     }
     
 }

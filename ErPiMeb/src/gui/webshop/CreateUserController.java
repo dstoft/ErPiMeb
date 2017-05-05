@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -21,6 +22,8 @@ import javafx.stage.Stage;
  */
 public class CreateUserController implements Initializable {
     private Stage stageRef;
+    private Scene preSceneRef;
+    private String preSceneTitle;
     @FXML
     private TextField emailField;
     @FXML
@@ -44,12 +47,21 @@ public class CreateUserController implements Initializable {
         // TODO
     }    
 
-    void setStageRef(Stage stageRef) {
+    void setReferences(Stage stageRef,Scene preSceneRef,String preSceneTitle) {
         this.stageRef = stageRef;
+        this.preSceneRef = preSceneRef;
+        this.preSceneTitle = preSceneTitle;
     }
 
     @FXML
     private void handleCreateUser(ActionEvent event) {
+    }
+
+    @FXML
+    private void handleReturnToParent(ActionEvent event) {
+        this.stageRef.setScene(this.preSceneRef);
+        this.stageRef.setTitle(this.preSceneTitle);
+        this.stageRef.show();
     }
     
 }

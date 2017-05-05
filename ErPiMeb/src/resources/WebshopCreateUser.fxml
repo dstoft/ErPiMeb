@@ -15,5 +15,6 @@
       <TextField fx:id="lastNameField" layoutX="175.0" layoutY="236.0" prefHeight="25.0" prefWidth="118.0" promptText="Last name" />
       <TextField fx:id="phoneField" layoutX="300.0" layoutY="236.0" prefHeight="25.0" prefWidth="126.0" promptText="Phone Number" />
       <TextField fx:id="addressField" layoutX="175.0" layoutY="275.0" prefHeight="25.0" prefWidth="250.0" promptText="Address" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Back to login" />
    </children>
 </AnchorPane>

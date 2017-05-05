@@ -16,5 +16,6 @@
       <Label layoutX="24.0" layoutY="39.0" text="User Login" />
       <Button fx:id="login" layoutX="235.0" layoutY="281.0" mnemonicParsing="false" onAction="#handleLoginAction" text="Login" />
       <Button fx:id="createUser" layoutX="235.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleCreateUser" text="Opret Bruger" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Back to main page" />
    </children>
 </AnchorPane>

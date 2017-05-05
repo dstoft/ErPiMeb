@@ -11,6 +11,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -23,6 +24,8 @@ import javafx.stage.Stage;
  */
 public class ViewProductController implements Initializable {
     private Stage stageRef;
+    private Scene preSceneRef;
+    private String preSceneTitle;
     private ProductWrapper product;
     private int imageCounter = 0;
     @FXML
@@ -67,8 +70,10 @@ public class ViewProductController implements Initializable {
         this.productDescription.setText(this.product.getDescription());
     }
 
-    void setStageRef(Stage stageRef) {
+    void setReferences(Stage stageRef, Scene preSceneRef,String preSceneTitle) {
         this.stageRef = stageRef;
+        this.preSceneRef = preSceneRef;
+        this.preSceneTitle = preSceneTitle;
     }
 
     @FXML
@@ -89,6 +94,13 @@ public class ViewProductController implements Initializable {
             this.imageCounter++;
         }
         this.imageView.setImage(SwingFXUtils.toFXImage(this.product.getImage(this.imageCounter), null));
+    }
+
+    @FXML
+    private void handleReturnToParent(ActionEvent event) {
+        this.stageRef.setScene(this.preSceneRef);
+        this.stageRef.setTitle(this.preSceneTitle);
+        this.stageRef.show();
     }
     
 }

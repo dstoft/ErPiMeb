@@ -23,32 +23,31 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author Agger
+ * @author chris
  */
-public class SortProductByCategoryController implements Initializable {
+public class SortBySubCategoryController implements Initializable {
     private Stage stageRef;
     private Scene preSceneRef;
+    private String preSceneTitle;
     private ProductCategoryWrapper sortedBy;
     @FXML
-    private ListView<ProductCategoryWrapper> subCategoryListview;
-    @FXML
     private ListView<ProductWrapper> foundProducts;
-    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    }
+        // TODO
+    }    
 
-    void setReferences(Stage primaryStage, Scene preSceneRef) {
-        this.stageRef = primaryStage;
+    void setReferences(Stage stageRef, Scene preSceneRef,String preSceneTitle) {
+        this.stageRef = stageRef;
         this.preSceneRef = preSceneRef;
+        this.preSceneTitle = preSceneTitle;
     }
 
-    void setMainCategory(ProductCategoryWrapper mainCategory) {
-        this.sortedBy = mainCategory;
+    void setSubCategory(ProductCategoryWrapper subCategory) {
+        this.sortedBy = subCategory;
         /*
         for each product ID in the main category, we wish to query PIM module for that product IDs data
         And create a new ProductWrapper object to put in the foundproducts listview.
@@ -56,37 +55,6 @@ public class SortProductByCategoryController implements Initializable {
         for(Integer productId : this.sortedBy.getProductIds()){
             ProductWrapper pw = new ProductWrapper(productId);
             this.foundProducts.getItems().add(pw);
-        }
-        /*
-        for each sub category in the main category, we wish to query PIM module for that sub categories product ids
-        This is so we can create a new product category wrapper object to put in the subcategory listview
-        */
-        
-        // Test objects
-        ProductCategoryWrapper dishWasher = new ProductCategoryWrapper("Vaskemaskiner",3);
-        ProductCategoryWrapper fridge = new ProductCategoryWrapper("Køleskabe",4,5);
-        this.subCategoryListview.getItems().add(dishWasher);
-        this.subCategoryListview.getItems().add(fridge);
-    }
-
-    @FXML
-    private void handleSelectSubCategory(MouseEvent event) {
-        if(this.subCategoryListview.getSelectionModel().getSelectedItem() != null){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopSortBySubCategory.fxml"));
-            Parent root = null;
-            Scene scene;
-            try {
-                root = loader.load();
-            } catch (IOException ex) {
-                Logger.getLogger(SortProductByCategoryController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            SortBySubCategoryController sortBySubCategoryController = (SortBySubCategoryController) loader.getController();
-            sortBySubCategoryController.setReferences(this.stageRef,this.foundProducts.getScene(),this.stageRef.getTitle());
-            sortBySubCategoryController.setSubCategory(this.subCategoryListview.getSelectionModel().getSelectedItem());
-            scene = new Scene(root);
-            this.stageRef.setScene(scene);
-            this.stageRef.setTitle(this.subCategoryListview.getSelectionModel().getSelectedItem().getName());
-            this.stageRef.show();
         }
     }
 
@@ -99,7 +67,7 @@ public class SortProductByCategoryController implements Initializable {
             try {
                 root = loader.load();
             } catch (IOException ex) {
-                Logger.getLogger(SearchForProductController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SortBySubCategoryController.class.getName()).log(Level.SEVERE, null, ex);
             }
             ViewProductController viewProductController = (ViewProductController) loader.getController();
             viewProductController.setReferences(this.stageRef,this.foundProducts.getScene(),this.stageRef.getTitle());
@@ -115,7 +83,7 @@ public class SortProductByCategoryController implements Initializable {
     @FXML
     private void handleReturnToParent(ActionEvent event) {
         this.stageRef.setScene(this.preSceneRef);
-        this.stageRef.setTitle("Webshop");
+        this.stageRef.setTitle(this.preSceneTitle);
         this.stageRef.show();
     }
     

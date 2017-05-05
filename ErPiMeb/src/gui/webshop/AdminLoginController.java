@@ -28,7 +28,8 @@ import javafx.stage.Stage;
  */
 public class AdminLoginController implements Initializable {
     private Stage stageRef;
-    
+    private Scene preSceneRef;
+    private String preSceneTitle;
     @FXML
     private TextField username;
     @FXML
@@ -55,15 +56,24 @@ public class AdminLoginController implements Initializable {
             Logger.getLogger(AdminLoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
         gui.pim.MainController pimMainController = (gui.pim.MainController) loader.getController();
-        pimMainController.setStageRef(this.stageRef);
+        pimMainController.setReferences(this.stageRef,this.login.getScene());
         scene = new Scene(root);
         this.stageRef.setScene(scene);
         this.stageRef.setTitle("PIM Backend");
         this.stageRef.show();
     }
 
-    void setStageRef(Stage stageRef) {
+    void setReferences(Stage stageRef,Scene preSceneRef,String preSceneTitle) {
         this.stageRef = stageRef;
+        this.preSceneRef = preSceneRef;
+        this.preSceneTitle = preSceneTitle;
+    }
+
+    @FXML
+    private void handleReturnToParent(ActionEvent event) {
+        this.stageRef.setScene(this.preSceneRef);
+        this.stageRef.setTitle(this.preSceneTitle);
+        this.stageRef.show();
     }
     
 }

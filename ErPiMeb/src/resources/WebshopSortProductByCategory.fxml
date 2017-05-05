@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="gui.webshop.SortProductByCategoryController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.webshop.SortProductByCategoryController">
    <children>
       <ListView fx:id="subCategoryListview" layoutX="31.0" layoutY="83.0" onMouseClicked="#handleSelectSubCategory" prefHeight="262.0" prefWidth="200.0" />
-      <ListView fx:id="foundProducts" layoutX="304.0" layoutY="48.0" onMouseClicked="#handleViewProduct" prefHeight="306.0" prefWidth="217.0" />
+      <ListView fx:id="foundProducts" layoutX="304.0" layoutY="48.0" onMouseClicked="#handleChooseProduct" prefHeight="306.0" prefWidth="217.0" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Back to main page" />
    </children>
 </AnchorPane>

@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
@@ -25,6 +26,13 @@ import javafx.stage.Stage;
  */
 public class MainController implements Initializable {
     private Stage stageRef;
+    private Scene preSceneRef;
+    @FXML
+    private Label productAmount;
+    @FXML
+    private Label orderAmount;
+    @FXML
+    private Label customerAmount;
 
     /**
      * Initializes the controller class.
@@ -34,8 +42,9 @@ public class MainController implements Initializable {
         // TODO
     }    
 
-    public void setStageRef(Stage stageRef) {
+    public void setReferences(Stage stageRef, Scene preSceneRef) {
         this.stageRef = stageRef;
+        this.preSceneRef = preSceneRef;
     }
 
     @FXML
@@ -49,7 +58,7 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         CreateProductController pimCreateProductController = (CreateProductController) loader.getController();
-        pimCreateProductController.setStageRef(this.stageRef);
+        pimCreateProductController.setReferences(this.stageRef,this.customerAmount.getScene());
         scene = new Scene(root);
         this.stageRef.setScene(scene);
         this.stageRef.setTitle("PIM Backend - Opret Produkt");
@@ -67,10 +76,17 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         EditProductController pimEditProductController = (EditProductController) loader.getController();
-        pimEditProductController.setStageRef(this.stageRef);
+        pimEditProductController.setReferences(this.stageRef,this.customerAmount.getScene());
         scene = new Scene(root);
         this.stageRef.setScene(scene);
         this.stageRef.setTitle("PIM Backend - Ændre Produkt");
+        this.stageRef.show();
+    }
+
+    @FXML
+    private void handleLogOut(ActionEvent event) {
+        this.stageRef.setScene(this.preSceneRef);
+        this.stageRef.setTitle("Admin login");
         this.stageRef.show();
     }
 }

@@ -28,6 +28,7 @@ import javafx.stage.Stage;
  */
 public class LoginController implements Initializable {
     private Stage stageRef;
+    private Scene preSceneRef;
     @FXML
     private Button adminLogin;
     @FXML
@@ -58,15 +59,16 @@ public class LoginController implements Initializable {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
         AdminLoginController adminLoginController = (AdminLoginController) loader.getController();
-        adminLoginController.setStageRef(this.stageRef);
+        adminLoginController.setReferences(this.stageRef,this.adminLogin.getScene(),this.stageRef.getTitle());
         scene = new Scene(root);
         this.stageRef.setScene(scene);
         this.stageRef.setTitle("Administrator Login");
         this.stageRef.show();
     }
 
-    void setStageRef(Stage primaryStage) {
+    void setReferences(Stage primaryStage,Scene preSceneRef) {
         this.stageRef = primaryStage;
+        this.preSceneRef = preSceneRef;
     }
 
     @FXML
@@ -84,10 +86,17 @@ public class LoginController implements Initializable {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
         CreateUserController createUserController = (CreateUserController) loader.getController();
-        createUserController.setStageRef(this.stageRef);
+        createUserController.setReferences(this.stageRef,this.adminLogin.getScene(),this.stageRef.getTitle());
         scene = new Scene(root);
         this.stageRef.setScene(scene);
         this.stageRef.setTitle("Opret Bruger");
+        this.stageRef.show();
+    }
+
+    @FXML
+    private void handleReturnToParent(ActionEvent event) {
+        this.stageRef.setScene(this.preSceneRef);
+        this.stageRef.setTitle("Webshop");
         this.stageRef.show();
     }
     

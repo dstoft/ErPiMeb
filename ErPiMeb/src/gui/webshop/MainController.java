@@ -35,9 +35,8 @@ public class MainController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Test objects
         ProductCategoryWrapper mainCategory = new ProductCategoryWrapper("Hvidevarer",1,2);
-        ProductCategoryWrapper secondCategory = new ProductCategoryWrapper("Vaskemaskiner",3);
-        ProductCategoryWrapper thirdCategory = new ProductCategoryWrapper("Køleskabe",4,5);
         
         mainCategory.addSubCategories("Vaskemaskiner","Køleskabe");
         this.categoryListView.getItems().add(mainCategory);
@@ -54,7 +53,7 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         LoginController loginController = (LoginController) loader.getController();
-        loginController.setStageRef(this.primaryStage);
+        loginController.setReferences(this.primaryStage,this.categoryListView.getScene());
         scene = new Scene(root);
         this.primaryStage.setScene(scene);
         this.primaryStage.setTitle("Bruger Login");
@@ -76,7 +75,7 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         SearchForProductController searchForProductController = (SearchForProductController) loader.getController();
-        searchForProductController.setStageRef(this.primaryStage);
+        searchForProductController.setReferences(this.primaryStage,this.categoryListView.getScene());
         searchForProductController.setSearchTerm(this.searchTerm.getText());
         scene = new Scene(root);
         this.primaryStage.setScene(scene);
@@ -96,7 +95,7 @@ public class MainController implements Initializable {
                 Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             }
             SortProductByCategoryController sortProductByCategoryController = (SortProductByCategoryController) loader.getController();
-            sortProductByCategoryController.setStageRef(this.primaryStage);
+            sortProductByCategoryController.setReferences(this.primaryStage,this.categoryListView.getScene());
             sortProductByCategoryController.setMainCategory(this.categoryListView.getSelectionModel().getSelectedItem());
             scene = new Scene(root);
             this.primaryStage.setScene(scene);

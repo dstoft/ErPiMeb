@@ -37,6 +37,10 @@ class ProductCategoryWrapper {
         return this.subCategories;
     }
     
+    public List<Integer> getProductIds(){
+        return this.productIds;
+    }
+    
     @Override
     public String toString(){
         return this.name;
