@@ -35,11 +35,11 @@ class ProductWrapper {
         this.name = "Test produkt";
         this.image = new ArrayList<>();
         try {
-            this.image.add(ImageIO.read(new File("src/test.jpg")));
-            this.image.add(ImageIO.read(new File("src/test2.jpg")));
-            this.image.add(ImageIO.read(new File("src/test3.png")));
-            this.image.add(ImageIO.read(new File("src/test4.jpg")));
-            this.image.add(ImageIO.read(new File("src/test5.png")));
+            this.image.add(ImageIO.read(new File("src/images/test.jpg")));
+            this.image.add(ImageIO.read(new File("src/images/test2.jpg")));
+            this.image.add(ImageIO.read(new File("src/images/test3.png")));
+            this.image.add(ImageIO.read(new File("src/images/test4.jpg")));
+            this.image.add(ImageIO.read(new File("src/images/test5.png")));
         } catch (IOException ex) {
             Logger.getLogger(ProductWrapper.class.getName()).log(Level.SEVERE, null, ex);
         }
