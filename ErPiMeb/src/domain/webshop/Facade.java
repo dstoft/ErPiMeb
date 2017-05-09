@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui.webshop;
+package domain.webshop;
 
 import java.awt.Image;
 import java.util.List;
