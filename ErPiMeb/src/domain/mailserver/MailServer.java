@@ -5,10 +5,21 @@
  */
 package domain.mailserver;
 
+import domain.webshop.Customer;
+
 /**
  *
  * @author AKT
  */
 public class MailServer {
     
+    public boolean emailContactReceipt(String emailAddress) {
+        // Check if the email is valid and if it is, return true.
+        return true;
+    }
+    
+    public boolean emailReturnReceipt(Customer customer, int returnId) {
+        // Check if the email is valid and if it is, return true.
+        return true;
+    }
 }

@@ -18,6 +18,19 @@ public class Order {
     private List<Integer> products;
     private double total;
     private String paymentMethod;
-    private String deliveryInformation;
+    private String name;
+    private String email;
+    private long timeStamp;
     
+    public int getOrderNumber() {
+        return orderNumber;
+    }
+    
+    public double getTotal() {
+        return total;
+    }
+    
+    public long getTimestamp() {
+        return timeStamp;
+    }
 }
