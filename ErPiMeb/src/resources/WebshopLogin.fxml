@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.webshop.LoginController">
+   <children>
+      <Button fx:id="adminLogin" layoutX="506.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleAdminLogin" text="Admin Login" />
+      <TextField fx:id="username" layoutX="236.0" layoutY="156.0" />
+      <Label layoutX="236.0" layoutY="139.0" text="Username" />
+      <Label layoutX="236.0" layoutY="210.0" text="Password" />
+      <PasswordField fx:id="password" layoutX="236.0" layoutY="227.0" />
+      <Label layoutX="24.0" layoutY="39.0" text="User Login" />
+      <Button fx:id="login" layoutX="235.0" layoutY="281.0" mnemonicParsing="false" onAction="#handleLoginAction" text="Login" />
+      <Button fx:id="createUser" layoutX="235.0" layoutY="349.0" mnemonicParsing="false" onAction="#handleCreateUser" text="Opret Bruger" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Back to main page" />
+   </children>
+</AnchorPane>
