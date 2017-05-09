@@ -16,14 +16,10 @@ public class WebshopController {
     
     private Customer currentCustomer;
     
-    public void contactCustomerSupport(String emailAddress) {
+    public boolean contactCustomerSupport(String emailAddress) {
         MailServer mailServer = new MailServer();
         
-        if (mailServer.emailContactReceipt(emailAddress) == true) {
-            // Let the user know, through GUI, that the receipt was sent.
-        } else {
-            // Let the user know that en error occured.
-        }
+        return mailServer.emailContactReceipt(emailAddress);
     }
     
     public List<Integer> showOrderHistory() {
@@ -32,17 +28,5 @@ public class WebshopController {
         orderHistory = currentCustomer.getOrderHistoryAsList();
         
         return orderHistory;
-    }
-    
-    public void showSpecificOrder(int orderNumber) {
-        // GUI method (?)
-    }
-    
-    public void showReturnForm(int orderNumber) {
-        // GUI method (?)
-    }
-    
-    public void returnOrder(int orderNumber, String returnKind) {
-        // GUI method (?)
     }
 }
