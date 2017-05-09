@@ -1,5 +1,5 @@
 5432
 localhost
-erpimeb
-admin
+postgres
+postgres
 admin

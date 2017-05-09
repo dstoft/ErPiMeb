@@ -5,16 +5,12 @@
  */
 package persistence;
 
-import java.io.DataInputStream;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.sql.*;
 
 /**
@@ -66,6 +62,20 @@ public class DatabaseHandler {
                 System.out.println("Connection information is invalid. Please edit the information.");
             }
             if(db.conn != null){
+                try (BufferedWriter print = new BufferedWriter(new FileWriter(new File("databaseInfo.txt")))){
+                    print.write("" + db.port);
+                    print.newLine();
+                    print.write(db.host);
+                    print.newLine();
+                    print.write(db.databaseName);
+                    print.newLine();
+                    print.write(db.username);
+                    print.newLine();
+                    print.write(db.password);
+                } catch (IOException ex) {
+                    System.out.println("Error writing to the database info file.");
+                    return;
+                }
                 System.out.println("Successfully established connection to database.");
                 return;
             }
