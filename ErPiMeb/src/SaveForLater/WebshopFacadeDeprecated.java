@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domain.webshop;
+package SaveForLater;
 
 import java.awt.Image;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author chris
  */
-public interface Facade {
+public interface WebshopFacadeDeprecated {
     public void contactCustomerSupport();
     public List<Integer> showOrderHistory();
     public void showSpecificOrder(int orderNumber);             // Might be removed at later time

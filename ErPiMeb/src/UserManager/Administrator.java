@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domain.webshop;
+package UserManager;
 
 /**
  *
  * @author AKT
  */
-public class WebshopController {
+public class Administrator {
     
+    private int clearanceLevel;
+    private String username;
+    private String password;
 }

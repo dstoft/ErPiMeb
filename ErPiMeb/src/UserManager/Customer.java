@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domain.webshop;
+package UserManager;
 
 /**
  *
@@ -14,7 +14,7 @@ public class Customer {
     private boolean tempCustomer;
     private String name;
     private String password;
-    private String address;
+    private Address address;
     private String country;
     private String phoneNumber;
     private int zip;

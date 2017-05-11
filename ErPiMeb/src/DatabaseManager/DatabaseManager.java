@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package persistence;
+package DatabaseManager;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,7 +17,17 @@ import java.sql.*;
  *
  * @author chris
  */
-public class DatabaseHandler {
+public class DatabaseManager implements Facade{
+    public static DatabaseManager manager;
+    
+    public static DatabaseManager getInstance(){
+        if(manager == null){
+            manager = new DatabaseManager();
+        }
+        return manager;
+    }
+    
+    
     /* Default values for Connection */
     private int port;
     private String url = "jdbc:postgresql://";
@@ -29,7 +39,7 @@ public class DatabaseHandler {
     private Connection conn = null;
     
     public static void main(String[] args){
-        DatabaseHandler db = new DatabaseHandler();
+        DatabaseManager db = new DatabaseManager();
         Scanner userInput = new Scanner(System.in);
         
         Scanner fileInput;

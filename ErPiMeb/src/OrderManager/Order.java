@@ -3,20 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domain.webshop;
+package OrderManager;
 
+import CommodityManager.Product;
 import java.util.List;
 
 /**
  *
  * @author AKT
  */
-public class Checkout {
+public class Order {
     
-    private boolean termsOfServiceVerification;
+    private boolean tempOrder;
+    private int orderNumber;
+    private List<Product> products;
+    private double total;
     private String paymentMethod;
-    private List<Integer> checkoutContents;
-    private double checkoutPrice;
-    private Order newOrder;
+    private String deliveryInformation;
+    private boolean tos;
     
 }

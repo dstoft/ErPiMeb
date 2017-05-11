@@ -3,21 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domain.webshop;
+package UserManager;
 
+import CommodityManager.Product;
 import java.util.List;
 
 /**
  *
  * @author AKT
  */
-public class Order {
+public class Cart {
     
-    private boolean tempOrder;
-    private int orderNumber;
-    private List<Integer> products;
-    private double total;
-    private String paymentMethod;
-    private String deliveryInformation;
-    
+    private List<Product> products;
+    private int total;
 }

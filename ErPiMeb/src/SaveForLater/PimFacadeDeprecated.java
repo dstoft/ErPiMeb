@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domain.pim;
+package SaveForLater;
 
 import java.awt.Image;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author chris
  */
-public interface Facade {
+public interface PimFacadeDeprecated {
     public boolean adminLogin(String username, String password);
     public boolean checkCredentials(String username, String password);
     public List<Integer> searchForProduct(String productName);

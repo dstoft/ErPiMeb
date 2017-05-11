@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domain.pim;
+package CommodityManager;
 
 import java.awt.Image;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public class Product {
     private String description;
     private List<Image> images;
     private List<String> videoLinks;
-    private List <Integer> relatedProducts;
+    private List<Product> relatedProducts;
     private double price;
     private HashMap<String, String> specification;
 }

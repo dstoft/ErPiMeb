@@ -3,15 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domain.pim;
+package CommodityManager;
+
+import java.util.List;
 
 /**
  *
  * @author AKT
  */
-public class Administrator {
+public class ProductCategory {
     
-    private int clearanceLevel;
-    private String username;
-    private String password;
+    private String name;
+    private List<String> subCategories;
+    private List<String> tagList;
+    private List<Product> productList;
 }

@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domain.webshop;
-
-import java.util.List;
+package OrderManager;
 
 /**
  *
  * @author AKT
  */
-public class Cart {
+public class ReturnCase {
     
-    private List<Integer> products;
-    private int total;
+    private int returnId;
+    private String returnKind;
+    
 }

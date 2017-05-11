@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domain.pim;
+package StatisticManager;
 
 /**
  *
  * @author AKT
  */
-public class Statistics {
+public class Graphs {
     
 }
