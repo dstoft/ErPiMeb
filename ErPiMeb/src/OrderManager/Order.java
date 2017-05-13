@@ -14,6 +14,12 @@ import java.util.List;
  */
 public class Order {
     
+    private int id;
+    private String name;
+    private String email;
+    private String phoneNumber;
+    private long timeStamp;
+    private String status;
     private boolean tempOrder;
     private int orderNumber;
     private List<Product> products;

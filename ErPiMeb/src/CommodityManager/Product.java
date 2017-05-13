@@ -23,4 +23,5 @@ public class Product {
     private List<Product> relatedProducts;
     private double price;
     private HashMap<String, String> specification;
+//    private Cart cart; ved ikke om denne skal være der da den er i en anden pakke
 }

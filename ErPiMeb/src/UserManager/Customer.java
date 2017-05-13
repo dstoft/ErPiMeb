@@ -5,6 +5,9 @@
  */
 package UserManager;
 
+import OrderManager.Order;
+import java.util.List;
+
 /**
  *
  * @author AKT
@@ -13,10 +16,11 @@ public class Customer {
     
     private boolean tempCustomer;
     private String name;
-    private String password;
     private Address address;
     private String country;
     private String phoneNumber;
     private int zip;
+    private String email;
+    private List<Order> orders;
     
 }

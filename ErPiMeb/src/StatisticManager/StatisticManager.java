@@ -11,6 +11,7 @@ package StatisticManager;
  */
 public class StatisticManager implements Facade{
     public static StatisticManager manager;
+    private Graphs graphs;
     
     public static StatisticManager getInstance(){
         if(manager == null){

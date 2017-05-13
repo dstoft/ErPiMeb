@@ -11,6 +11,7 @@ package OrderManager;
  */
 public class OrderManager implements Facade{
     public static OrderManager manager;
+    private Order currentOrder;
     
     public static OrderManager getInstance(){
         if(manager == null){

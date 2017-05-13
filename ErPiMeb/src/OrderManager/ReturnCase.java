@@ -13,5 +13,7 @@ public class ReturnCase {
     
     private int returnId;
     private String returnKind;
+    private String status;
+    private Order order;
     
 }

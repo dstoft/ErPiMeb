@@ -5,10 +5,19 @@
  */
 package UserManager;
 
+import OrderManager.Order;
+import java.util.List;
+
 /**
  *
  * @author chris
  */
 public class Address {
+    private String address;
+    private int zip;
+    private String country;
+    private List<Customer> customers;
+    private List<Order> orders;
+    
     
 }

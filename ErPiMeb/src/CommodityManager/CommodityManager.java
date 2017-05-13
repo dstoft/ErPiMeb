@@ -5,6 +5,7 @@
  */
 package CommodityManager;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -22,4 +23,5 @@ public class CommodityManager implements Facade{
     }
     
     private Set<ProductCategory> productCategories;
+    private ArrayList<Product> products;
 }
