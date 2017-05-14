@@ -36,8 +36,8 @@ public class UserManager implements Facade{
         return currentUser;
     }
     
-    public boolean saveCustomerChanges(String name, String email, String phoneNumber, Address address) {
-        currentUser.setUserInfo(name, email, phoneNumber, address);
+    public boolean saveCustomerChanges(String name, String email, String password, String phoneNumber, Address address) {
+        currentUser.setUserInfo(name, email, password, phoneNumber, address);
         return dbManager.saveCustomer(currentUser);
     }
 }

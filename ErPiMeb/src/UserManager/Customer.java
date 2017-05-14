@@ -38,9 +38,10 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
     
-    public void setUserInfo(String name, String email, String phoneNumber, Address address) {
+    public void setUserInfo(String name, String email, String password, String phoneNumber, Address address) {
         this.name = name;
         this.email = email;
+        this.password = password;
         this.phoneNumber = phoneNumber;
         this.address = address;
     }

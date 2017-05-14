@@ -5,6 +5,7 @@
  */
 package gui.webshop;
 
+import UserManager.UserManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -102,5 +103,23 @@ public class MainController implements Initializable {
             this.primaryStage.setTitle(this.categoryListView.getSelectionModel().getSelectedItem().getName());
             this.primaryStage.show();
         }
+    }
+
+    @FXML
+    private void handleEditProfile(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopEditCustomerProfile.fxml"));
+        Parent root = null;
+        Scene scene;
+        try {
+            root = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        EditCustomerProfileController profileController = (EditCustomerProfileController) loader.getController();
+        profileController.setReferences(this.primaryStage,this.categoryListView.getScene());
+        scene = new Scene(root);
+        this.primaryStage.setScene(scene);
+        this.primaryStage.setTitle("Rediger profil");
+        this.primaryStage.show();
     }
 }

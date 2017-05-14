@@ -14,14 +14,35 @@ import java.util.List;
  */
 public class Address {
     private String address;
-    private int zip;
+    private Integer zip;
     private String country;
     private List<Customer> customers;
     private List<Order> orders;
     
-    public Address(String address, int zip, String country) {
+    public Address(String address, Integer zip, String country) {
         this.address = address;
         this.zip = zip;
         this.country = country;
+    }
+
+    /**
+     * @return the address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * @return the zip
+     */
+    public int getZip() {
+        return zip;
+    }
+
+    /**
+     * @return the country
+     */
+    public String getCountry() {
+        return country;
     }
 }

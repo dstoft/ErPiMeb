@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.60" fx:controller="gui.webshop.EditCustomerProfileController">
+   <children>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Tilbage til forsiden" />
+      <Button layoutX="260.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleSaveChanges" text="Gem ændringer" />
+      <TextField fx:id="emailField" layoutX="185.0" layoutY="78.0" prefHeight="25.0" prefWidth="250.0" promptText="Email*" />
+      <PasswordField fx:id="passwordField" layoutX="185.0" layoutY="117.0" prefHeight="25.0" prefWidth="250.0" promptText="Password*" />
+      <PasswordField fx:id="rePasswordField" layoutX="185.0" layoutY="152.0" prefHeight="25.0" prefWidth="250.0" promptText="Retype password*" />
+      <TextField fx:id="firstNameField" layoutX="185.0" layoutY="187.0" prefHeight="25.0" prefWidth="250.0" promptText="First Name(s)*" />
+      <TextField fx:id="lastNameField" layoutX="185.0" layoutY="223.0" prefHeight="25.0" prefWidth="118.0" promptText="Last name*" />
+      <TextField fx:id="phoneField" layoutX="310.0" layoutY="223.0" prefHeight="25.0" prefWidth="126.0" promptText="Phone Number" />
+      <TextField fx:id="addressField" layoutX="185.0" layoutY="262.0" prefHeight="25.0" prefWidth="250.0" promptText="Address" />
+      <TextField fx:id="zipField" layoutX="185.0" layoutY="299.0" prefHeight="25.0" prefWidth="100.0" promptText="ZIP" />
+      <TextField fx:id="countryField" layoutX="294.0" layoutY="299.0" prefHeight="25.0" prefWidth="141.0" promptText="Country" />
+      <Label fx:id="statusLabel" layoutX="184.0" layoutY="46.0" />
+      <Label layoutX="184.0" layoutY="332.0" text="Fields with * must be filled.">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
