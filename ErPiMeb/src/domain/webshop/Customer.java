@@ -21,7 +21,7 @@ public class Customer {
     private String phoneNumber;
     private int zip;
     
-    private Set<Order> ordersMade;
+    private Set<Order> ordersMade = new TreeSet<>();
     
     public List<Integer> getOrderHistoryAsList() {
         List<Integer> orderHistory = new ArrayList<>();

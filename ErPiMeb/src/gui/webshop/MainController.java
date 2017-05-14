@@ -103,4 +103,22 @@ public class MainController implements Initializable {
             this.primaryStage.show();
         }
     }
+
+    @FXML
+    private void handleReturnOrder(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopReturnOrder.fxml"));
+        Parent root = null;
+        Scene scene;
+        try {
+                root = loader.load();
+            } catch (IOException ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        ReturnOrderController returnOrderController = (ReturnOrderController) loader.getController();
+        returnOrderController.setReferences(this.primaryStage,this.categoryListView.getScene());
+        scene = new Scene(root);
+        this.primaryStage.setScene(scene);
+        this.primaryStage.setTitle("Return Case");
+        this.primaryStage.show();
+    }
 }
