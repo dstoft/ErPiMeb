@@ -21,8 +21,6 @@ public class UserManager implements Facade{
     private List<Customer> customers;
     private List<Administrator> admins;
     
-    private DatabaseManager dbManager = DatabaseManager.getInstance();
-    
     public static UserManager getInstance(){
         if(manager == null){
             manager = new UserManager();
@@ -31,13 +29,13 @@ public class UserManager implements Facade{
     }
     
     public Customer getCurrentCustomer() {
-        currentUser = dbManager.createCustomer(currentUserId);
+        currentUser = DatabaseManager.getInstance().createCustomer(currentUserId);
         
         return currentUser;
     }
     
     public boolean saveCustomerChanges(String name, String email, String password, String phoneNumber, Address address) {
         currentUser.setUserInfo(name, email, password, phoneNumber, address);
-        return dbManager.saveCustomer(currentUser);
+        return DatabaseManager.getInstance().saveCustomer(currentUser);
     }
 }
