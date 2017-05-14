@@ -19,5 +19,9 @@ public class Address {
     private List<Customer> customers;
     private List<Order> orders;
     
-    
+    public Address(String address, int zip, String country) {
+        this.address = address;
+        this.zip = zip;
+        this.country = country;
+    }
 }

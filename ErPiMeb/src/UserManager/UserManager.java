@@ -5,6 +5,7 @@
  */
 package UserManager;
 
+import DatabaseManager.DatabaseManager;
 import java.util.List;
 
 /**
@@ -20,11 +21,23 @@ public class UserManager implements Facade{
     private List<Customer> customers;
     private List<Administrator> admins;
     
+    private DatabaseManager dbManager = DatabaseManager.getInstance();
     
     public static UserManager getInstance(){
         if(manager == null){
             manager = new UserManager();
         }
         return manager;
+    }
+    
+    public Customer getCurrentCustomer() {
+        currentUser = dbManager.createCustomer(currentUserId);
+        
+        return currentUser;
+    }
+    
+    public boolean saveCustomerChanges(String name, String email, String phoneNumber, Address address) {
+        currentUser.setUserInfo(name, email, phoneNumber, address);
+        return dbManager.saveCustomer(currentUser);
     }
 }

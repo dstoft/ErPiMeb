@@ -5,6 +5,8 @@
  */
 package DatabaseManager;
 
+import UserManager.Address;
+import UserManager.Customer;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,6 +27,81 @@ public class DatabaseManager implements Facade{
             manager = new DatabaseManager();
         }
         return manager;
+    }
+    
+    public Customer createCustomer(int id) {
+        ResultSet rs;
+        
+        rs = manager.getCustomerInfo(id);
+        
+        Customer currentCustomer = new Customer();
+        
+        try {
+            while (rs.next()) {
+                currentCustomer.setEmail(rs.getString("email"));
+                currentCustomer.setName(rs.getString("name"));
+                currentCustomer.setPhoneNumber(rs.getString("phone"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        rs = manager.getAddressInfo(id);
+        
+        Address newAddress = null;
+        
+        try {
+            while (rs.next()) {
+                newAddress = new Address(rs.getString("address"), rs.getInt("zip"), rs.getString("country"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        currentCustomer.addAddress(newAddress);
+        
+        return currentCustomer;
+        
+    }
+    
+    public ResultSet getCustomerInfo(int id) {
+        ResultSet rs = null;
+        
+        try {
+            String SQL = "SELECT name, email, phone WHERE id = " + id; // SQL string to be executed
+            rs = conn.createStatement().executeQuery(SQL);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return rs;
+    }
+    
+    public ResultSet getAddressInfo(int id) {
+        ResultSet rs = null;
+        
+        try {
+            String SQL = "SELECT address, zip, country WHERE id = " + id; // SQL string to be executed
+            rs = conn.createStatement().executeQuery(SQL);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return rs;
+    }
+    
+    public boolean saveCustomer(Customer currentUser) {
+        try {
+            String SQL = "INSERT INTO customer(phone, password, name, temp, email) "
+                    + "VALUES (" + currentUser.getPhoneNumber() + "," + currentUser.getPassword() 
+                    + "," + currentUser.getName() + "," + currentUser.isTempCustomer() 
+                    + "," + currentUser.getEmail() + ");";
+            ResultSet rs = conn.createStatement().executeQuery(SQL);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
     
     

@@ -17,10 +17,74 @@ public class Customer {
     private boolean tempCustomer;
     private String name;
     private Address address;
-    private String country;
     private String phoneNumber;
-    private int zip;
     private String email;
+    private String password;
     private List<Order> orders;
+    
+    public void addAddress(Address newAddress) {
+        address = newAddress;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    
+    public void setUserInfo(String name, String email, String phoneNumber, Address address) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+    }
+
+    /**
+     * @return the tempCustomer
+     */
+    public boolean isTempCustomer() {
+        return tempCustomer;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @return the address
+     */
+    public Address getAddress() {
+        return address;
+    }
+
+    /**
+     * @return the phoneNumber
+     */
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
     
 }
