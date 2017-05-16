@@ -5,6 +5,9 @@
  */
 package erpimeb.gui.webshop;
 
+import erpimeb.domain.commoditymanager.CommodityManager;
+import erpimeb.domain.commoditymanager.CommodityManagerFacade;
+import erpimeb.domain.commoditymanager.Product;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,8 +31,9 @@ import javafx.stage.Stage;
 public class SearchForProductController implements Initializable {
     private Stage stageRef;
     private Scene preSceneRef;
+    private CommodityManagerFacade commodityManager;
     @FXML
-    private ListView<ProductWrapper> foundProducts;
+    private ListView<Product> foundProducts;
     private String searchTerm;
     
     /**
@@ -37,13 +41,13 @@ public class SearchForProductController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.commodityManager = CommodityManager.getInstance();
         /*
         Query PIM for products matching this.searchTerm
         Create a productWrapper object for each, based on a query for PIM module and put them into this.foundProducts listview.
         */
+        this.foundProducts.getItems().addAll(this.commodityManager.searchForProduct(this.searchTerm));
         
-        ProductWrapper pw = new ProductWrapper(1);
-        this.foundProducts.getItems().add(pw);
     }    
 
     void setReferences(Stage primaryStage, Scene preSceneRef) {
@@ -68,7 +72,7 @@ public class SearchForProductController implements Initializable {
             viewProductController.setupScene();
             scene = new Scene(root);
             this.stageRef.setScene(scene);
-            this.stageRef.setTitle(this.foundProducts.getSelectionModel().getSelectedItem().getName());
+            this.stageRef.setTitle(/*this.foundProducts.getSelectionModel().getSelectedItem().getName(*/"vis produktets navn her");
             this.stageRef.show();
         }
     }

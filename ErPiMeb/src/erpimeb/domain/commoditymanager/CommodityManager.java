@@ -5,6 +5,8 @@
  */
 package erpimeb.domain.commoditymanager;
 
+import erpimeb.persistence.databasemanager.DatabaseManager;
+import erpimeb.persistence.databasemanager.DatabaseManagerFacade;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,12 +18,17 @@ import java.util.Set;
  */
 public class CommodityManager implements CommodityManagerFacade{
     public static CommodityManager manager;
+    public DatabaseManagerFacade dbManager;
     
     public static CommodityManager getInstance(){
         if(manager == null){
             manager = new CommodityManager();
         }
         return manager;
+    }
+    
+    public CommodityManager(){
+        this.dbManager = DatabaseManager.getInstance();
     }
     
     private Set<Category> productCategories;
@@ -48,8 +55,8 @@ public class CommodityManager implements CommodityManagerFacade{
     }
 
     @Override
-    public void searchForProduct(String productName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Product> searchForProduct(String productName) {
+        return this.dbManager.searchForProduct(productName);
     }
 
     @Override

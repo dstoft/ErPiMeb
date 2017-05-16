@@ -27,6 +27,7 @@ public interface DatabaseManagerFacade {
     public abstract int checkCredentials(String username, String password);
     public abstract List<Category> getCategories();
     public abstract List<Category> getSubcategories(String categoryName);
+    public abstract List<Product> searchForProduct(String productName);
     
     
     
