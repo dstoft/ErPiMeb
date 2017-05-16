@@ -5,6 +5,8 @@
  */
 package erpimeb.domain.commoditymanager;
 
+import erpimeb.persistence.databasemanager.DatabaseManager;
+import erpimeb.persistence.databasemanager.DatabaseManagerFacade;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +28,9 @@ public class CommodityManager implements CommodityManagerFacade{
     
     private Set<Category> productCategories;
     private ArrayList<Product> products;
+    private Product currentProduct;
+    
+    private DatabaseManagerFacade dbManager = DatabaseManager.getInstance();
 
     @Override
     public void fillProduct(Product product) {
@@ -33,8 +38,10 @@ public class CommodityManager implements CommodityManagerFacade{
     }
 
     @Override
-    public void createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, double price, List<Product> relatedProducts) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, double price, List<Product> relatedProducts) {
+        Product newProduct = new Product(name, images, videoLinks, description, specifications, price, relatedProducts);
+        
+        return dbManager.saveProduct(newProduct);
     }
 
     @Override
@@ -48,12 +55,19 @@ public class CommodityManager implements CommodityManagerFacade{
     }
 
     @Override
-    public void searchForProduct(String productName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Product> searchForProduct(String productName) {
+        return dbManager.searchForProduct(productName);
     }
 
     @Override
-    public void pickProductToEditFromList(int productId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void pickProductToEditFromList(Product pickedProduct) {
+        currentProduct = pickedProduct;
     }
+    
+    @Override
+    public boolean saveChangesToProduct() {
+        return dbManager.saveProduct(currentProduct);
+    }
+    
+    
 }

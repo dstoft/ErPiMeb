@@ -17,25 +17,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author chris
  */
-public class DatabaseManager implements DatabaseManagerFacade{
+public class DatabaseManager implements DatabaseManagerFacade {
+
     public static DatabaseManager manager;
-    
-    public static DatabaseManager getInstance(){
-        if(manager == null){
+
+    public static DatabaseManager getInstance() {
+        if (manager == null) {
             manager = new DatabaseManager();
         }
         return manager;
     }
-    
+
     public Customer createCustomer(int id) {
         return new Customer();
-        
+
         /*
         ResultSet rs;
         
@@ -68,41 +70,41 @@ public class DatabaseManager implements DatabaseManagerFacade{
         currentCustomer.addAddress(newAddress);
         
         return currentCustomer;
-        */
+         */
     }
-    
+
     private ResultSet getCustomerInfo(int id) {
         ResultSet rs = null;
-        
+
         try {
             String SQL = "SELECT name, email, phone WHERE id = " + id; // SQL string to be executed
             rs = conn.createStatement().executeQuery(SQL);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return rs;
     }
-    
+
     private ResultSet getAddressInfo(int id) {
         ResultSet rs = null;
-        
+
         try {
             String SQL = "SELECT address, zip, country WHERE id = " + id; // SQL string to be executed
             rs = conn.createStatement().executeQuery(SQL);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return rs;
     }
-    
+
     @Override
     public boolean saveCustomer(Customer currentUser) {
         try {
             String SQL = "INSERT INTO customer(phone, password, name, temp, email) "
-                    + "VALUES (" + currentUser.getPhoneNumber() + "," + currentUser.getPassword() 
-                    + "," + currentUser.getName() + "," + currentUser.isTempCustomer() 
+                    + "VALUES (" + currentUser.getPhoneNumber() + "," + currentUser.getPassword()
+                    + "," + currentUser.getName() + "," + currentUser.isTempCustomer()
                     + "," + currentUser.getEmail() + ");";
             ResultSet rs = conn.createStatement().executeQuery(SQL);
             return true;
@@ -111,8 +113,7 @@ public class DatabaseManager implements DatabaseManagerFacade{
             return false;
         }
     }
-    
-    
+
     /* Default values for Connection */
     private int port;
     private String url = "jdbc:postgresql://";
@@ -120,13 +121,13 @@ public class DatabaseManager implements DatabaseManagerFacade{
     private String databaseName;
     private String username;
     private String password;
-    
+
     private Connection conn = null;
-    
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         DatabaseManager db = new DatabaseManager();
         Scanner userInput = new Scanner(System.in);
-        
+
         Scanner fileInput;
         try {
             fileInput = new Scanner(new File("databaseInfo.txt"));
@@ -134,30 +135,30 @@ public class DatabaseManager implements DatabaseManagerFacade{
             System.out.println("Database info file not found.");
             return;
         }
-        
+
         db.port = Integer.parseInt(fileInput.nextLine());
         db.host = fileInput.nextLine();
         db.databaseName = fileInput.nextLine();
         db.username = fileInput.nextLine();
         db.password = fileInput.nextLine();
-        
+
         System.out.println("Here you can change the database connection information to your own.");
         System.out.println("We have put in our own default values. Change them until it matches yours.");
-        
-        while(db.conn == null){
+
+        while (db.conn == null) {
             System.out.println("Port: " + db.port);
             System.out.println("Host: " + db.host);
             System.out.println("Database Name: " + db.databaseName);
             System.out.println("Username: " + db.username);
             System.out.println("Password: " + db.password);
-            
-            try{
+
+            try {
                 db.conn = DriverManager.getConnection(db.url + db.host + ":" + db.port + "/" + db.databaseName, db.username, db.password);
             } catch (SQLException ex) {
                 System.out.println("Connection information is invalid. Please edit the information.");
             }
-            if(db.conn != null){
-                try (BufferedWriter print = new BufferedWriter(new FileWriter(new File("databaseInfo.txt")))){
+            if (db.conn != null) {
+                try (BufferedWriter print = new BufferedWriter(new FileWriter(new File("databaseInfo.txt")))) {
                     print.write("" + db.port);
                     print.newLine();
                     print.write(db.host);
@@ -174,19 +175,19 @@ public class DatabaseManager implements DatabaseManagerFacade{
                 System.out.println("Successfully established connection to database.");
                 return;
             }
-            
+
             System.out.println("Set port: ");
             db.port = Integer.parseInt(userInput.nextLine());
-            
+
             System.out.println("Set Host: ");
             db.host = userInput.nextLine();
-            
+
             System.out.println("Set Database name: ");
             db.databaseName = userInput.nextLine();
-            
+
             System.out.println("Set Username: ");
             db.username = userInput.nextLine();
-            
+
             System.out.println("Set Password: ");
             db.password = userInput.nextLine();
         }
@@ -199,7 +200,19 @@ public class DatabaseManager implements DatabaseManagerFacade{
 
     @Override
     public void fillProduct(Product product) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int id = product.getId();
+
+        try {
+            ResultSet rs = getProductInfo(id);
+            while (rs.next()) {
+                product.setName(rs.getString("name"));
+                product.setDescription(rs.getString("description"));
+                product.setPrice(rs.getDouble("price"));
+                // Daniel henter specfications, images og videolinks
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -213,8 +226,19 @@ public class DatabaseManager implements DatabaseManagerFacade{
     }
 
     @Override
-    public boolean saveProduct(Product product) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean saveProduct(Product product) { // For you Daniel my boy
+        try {
+            String SQL = "SELECT productid FROM product WHERE productid = " + product.getId();
+            ResultSet rs = conn.createStatement().executeQuery(SQL);
+
+            if (rs.next() == true) {
+                // Daniel kom igang
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return true; // Skal nok returne et eller andet specifikt
     }
 
     @Override
@@ -235,5 +259,40 @@ public class DatabaseManager implements DatabaseManagerFacade{
     @Override
     public List<Category> getSubcategories(String categoryName) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Product> searchForProduct(String productName) {
+        throw new UnsupportedOperationException("Not supported yet."); // Agger har lavet den
+    }
+
+    @Override
+    public List<Integer> searchForProductId(String productName) {
+        List<Integer> ids = new ArrayList<>();
+        try {
+            String SQL = "SELECT productid FROM product WHERE name = " + productName;
+            ResultSet rs = conn.createStatement().executeQuery(SQL);
+
+            while (rs.next()) {
+                ids.add(rs.getInt("productid"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ids;
+    }
+
+    private ResultSet getProductInfo(int id) {
+        ResultSet rs = null;
+        try {
+            String SQL = "SELECT name, images, videolinks, description, specifications, "
+                    + "price, relatedproducts FROM product WHERE productid = " + id;
+            return rs = conn.createStatement().executeQuery(SQL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return rs;
     }
 }
