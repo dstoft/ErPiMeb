@@ -5,6 +5,7 @@
  */
 package erpimeb.gui.webshop;
 
+import erpimeb.domain.usermanager.UserManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,6 +17,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -47,20 +50,29 @@ public class AdminLoginController implements Initializable {
 
     @FXML
     private void handleLoginAction(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/PimMain.fxml"));
-        Parent root = null;
-        Scene scene;
-        try {
-            root = loader.load();
-        } catch (IOException ex) {
-            Logger.getLogger(AdminLoginController.class.getName()).log(Level.SEVERE, null, ex);
+        if(UserManager.getInstance().adminLogin(this.username.getText(), this.password.getText())){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/PimMain.fxml"));
+            Parent root = null;
+            Scene scene;
+            try {
+                root = loader.load();
+            } catch (IOException ex) {
+                Logger.getLogger(AdminLoginController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            erpimeb.gui.pim.MainController pimMainController = (erpimeb.gui.pim.MainController) loader.getController();
+            pimMainController.setReferences(this.stageRef,this.login.getScene());
+            scene = new Scene(root);
+            this.stageRef.setScene(scene);
+            this.stageRef.setTitle("PIM Backend");
+            this.stageRef.show();
+        } else {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Log ind kunne ikke gennemføres");
+            alert.setHeaderText("Der er en fejl i enten brugernavn og password kombinationen.\nEller denne bruger har ikke de nødvendige rettigheder.");
+            alert.showAndWait();
         }
-        erpimeb.gui.pim.MainController pimMainController = (erpimeb.gui.pim.MainController) loader.getController();
-        pimMainController.setReferences(this.stageRef,this.login.getScene());
-        scene = new Scene(root);
-        this.stageRef.setScene(scene);
-        this.stageRef.setTitle("PIM Backend");
-        this.stageRef.show();
+        
+        
     }
 
     void setReferences(Stage stageRef,Scene preSceneRef,String preSceneTitle) {

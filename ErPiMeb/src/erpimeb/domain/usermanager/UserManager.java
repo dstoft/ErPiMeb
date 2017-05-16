@@ -37,6 +37,7 @@ public class UserManager implements UserManagerFacade{
         return manager;
     }
     
+    @Override
     public Customer getCurrentCustomer() {
         currentUser = this.dbManager.fillCustomer(currentUserId);
         
@@ -60,11 +61,26 @@ public class UserManager implements UserManagerFacade{
 
     @Override
     public boolean adminLogin(String username, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int clearance = this.dbManager.checkCredentials(username, password);
+        if(clearance >= 2){
+            this.currentAdmin = new Administrator(username, clearance);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean createCustomer(String name, String password, String email, Address address, String phoneNumber) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean userLogin(String username, String password) {
+        int userId = this.dbManager.checkCredentials(username, password);
+        if(userId == 1){
+            this.currentUserId = userId;
+            return true;
+        }
+        return false;
     }
 }
