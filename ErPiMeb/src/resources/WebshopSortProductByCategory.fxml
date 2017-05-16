@@ -4,7 +4,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.webshop.SortProductByCategoryController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.webshop.SortProductByCategoryController">
    <children>
       <ListView fx:id="subCategoryListview" layoutX="31.0" layoutY="83.0" onMouseClicked="#handleSelectSubCategory" prefHeight="262.0" prefWidth="200.0" />
       <ListView fx:id="foundProducts" layoutX="304.0" layoutY="48.0" onMouseClicked="#handleChooseProduct" prefHeight="306.0" prefWidth="217.0" />

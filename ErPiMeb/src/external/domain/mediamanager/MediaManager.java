@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package erpimeb.domain.mediamanager;
+package external.domain.mediamanager;
 
 /**
  * Out of scope
