@@ -6,6 +6,7 @@
 package erpimeb.gui.webshop;
 
 import erpimeb.domain.usermanager.UserManager;
+import erpimeb.domain.usermanager.UserManagerFacade;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -31,6 +32,7 @@ import javafx.stage.Stage;
 public class LoginController implements Initializable {
     private Stage stageRef;
     private Scene preSceneRef;
+    private UserManagerFacade userManager;
     @FXML
     private Button adminLogin;
     @FXML
@@ -47,7 +49,7 @@ public class LoginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        this.userManager = UserManager.getInstance();
     }    
 
     @FXML
@@ -75,7 +77,7 @@ public class LoginController implements Initializable {
 
     @FXML
     private void handleLoginAction(ActionEvent event) {
-        if(UserManager.getInstance().userLogin(this.username.getText(), this.password.getText())){
+        if(this.userManager.userLogin(this.username.getText(), this.password.getText())){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopCustomerProfile.fxml"));
             Parent root = null;
             Scene scene;
