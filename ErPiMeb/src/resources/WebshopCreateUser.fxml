@@ -8,13 +8,15 @@
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.webshop.CreateUserController">
    <children>
       <Button layoutX="250.0" layoutY="335.0" mnemonicParsing="false" onAction="#handleCreateUser" text="Opret Bruger" />
-      <TextField fx:id="emailField" layoutX="175.0" layoutY="91.0" prefHeight="25.0" prefWidth="250.0" promptText="Email" />
-      <PasswordField fx:id="passwordField" layoutX="175.0" layoutY="130.0" prefHeight="25.0" prefWidth="250.0" promptText="Password" />
-      <PasswordField fx:id="rePasswordField" layoutX="175.0" layoutY="165.0" prefHeight="25.0" prefWidth="250.0" promptText="Retype password" />
-      <TextField fx:id="firstNameField" layoutX="175.0" layoutY="200.0" prefHeight="25.0" prefWidth="250.0" promptText="First Name(s)" />
-      <TextField fx:id="lastNameField" layoutX="175.0" layoutY="236.0" prefHeight="25.0" prefWidth="118.0" promptText="Last name" />
-      <TextField fx:id="phoneField" layoutX="300.0" layoutY="236.0" prefHeight="25.0" prefWidth="126.0" promptText="Phone Number" />
-      <TextField fx:id="addressField" layoutX="175.0" layoutY="275.0" prefHeight="25.0" prefWidth="250.0" promptText="Address" />
+      <TextField fx:id="emailField" layoutX="175.0" layoutY="50.0" prefHeight="25.0" prefWidth="250.0" promptText="Email" />
+      <PasswordField fx:id="passwordField" layoutX="175.0" layoutY="89.0" prefHeight="25.0" prefWidth="250.0" promptText="Password" />
+      <PasswordField fx:id="rePasswordField" layoutX="175.0" layoutY="124.0" prefHeight="25.0" prefWidth="250.0" promptText="Retype password" />
+      <TextField fx:id="firstNameField" layoutX="175.0" layoutY="159.0" prefHeight="25.0" prefWidth="250.0" promptText="First Name(s)" />
+      <TextField fx:id="lastNameField" layoutX="175.0" layoutY="195.0" prefHeight="25.0" prefWidth="118.0" promptText="Last name" />
+      <TextField fx:id="phoneField" layoutX="300.0" layoutY="195.0" prefHeight="25.0" prefWidth="126.0" promptText="Phone Number" />
+      <TextField fx:id="streetField" layoutX="175.0" layoutY="234.0" prefHeight="25.0" prefWidth="250.0" promptText="Street" />
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Back to login" />
+      <TextField fx:id="zipTextField" layoutX="175.0" layoutY="299.0" prefHeight="25.0" prefWidth="250.0" promptText="Zip" />
+      <TextField fx:id="countryTextField" layoutX="175.0" layoutY="266.0" prefHeight="25.0" prefWidth="250.0" promptText="Country" />
    </children>
 </AnchorPane>

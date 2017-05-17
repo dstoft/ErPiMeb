@@ -20,6 +20,7 @@ public interface DatabaseManagerFacade {
     public abstract Customer fillCustomer(int userId);
     public abstract void fillProduct(Product product);
     public abstract Category fillCategory(String categoryName);
+    
     public abstract boolean saveOrder(Order order);
     public abstract boolean saveCustomer(Customer customer);
     public abstract boolean saveProduct(Product product);
