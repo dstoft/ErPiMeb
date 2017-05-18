@@ -5,6 +5,8 @@
  */
 package erpimeb.gui.webshop;
 
+import erpimeb.domain.commoditymanager.Category;
+import erpimeb.domain.commoditymanager.Product;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,11 +30,11 @@ import javafx.stage.Stage;
 public class SortProductByCategoryController implements Initializable {
     private Stage stageRef;
     private Scene preSceneRef;
-    private ProductCategoryWrapper sortedBy;
+    private Category sortedBy;
     @FXML
-    private ListView<ProductCategoryWrapper> subCategoryListview;
+    private ListView<Category> subCategoryListview;
     @FXML
-    private ListView<ProductWrapper> foundProducts;
+    private ListView<Product> foundProducts;
     
     /**
      * Initializes the controller class.
@@ -47,26 +49,20 @@ public class SortProductByCategoryController implements Initializable {
         this.preSceneRef = preSceneRef;
     }
 
-    void setMainCategory(ProductCategoryWrapper mainCategory) {
+    void setMainCategory(Category mainCategory) {
         this.sortedBy = mainCategory;
         /*
         for each product ID in the main category, we wish to query PIM module for that product IDs data
         And create a new ProductWrapper object to put in the foundproducts listview.
         */
-        for(Integer productId : this.sortedBy.getProductIds()){
-            ProductWrapper pw = new ProductWrapper(productId);
-            this.foundProducts.getItems().add(pw);
-        }
+//        for(Integer productId : this.sortedBy.getProductIds()){
+//            ProductWrapper pw = new ProductWrapper(productId);
+//            this.foundProducts.getItems().add(pw);
+//        }
         /*
         for each sub category in the main category, we wish to query PIM module for that sub categories product ids
         This is so we can create a new product category wrapper object to put in the subcategory listview
         */
-        
-        // Test objects
-        ProductCategoryWrapper dishWasher = new ProductCategoryWrapper("Vaskemaskiner",3);
-        ProductCategoryWrapper fridge = new ProductCategoryWrapper("Køleskabe",4,5);
-        this.subCategoryListview.getItems().add(dishWasher);
-        this.subCategoryListview.getItems().add(fridge);
     }
 
     @FXML
@@ -85,7 +81,7 @@ public class SortProductByCategoryController implements Initializable {
             sortBySubCategoryController.setSubCategory(this.subCategoryListview.getSelectionModel().getSelectedItem());
             scene = new Scene(root);
             this.stageRef.setScene(scene);
-            this.stageRef.setTitle(this.subCategoryListview.getSelectionModel().getSelectedItem().getName());
+            this.stageRef.setTitle(/*this.subCategoryListview.getSelectionModel().getSelectedItem().getName()*/"vis sub kategoriens navn her");
             this.stageRef.show();
         }
     }
@@ -107,7 +103,7 @@ public class SortProductByCategoryController implements Initializable {
             viewProductController.setupScene();
             scene = new Scene(root);
             this.stageRef.setScene(scene);
-            this.stageRef.setTitle(this.foundProducts.getSelectionModel().getSelectedItem().getName());
+            this.stageRef.setTitle(/*this.foundProducts.getSelectionModel().getSelectedItem().getName()*/"vis produktets navn her");
             this.stageRef.show();
         }
     }

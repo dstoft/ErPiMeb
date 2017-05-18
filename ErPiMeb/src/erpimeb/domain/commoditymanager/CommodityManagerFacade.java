@@ -18,7 +18,7 @@ public interface CommodityManagerFacade {
     public abstract void createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, double price, List<Product> relatedProducts);
     public abstract List<Category> showCategories();
     public abstract Category pickCategory(String categoryName);
-    public abstract void searchForProduct(String productName);
+    public abstract List<Product> searchForProduct(String productName);
     public abstract void pickProductToEditFromList(int productId);
     
 }

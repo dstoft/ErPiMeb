@@ -5,6 +5,7 @@
  */
 package erpimeb.gui.webshop;
 
+import erpimeb.domain.commoditymanager.Category;
 import erpimeb.domain.usermanager.UserManager;
 import java.io.IOException;
 import java.net.URL;
@@ -32,15 +33,11 @@ public class MainController implements Initializable {
     @FXML
     private TextField searchTerm;
     @FXML
-    private ListView<ProductCategoryWrapper> categoryListView;
+    private ListView<Category> categoryListView;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Test objects
-        ProductCategoryWrapper mainCategory = new ProductCategoryWrapper("Hvidevarer",1,2);
         
-        mainCategory.addSubCategories("Vaskemaskiner","Køleskabe");
-        this.categoryListView.getItems().add(mainCategory);
     }    
 
     @FXML
@@ -100,7 +97,7 @@ public class MainController implements Initializable {
             sortProductByCategoryController.setMainCategory(this.categoryListView.getSelectionModel().getSelectedItem());
             scene = new Scene(root);
             this.primaryStage.setScene(scene);
-            this.primaryStage.setTitle(this.categoryListView.getSelectionModel().getSelectedItem().getName());
+            this.primaryStage.setTitle(/*this.categoryListView.getSelectionModel().getSelectedItem().getName()*/"vis kategoriens navn her");
             this.primaryStage.show();
         }
     }

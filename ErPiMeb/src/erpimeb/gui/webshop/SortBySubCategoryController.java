@@ -5,6 +5,8 @@
  */
 package erpimeb.gui.webshop;
 
+import erpimeb.domain.commoditymanager.Category;
+import erpimeb.domain.commoditymanager.Product;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,9 +31,9 @@ public class SortBySubCategoryController implements Initializable {
     private Stage stageRef;
     private Scene preSceneRef;
     private String preSceneTitle;
-    private ProductCategoryWrapper sortedBy;
+    private Category sortedBy;
     @FXML
-    private ListView<ProductWrapper> foundProducts;
+    private ListView<Product> foundProducts;
     /**
      * Initializes the controller class.
      */
@@ -46,16 +48,16 @@ public class SortBySubCategoryController implements Initializable {
         this.preSceneTitle = preSceneTitle;
     }
 
-    void setSubCategory(ProductCategoryWrapper subCategory) {
+    void setSubCategory(Category subCategory) {
         this.sortedBy = subCategory;
         /*
         for each product ID in the main category, we wish to query PIM module for that product IDs data
         And create a new ProductWrapper object to put in the foundproducts listview.
         */
-        for(Integer productId : this.sortedBy.getProductIds()){
-            ProductWrapper pw = new ProductWrapper(productId);
-            this.foundProducts.getItems().add(pw);
-        }
+//        for(Integer productId : this.sortedBy.getProductIds()){
+//            ProductWrapper pw = new ProductWrapper(productId);
+//            this.foundProducts.getItems().add(pw);
+//        }
     }
 
     @FXML
@@ -75,7 +77,7 @@ public class SortBySubCategoryController implements Initializable {
             viewProductController.setupScene();
             scene = new Scene(root);
             this.stageRef.setScene(scene);
-            this.stageRef.setTitle(this.foundProducts.getSelectionModel().getSelectedItem().getName());
+            this.stageRef.setTitle(/*this.foundProducts.getSelectionModel().getSelectedItem().getName()*/"vis produktets navn");
             this.stageRef.show();
         }
     }

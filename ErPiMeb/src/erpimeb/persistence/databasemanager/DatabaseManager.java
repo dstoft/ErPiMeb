@@ -433,4 +433,15 @@ public class DatabaseManager implements DatabaseManagerFacade{
 //            return null;
 //        }
 //    }
+    
+    @Override
+    public List<Product> searchForProduct(String productName){
+        List<Product> foundProducts = new ArrayList<>();
+        foundProducts.add(new Product(1));
+        foundProducts.add(new Product(2));
+        for(Product prod : foundProducts){
+            this.fillProduct(prod);
+        }
+        return foundProducts;
+    }
 }
