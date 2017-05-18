@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.webshop.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.webshop.LoginController">
    <children>
       <Button fx:id="adminLogin" layoutX="506.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleAdminLogin" text="Admin Login" />
       <TextField fx:id="username" layoutX="236.0" layoutY="156.0" />
