@@ -224,7 +224,30 @@ public class DatabaseManager implements DatabaseManagerFacade{
 
     @Override
     public int checkCredentials(String username, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // 0 = forkert info
+        // 1 = normal bruger
+        // 2 = administrator
+        // 3 = super admin
+        // Need SQL implementation
+        // so it returns the user ID for the specified username/password combination
+        // Requires 2 different implementations for both admin login and user login, since they return 2 different values.
+        // When doing an admin login this returns the clearance level of the administrator
+        // When doing an user login this returns the user id of that username/password combination. 
+        // The following are only test values
+        switch (username) {
+            case "superadmin":
+                return 3;
+            case "admin":
+                return 2;
+            case "user":
+                return 1;
+            case "user2":
+                return 1;
+                case "prutfisk":
+                return 1;
+            default:
+                return 0;
+        }
     }
 
     @Override

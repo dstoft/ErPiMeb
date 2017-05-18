@@ -13,5 +13,11 @@ public class Administrator {
     
     private int clearanceLevel;
     private String username;
-    private String password;
+    
+    public Administrator(String username, int clearanceLevel){
+        this.clearanceLevel = clearanceLevel;
+        this.username = username;
+    }
+    
+    
 }
