@@ -26,6 +26,14 @@ public class Customer {
     public Customer() {
         this.orders = new ArrayList<>();
     }
+
+    public Customer(String name, Address address, String phoneNumber, String email, String password) {
+	this.name = name;
+	this.address = address;
+	this.phoneNumber = phoneNumber;
+	this.email = email;
+	this.password = password;
+    }
     
     public void addAddress(Address newAddress) {
         address = newAddress;
@@ -41,6 +49,14 @@ public class Customer {
     
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public void setAddress(Address address) {
+	this.address = address;
+    }
+
+    public void setPassword(String password) {
+	this.password = password;
     }
     
     public void setUserInfo(String name, String email, String password, String phoneNumber, Address address) {

@@ -40,5 +40,4 @@ public class Category {
     public void addProduct(Product product) {
         this.productList.add(product);
     }
-    
 }

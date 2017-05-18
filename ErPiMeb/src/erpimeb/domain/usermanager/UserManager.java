@@ -71,7 +71,19 @@ public class UserManager implements UserManagerFacade{
 
     @Override
     public boolean createCustomer(String name, String password, String email, Address address, String phoneNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	String[] tempString;
+	tempString = email.split("@");
+	if(tempString.length == 1){
+	    return false;
+	}
+	if(name.isEmpty() || password.isEmpty() || email.isEmpty() || address == null || phoneNumber.isEmpty()){
+	    return false;
+	} else if(!tempString[1].contains(".")){
+	    return false;
+	}
+	Customer newCustomer = new Customer(name, address, phoneNumber, email, password);   
+	dbManager.saveCustomer(newCustomer);
+	return true;
     }
 
     @Override
