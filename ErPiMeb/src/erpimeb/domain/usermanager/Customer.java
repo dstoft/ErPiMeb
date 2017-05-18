@@ -6,6 +6,7 @@
 package erpimeb.domain.usermanager;
 
 import erpimeb.domain.ordermanager.Order;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +22,10 @@ public class Customer {
     private String email;
     private String password;
     private List<Order> orders;
+    
+    public Customer() {
+        this.orders = new ArrayList<>();
+    }
     
     public void addAddress(Address newAddress) {
         address = newAddress;

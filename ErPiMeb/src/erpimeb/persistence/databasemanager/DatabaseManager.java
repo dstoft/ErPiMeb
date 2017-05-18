@@ -17,7 +17,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -69,32 +72,6 @@ public class DatabaseManager implements DatabaseManagerFacade{
         
         return currentCustomer;
         */
-    }
-    
-    private ResultSet getCustomerInfo(int id) {
-        ResultSet rs = null;
-        
-        try {
-            String SQL = "SELECT name, email, phone WHERE id = " + id; // SQL string to be executed
-            rs = conn.createStatement().executeQuery(SQL);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        
-        return rs;
-    }
-    
-    private ResultSet getAddressInfo(int id) {
-        ResultSet rs = null;
-        
-        try {
-            String SQL = "SELECT address, zip, country WHERE id = " + id; // SQL string to be executed
-            rs = conn.createStatement().executeQuery(SQL);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        
-        return rs;
     }
     
     @Override
@@ -194,17 +171,166 @@ public class DatabaseManager implements DatabaseManagerFacade{
 
     @Override
     public Customer fillCustomer(int userId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(userId < 0) {
+            throw new IllegalArgumentException("Illegal userId passed in!");
+        }
+        
+        Customer returnCustomer = new Customer();
+        
+        ResultSet rs = this.getCustomerInfo(userId);
+        try {
+            rs.next();
+            returnCustomer.setName(rs.getString("Name"));
+            returnCustomer.setEmail(rs.getString("Email"));
+            returnCustomer.setPhoneNumber(rs.getString("Phone"));
+        } catch (SQLException ex) {
+            System.out.println("Database error regarding fetching customer data from a resultset!");
+            return null;
+        }
+        
+        rs = this.getAddressInfo(userId);
+        try {
+            while(rs.next()) {
+                returnCustomer.addAddress(new Address(rs.getString("Address"), rs.getInt("Zip"), rs.getString("Country")));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Database error regarding fetching customer addresses from a resultset!");
+            return null;
+        }
+        
+        return returnCustomer;
     }
 
     @Override
     public void fillProduct(Product product) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int id = product.getId();
+        if(id < 0) {
+            throw new IllegalArgumentException("There is not a valid id in the product!");
+        }
+        
+        ResultSet rs = this.getProductInfo(id);
+        try {
+            rs.next();
+            product.setName(rs.getString("Name"));
+            product.setDescription(rs.getString("Desc"));
+            product.setPrice(rs.getDouble("Price"));
+        } catch (SQLException ex) {
+            System.out.println("Database error regarding fetching product data from a resultset!");
+            return;
+        }
+        
+        // Related products
+        try {
+            String query = "SELECT ProductID_2 FROM Related WHERE ProductID_1=?;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, id);
+            rs = prepSt.executeQuery();
+            while(rs.next()) {
+                product.addRelatedProduct(new Product(rs.getInt("ProductID_2")));
+            }
+        } catch(SQLException e) {
+            System.out.println("Database error regarding fetching product related products from a resultset!");
+            return;
+        }
+        
+        // Images
+        try {
+            String query = "SELECT URL FROM Contains NATURAL JOIN Image WHERE ProductID=?;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, id);
+            rs = prepSt.executeQuery();
+            while(rs.next()) {
+                product.addImage(rs.getString("URL"));
+            }
+        } catch(SQLException e) {
+            System.out.println("Database error regarding fetching product images from a resultset!");
+            return;
+        }
+        
+        // Specifications
+        try {
+            String query = "SELECT Key, Value FROM Has NATURAL JOIN Spec WHERE ProductID=?;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, id);
+            rs = prepSt.executeQuery();
+            while(rs.next()) {
+                product.addSpecification(rs.getString("Key"), rs.getString("Value"));
+            }
+        } catch(SQLException e) {
+            System.out.println("Database error regarding fetching product images from a resultset!");
+            return;
+        }
+        
+        // There is no data regarding videos in the database!
     }
 
     @Override
     public Category fillCategory(String categoryName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Should probably check whether the name exists in the db first, but oh well
+        
+        // Calling this.getCategoryInfo is useless, since Category only holds a name
+        
+        ResultSet rs;
+        Category returnCategory = new Category();
+        returnCategory.setName(categoryName);
+        
+        // Products
+        try {
+            ArrayList<Product> tempProducts = new ArrayList<>();
+            String query = "SELECT ProductID FROM Holds WHERE ProductCategoryName=?;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setString(1, categoryName);
+            rs = prepSt.executeQuery();
+            while(rs.next()) {
+                tempProducts.add(new Product(rs.getInt("ProductID")));
+            }
+            
+            for(Product product : tempProducts) {
+                this.fillProduct(product);
+                returnCategory.addProduct(product);
+            }
+        } catch(SQLException e) {
+            System.out.println("Database error regarding fetching category's products from a resultset!");
+            return null;
+        }
+        
+        // Subcategories
+        try {
+            ArrayList<Category> tempCategories = new ArrayList<>();
+            String query = "SELECT Name_2 FROM Subcategory WHERE Name_1=?;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setString(1, categoryName);
+            rs = prepSt.executeQuery();
+            while(rs.next()) {
+                Category newCategory = new Category();
+                newCategory.setName(rs.getString("Name_2"));
+                tempCategories.add(newCategory);
+            }
+            
+            for(Category category : tempCategories) {
+                returnCategory.addSubcategory(category);
+            }
+        } catch(SQLException e) {
+            System.out.println("Database error regarding fetching category's subcategories from a resultset!");
+            return null;
+        }
+        
+        // Tags
+        try {
+            ArrayList<Category> tempCategories = new ArrayList<>();
+            String query = "SELECT TagName FROM Includes NATURAL JOIN Tag WHERE Name=?;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setString(1, categoryName);
+            rs = prepSt.executeQuery();
+            while(rs.next()) {
+                returnCategory.addTag(rs.getString("TagName"));
+            }
+        } catch(SQLException e) {
+            System.out.println("Database error regarding fetching category's subcategories from a resultset!");
+            return null;
+        }
+        
+        return null;
     }
 
     @Override
@@ -259,4 +385,52 @@ public class DatabaseManager implements DatabaseManagerFacade{
     public List<Category> getSubcategories(String categoryName) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    private ResultSet getProductInfo(int id) {
+        String query = "SELECT Name, Price, Desc FROM Product WHERE ProductID=?";
+        try {
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, id);
+            return prepSt.executeQuery();
+        } catch(SQLException e) {
+            System.out.println("Something went wrong with fetching product info from the database!");
+            return null;
+        }
+    }
+    
+    private ResultSet getCustomerInfo(int id) {
+        String query = "SELECT Name, Phone, Email FROM Product WHERE CustomerID=?";
+        try {
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, id);
+            return prepSt.executeQuery();
+        } catch(SQLException e) {
+            System.out.println("Something went wrong with fetching product info from the database!");
+            return null;
+        }
+    }
+    
+    private ResultSet getAddressInfo(int userId) {
+        String query = "SELECT Address, Zip, Country FROM ShipTo NATURAL JOIN Address WHERE CustomerID=?";
+        try {
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, userId);
+            return prepSt.executeQuery();
+        } catch(SQLException e) {
+            System.out.println("Something went wrong with fetching product info from the database!");
+            return null;
+        }
+    }
+    
+//    private ResultSet getCategoryInfo(String categoryName) {
+//        String query = "SELECT Address, Zip, Country FROM ShipTo NATURAL JOIN Address WHERE CustomerID=?";
+//        try {
+//            PreparedStatement prepSt = this.conn.prepareStatement(query);
+//            prepSt.setInt(1, userId);
+//            return prepSt.executeQuery();
+//        } catch(SQLException e) {
+//            System.out.println("Something went wrong with fetching product info from the database!");
+//            return null;
+//        }
+//    }
 }
