@@ -18,12 +18,5 @@ public class Category {
     private List<String> tagList;
     private List<Product> productList;
 
-    public Category(String name, List<String> subCategories, List<String> tagList, List<Product> productList) {
-	this.name = name;
-	this.subCategories = subCategories;
-	this.tagList = tagList;
-	this.productList = productList;
-    }
-    
-    
+
 }
