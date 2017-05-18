@@ -36,6 +36,11 @@ public class CommodityManager implements CommodityManagerFacade{
     public void createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, double price, List<Product> relatedProducts) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    @Override
+    public void createCategory(String name, List<String> subCategories, List<String> tagList, List<Product> productst){
+	Category newCategory = new Category(name, subCategories, tagList, products);
+    }
 
     @Override
     public List<Category> showCategories() {

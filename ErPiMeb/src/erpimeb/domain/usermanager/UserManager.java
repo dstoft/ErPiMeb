@@ -67,6 +67,9 @@ public class UserManager implements UserManagerFacade{
     public boolean createCustomer(String name, String password, String email, Address address, String phoneNumber) {
 	String[] tempString;
 	tempString = email.split("@");
+	if(tempString.length == 1){
+	    return false;
+	}
 	if(name.isEmpty() || password.isEmpty() || email.isEmpty() || address == null || phoneNumber.isEmpty()){
 	    return false;
 	} else if(!tempString[1].contains(".")){

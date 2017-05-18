@@ -71,15 +71,17 @@ public class CreateUserController implements Initializable {
 	String fullName = firstNameField.getText();
 	fullName += " ";
 	fullName += lastNameField.getText();
-	if(umFacade.createCustomer(fullName, passwordField.getText(), emailField.getText(), new Address(streetField.getText(), Integer.parseInt(zipTextField.getText()), countryTextField.getText()), phoneField.getText())){ 
-	    handleReturnToParent(event);
-	} else{ try{
-	    Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Oprettelse af bruger kunne ikke gennemføres");
-            alert.setHeaderText("Der er en fejl i et af felterne, tjek dine informationer og prøv igen.");
-	    alert.showAndWait();
+	try{
+	    if(umFacade.createCustomer(fullName, passwordField.getText(), emailField.getText(), new Address(streetField.getText(), Integer.parseInt(zipTextField.getText()), countryTextField.getText()), phoneField.getText())){ 
+		handleReturnToParent(event);
+	    } else {
+		throw new NumberFormatException();
+	    }
 	} catch(NumberFormatException nfe){ 	
-	}
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Oprettelse af bruger kunne ikke gennemføres");
+		alert.setHeaderText("Der er en fejl i et af felterne, tjek dine informationer og prøv igen.");
+		alert.showAndWait();
 	}
     }
 
