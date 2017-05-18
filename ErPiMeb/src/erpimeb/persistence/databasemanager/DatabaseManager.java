@@ -99,15 +99,39 @@ public class DatabaseManager implements DatabaseManagerFacade{
     
     @Override
     public boolean saveCustomer(Customer currentUser) {
+        
         try {
-            String SQL = "INSERT INTO customer(phone, password, name, temp, email) "
-                    + "VALUES (" + currentUser.getPhoneNumber() + "," + currentUser.getPassword() 
-                    + "," + currentUser.getName() + "," + currentUser.isTempCustomer() 
-                    + "," + currentUser.getEmail() + ");";
-            ResultSet rs = conn.createStatement().executeQuery(SQL);
+            Statement st = this.conn.createStatement();
+            st.executeUpdate("Begin;");
+        } catch(SQLException e) {
+            System.out.println("Something went wrong with beginning a commit for saving a customer!");
+        }
+        
+        try {
+            String query = "INSERT INTO Customer(Phone, Name, Temp, Email) "
+                    + "VALUES (?, ?, FALSE, ?);";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setString(1, currentUser.getPhoneNumber());
+            prepSt.setString(2, currentUser.getName());
+            prepSt.setString(3, currentUser.getEmail());
+            prepSt.executeUpdate();
+            
+            query = "INSERT INTO Login(Email, Password) "
+                    + "VALUES (?, ?);";
+            prepSt = this.conn.prepareStatement(query);
+            prepSt.setString(1, currentUser.getEmail());
+            prepSt.setString(2, currentUser.getPassword());
+            prepSt.executeUpdate();
+        } catch(SQLException e) {
+            System.out.println("Database error regarding saving a customer object!");
+        }
+        
+        try {
+            Statement st = this.conn.createStatement();
+            st.executeUpdate("COMMIT;");
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch(SQLException e) {
+            System.out.println("Something went wrong with commit saving a customer!");
             return false;
         }
     }
