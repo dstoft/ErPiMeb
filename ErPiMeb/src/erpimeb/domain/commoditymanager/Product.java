@@ -99,4 +99,8 @@ public class Product {
     public void setSpecification(HashMap<String, String> specification) {
         this.specification = specification;
     }
+    
+    public String toString() {
+        return name;
+    }
 }

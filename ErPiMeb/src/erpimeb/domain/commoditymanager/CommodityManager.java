@@ -56,7 +56,12 @@ public class CommodityManager implements CommodityManagerFacade{
 
     @Override
     public List<Product> searchForProduct(String productName) {
-        return dbManager.searchForProduct(productName);
+        //return dbManager.searchForProduct(productName);
+        Product hej = new Product(1);
+        hej.setName("hej produktet");
+        List<Product> hejlisten = new ArrayList<>();
+        hejlisten.add(hej);
+        return hejlisten;
     }
 
     @Override

@@ -67,7 +67,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleEditProduct(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/PimEditProduct.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/PimPreEditProduct.fxml"));
         Parent root = null;
         Scene scene;
         try {
@@ -75,11 +75,11 @@ public class MainController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        EditProductController pimEditProductController = (EditProductController) loader.getController();
-        pimEditProductController.setReferences(this.stageRef,this.customerAmount.getScene());
+        PreEditProductController pimPreEditProductController = (PreEditProductController) loader.getController();
+        pimPreEditProductController.setReferences(this.stageRef,this.customerAmount.getScene());
         scene = new Scene(root);
         this.stageRef.setScene(scene);
-        this.stageRef.setTitle("PIM Backend - Ændre Produkt");
+        this.stageRef.setTitle("PIM Backend - Rediger Produkt");
         this.stageRef.show();
     }
 
