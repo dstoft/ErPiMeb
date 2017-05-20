@@ -84,7 +84,7 @@ public class Product {
         this.relatedProducts = relatedProducts;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 

@@ -5,8 +5,13 @@
  */
 package erpimeb.gui.pim;
 
+import erpimeb.domain.commoditymanager.CommodityManager;
+import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,6 +34,11 @@ public class EditProductController implements Initializable {
     private Stage stageRef;
     private Scene preSceneRef;
     private Product pickedProduct;
+    private List<String> images = new ArrayList<>();
+    private List<String> videos = new ArrayList<>();
+    private ArrayList<Product> related = new ArrayList<>();
+    private HashMap<String, String> specs = new HashMap<>();
+    private CommodityManagerFacade cManager = CommodityManager.getInstance();
     @FXML
     private TextField nameTextField;
     @FXML
@@ -78,14 +88,24 @@ public class EditProductController implements Initializable {
 
     @FXML
     private void handleAttachImage(ActionEvent event) {
+        images.add(imageUrlTextField.getText());
+        imageListView.getItems().add(imageUrlTextField.getText());
     }
 
     @FXML
     private void handleAttachVideo(ActionEvent event) {
+        videos.add(videoLinkTextField.getText());
+        videoListView.getItems().add(videoLinkTextField.getText());
     }
 
     @FXML
     private void handleSaveChanges(ActionEvent event) {
+        cManager.saveChangesToProduct();
+        
+        // Go back to PIM
+            this.stageRef.setScene(this.preSceneRef);
+            this.stageRef.setTitle("PIM Backend");
+            this.stageRef.show();
     }
 
     @FXML
@@ -98,15 +118,42 @@ public class EditProductController implements Initializable {
 
     @FXML
     private void handleAddSpecifications(ActionEvent event) {
+        if (specs.get(keysComboBox.getSelectionModel().getSelectedItem()) == null && keysComboBox.getSelectionModel().getSelectedItem() != null) {
+            specs.put(keysComboBox.getSelectionModel().getSelectedItem(), specValueTextField.getText());
+            specListView.getItems().add(keysComboBox.getSelectionModel().getSelectedItem() + " = " + specValueTextField.getText());
+        }
     }
 
     @FXML
     private void handleSpecClick(MouseEvent event) {
+        String[] parts = splitSpecification(specListView.getSelectionModel().getSelectedItem());
+        specs.remove(parts[0]);
+        specListView.getItems().remove(specListView.getSelectionModel().getSelectedItem());
     }
     
     public void setPickedProduct(Product pickedProduct) {
         this.pickedProduct = pickedProduct;
+        // Set pre-existing values
         nameTextField.setText(pickedProduct.getName());
+        priceTextField.setText(Double.toString(pickedProduct.getPrice()));
+        descriptionTextArea.setText(pickedProduct.getDescription());
+        if (pickedProduct.getImages() != null) {
+            for (String s : pickedProduct.getImages()) {
+                images.add(s);
+                imageListView.getItems().add(s);
+            }
+        }
+        if (pickedProduct.getVideoLinks() != null) {
+            for (String s : pickedProduct.getVideoLinks()) {
+                videos.add(s);
+                videoListView.getItems().add(s);
+            }
+        }
+    }
+    
+    private String[] splitSpecification(String string) {
+        String[] parts = string.split(" = ");
+        return parts;
     }
     
 }

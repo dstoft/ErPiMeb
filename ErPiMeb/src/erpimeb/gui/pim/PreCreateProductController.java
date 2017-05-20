@@ -7,7 +7,13 @@ package erpimeb.gui.pim;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -15,13 +21,42 @@ import javafx.fxml.Initializable;
  * @author AKT
  */
 public class PreCreateProductController implements Initializable {
+    private Stage stageRef;
+    private Scene preSceneRef;
+
+    @FXML
+    private ListView<?> searchListView;
+    @FXML
+    private TextField searchTextField;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }    
+
+    @FXML
+    private void handlePickProduct(ActionEvent event) {
+        
+    }
+
+    @FXML
+    private void handleSearch(ActionEvent event) {
+        
+    }
+
+    @FXML
+    private void handleReturnToParent(ActionEvent event) {
+        this.stageRef.setScene(this.preSceneRef);
+        this.stageRef.setTitle("PIM Backend");
+        this.stageRef.show();
+    }
+    
+    void setReferences(Stage stageRef, Scene preSceneRef) {
+        this.stageRef = stageRef;
+        this.preSceneRef = preSceneRef;
+    }
     
 }

@@ -6,6 +6,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.pim.PreCreateProductController">
-    
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="erpimeb.gui.pim.PreCreateProductController">
+   <children>
+      <Button layoutX="179.0" layoutY="363.0" mnemonicParsing="false" onAction="#handlePickProduct" prefHeight="25.0" prefWidth="262.0" text="Vælg produkt" />
+      <ListView fx:id="searchListView" layoutX="179.0" layoutY="131.0" prefHeight="225.0" prefWidth="262.0" />
+      <Label layoutX="230.0" layoutY="66.0" text="Søg efter et produkt i ERP." />
+      <Button layoutX="405.0" layoutY="95.0" mnemonicParsing="false" onAction="#handleSearch" text="Søg" />
+      <TextField fx:id="searchTextField" layoutX="179.0" layoutY="95.0" prefHeight="25.0" prefWidth="226.0" promptText="Søgetekst" />
+      <Button layoutX="24.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Tilbage til PIM" />
+   </children>
 </AnchorPane>

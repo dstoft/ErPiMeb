@@ -72,7 +72,8 @@ public class PreEditProductController implements Initializable {
     @FXML
     private void handlePickProduct(ActionEvent event) {
         if (searchListView.getSelectionModel().getSelectedItem() != null) {
-
+            cManager.pickProductToEditFromList(searchListView.getSelectionModel().getSelectedItem());
+            
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/PimEditProduct.fxml"));
             Parent root = null;
             Scene scene;
