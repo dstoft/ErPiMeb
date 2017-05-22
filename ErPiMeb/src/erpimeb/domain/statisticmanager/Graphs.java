@@ -29,7 +29,7 @@ public class Graphs {
         
         this.data = new LinkedHashMap<>();
         //Only 28 to avoid duplicates in the HashMap
-        for(long i = 0; i <= 28; i++) {
+        for(long i = 28; i >= 0; i--) {
             data.put(this.getDayOfMonth(creationTime - (i * 86400000)), 0);
         }
     }
@@ -37,8 +37,28 @@ public class Graphs {
     public void addData(List<Long> data) {
         for(Long dataPoint : data) {
             int dayOfMonth = this.getDayOfMonth(dataPoint);
-            this.data.put(dayOfMonth, this.data.get(dayOfMonth));
+            this.data.put(dayOfMonth, this.data.get(dayOfMonth) + 1);
         }
+    }
+    
+    public Map<Integer, Integer> getData() {
+        return this.data;
+    }
+
+    public String getxAxis() {
+        return xAxis;
+    }
+
+    public String getyAxis() {
+        return yAxis;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getSeriesName() {
+        return seriesName;
     }
     
     private int getDayOfMonth(long milliSeconds) {
