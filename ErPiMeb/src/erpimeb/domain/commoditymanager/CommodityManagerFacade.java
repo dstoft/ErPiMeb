@@ -20,5 +20,11 @@ public interface CommodityManagerFacade {
     public abstract Category pickCategory(String categoryName);
     public abstract List<Product> searchForProduct(String productName);
     public abstract void pickProductToEditFromList(int productId);
+    public abstract void setSearchTerm(String searchTerm);
+    public abstract String getSearchTerm();
+    public abstract void pickProductFromList(Product product);
+    public abstract Product getProduct();
+    public abstract void setCategory(Category category);
+    public abstract Category getCategory();
     
 }

@@ -5,22 +5,20 @@
  */
 package erpimeb.gui.pim;
 
+import erpimeb.gui.SceneSwitcher;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import erpimeb.gui.*;
 
 /**
  * FXML Controller class
  *
  * @author chris
  */
-public class EditProductController implements Initializable {
-    private Stage stageRef;
-    private Scene preSceneRef;
+public class EditProductController implements Initializable, Switchable {
     
     /**
      * Initializes the controller class.
@@ -28,18 +26,16 @@ public class EditProductController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-
-    void setReferences(Stage stageRef,Scene preSceneRef) {
-        this.stageRef = stageRef;
-        this.preSceneRef = preSceneRef;
     }
 
     @FXML
     private void handleReturnToParent(ActionEvent event) {
-        this.stageRef.setScene(this.preSceneRef);
-        this.stageRef.setTitle("PIM Backend");
-        this.stageRef.show();
+        SceneSwitcher.cycleBackward();
+    }
+
+    @Override
+    public void setupInternals() {
+        
     }
     
 }

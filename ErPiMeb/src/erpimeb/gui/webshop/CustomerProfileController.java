@@ -8,30 +8,24 @@ package erpimeb.gui.webshop;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import erpimeb.gui.*;
 
 /**
  * FXML Controller class
  *
  * @author chris
  */
-public class CustomerProfileController implements Initializable {
-    private Stage stageRef;
-    private Scene preSceneRef;
-    private String preSceneTitle;
+public class CustomerProfileController implements Initializable, Switchable {
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-
-    void setReferences(Stage stageRef, Scene scene, String title) {
-        this.stageRef = stageRef;
-        this.preSceneRef = scene;
-        this.preSceneTitle = title;
     }
-    
+
+    @Override
+    public void setupInternals() {
+        
+    }
 }

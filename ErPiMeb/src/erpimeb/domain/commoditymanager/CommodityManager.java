@@ -33,6 +33,19 @@ public class CommodityManager implements CommodityManagerFacade{
     
     private Set<Category> productCategories;
     private ArrayList<Product> products;
+    private String currentSearchTerm;
+    private Product currentProduct;
+    private Category currentCategory;
+    
+    @Override
+    public void setSearchTerm(String searchTerm){
+        this.currentSearchTerm = searchTerm;
+    }
+    
+    @Override
+    public String getSearchTerm(){
+        return this.currentSearchTerm;
+    }
 
     @Override
     public void fillProduct(Product product) {
@@ -63,5 +76,25 @@ public class CommodityManager implements CommodityManagerFacade{
     @Override
     public void pickProductToEditFromList(int productId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void pickProductFromList(Product product) {
+        this.currentProduct = product;
+    }
+
+    @Override
+    public Product getProduct() {
+        return this.currentProduct;
+    }
+
+    @Override
+    public void setCategory(Category category) {
+        this.currentCategory = category;
+    }
+
+    @Override
+    public Category getCategory() {
+        return this.currentCategory;
     }
 }

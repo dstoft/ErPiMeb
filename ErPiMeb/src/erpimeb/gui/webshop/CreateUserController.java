@@ -8,28 +8,24 @@ package erpimeb.gui.webshop;
 import erpimeb.domain.usermanager.Address;
 import erpimeb.domain.usermanager.UserManager;
 import erpimeb.domain.usermanager.UserManagerFacade;
-import java.lang.reflect.InvocationTargetException;
+import erpimeb.gui.SceneSwitcher;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import erpimeb.gui.*;
 
 /**
  * FXML Controller class
  *
  * @author chris
  */
-public class CreateUserController implements Initializable {
-    private Stage stageRef;
-    private Scene preSceneRef;
-    private String preSceneTitle;
+public class CreateUserController implements Initializable, Switchable {
     public UserManagerFacade umFacade;
     @FXML
     private TextField emailField;
@@ -43,7 +39,6 @@ public class CreateUserController implements Initializable {
     private PasswordField rePasswordField;
     @FXML
     private TextField phoneField;
-    private TextField addressField;
     @FXML
     private TextField streetField;
     @FXML
@@ -56,14 +51,7 @@ public class CreateUserController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
 	umFacade = UserManager.getInstance();
-    }    
-
-    void setReferences(Stage stageRef,Scene preSceneRef,String preSceneTitle) {
-        this.stageRef = stageRef;
-        this.preSceneRef = preSceneRef;
-        this.preSceneTitle = preSceneTitle;
     }
 
     @FXML
@@ -87,9 +75,12 @@ public class CreateUserController implements Initializable {
 
     @FXML
     private void handleReturnToParent(ActionEvent event) {
-        this.stageRef.setScene(this.preSceneRef);
-        this.stageRef.setTitle(this.preSceneTitle);
-        this.stageRef.show();
+        SceneSwitcher.cycleBackward();
+    }
+
+    @Override
+    public void setupInternals() {
+        
     }
     
 }

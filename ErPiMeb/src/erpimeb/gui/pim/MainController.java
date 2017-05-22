@@ -5,28 +5,21 @@
  */
 package erpimeb.gui.pim;
 
-import java.io.IOException;
+import erpimeb.gui.SceneSwitcher;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
+import erpimeb.gui.*;
 
 /**
  * FXML Controller class
  *
  * @author chris
  */
-public class MainController implements Initializable {
-    private Stage stageRef;
-    private Scene preSceneRef;
+public class MainController implements Initializable, Switchable {
     @FXML
     private Label productAmount;
     @FXML
@@ -40,53 +33,25 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-
-    public void setReferences(Stage stageRef, Scene preSceneRef) {
-        this.stageRef = stageRef;
-        this.preSceneRef = preSceneRef;
     }
 
     @FXML
     private void handleCreateProduct(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/PimCreateProduct.fxml"));
-        Parent root = null;
-        Scene scene;
-        try {
-            root = loader.load();
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        CreateProductController pimCreateProductController = (CreateProductController) loader.getController();
-        pimCreateProductController.setReferences(this.stageRef,this.customerAmount.getScene());
-        scene = new Scene(root);
-        this.stageRef.setScene(scene);
-        this.stageRef.setTitle("PIM Backend - Opret Produkt");
-        this.stageRef.show();
+        SceneSwitcher.changeScene("/resources/PimCreateProduct.fxml", "PIM Backend - Opret Produkt");
     }
 
     @FXML
     private void handleEditProduct(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/PimEditProduct.fxml"));
-        Parent root = null;
-        Scene scene;
-        try {
-            root = loader.load();
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        EditProductController pimEditProductController = (EditProductController) loader.getController();
-        pimEditProductController.setReferences(this.stageRef,this.customerAmount.getScene());
-        scene = new Scene(root);
-        this.stageRef.setScene(scene);
-        this.stageRef.setTitle("PIM Backend - Ændre Produkt");
-        this.stageRef.show();
+        SceneSwitcher.changeScene("/resources/PimEditProduct.fxml", "PIM Backend - Ændre Produkt");
     }
 
     @FXML
     private void handleLogOut(ActionEvent event) {
-        this.stageRef.setScene(this.preSceneRef);
-        this.stageRef.setTitle("Admin login");
-        this.stageRef.show();
+        SceneSwitcher.cycleBackward();
+    }
+
+    @Override
+    public void setupInternals() {
+        
     }
 }
