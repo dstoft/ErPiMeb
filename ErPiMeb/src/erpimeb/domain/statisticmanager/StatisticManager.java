@@ -20,4 +20,8 @@ public class StatisticManager implements StatisticManagerFacade{
         return manager;
     }
     
+    public static void main(String[] args) {
+        System.out.println(System.currentTimeMillis());
+        Graphs graphs = new Graphs(System.currentTimeMillis(), "", "", "", "");
+    }
 }
