@@ -6,13 +6,13 @@
 package erpimeb.gui.pim;
 
 import erpimeb.gui.SceneSwitcher;
+import erpimeb.gui.Switchable;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import erpimeb.gui.*;
 
 /**
  * FXML Controller class

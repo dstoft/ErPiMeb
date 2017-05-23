@@ -16,7 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import erpimeb.gui.*;
+import erpimeb.gui.Switchable;
+import erpimeb.gui.SceneSwitcher;
 
 /**
  *

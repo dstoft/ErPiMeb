@@ -9,6 +9,7 @@ import erpimeb.domain.usermanager.Customer;
 import erpimeb.domain.usermanager.UserManager;
 import erpimeb.domain.usermanager.UserManagerFacade;
 import erpimeb.gui.SceneSwitcher;
+import erpimeb.gui.Switchable;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -17,7 +18,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import erpimeb.gui.*;
 
 /**
  * FXML Controller class

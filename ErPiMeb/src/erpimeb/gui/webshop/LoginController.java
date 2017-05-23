@@ -8,6 +8,7 @@ package erpimeb.gui.webshop;
 import erpimeb.domain.usermanager.UserManager;
 import erpimeb.domain.usermanager.UserManagerFacade;
 import erpimeb.gui.SceneSwitcher;
+import erpimeb.gui.Switchable;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -17,7 +18,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import erpimeb.gui.*;
 
 /**
  * FXML Controller class

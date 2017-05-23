@@ -7,7 +7,7 @@ package erpimeb.gui.webshop;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import erpimeb.gui.*;
+import erpimeb.gui.SceneSwitcher;
 
 /**
  *

@@ -8,7 +8,7 @@ package erpimeb.gui.webshop;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
-import erpimeb.gui.*;
+import erpimeb.gui.Switchable;
 
 /**
  * FXML Controller class
