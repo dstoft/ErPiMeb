@@ -21,5 +21,6 @@ public interface CommodityManagerFacade {
     public abstract List<Product> searchForProduct(String productName);
     public abstract void pickProductToEditFromList(Product pickedProduct);
     public abstract boolean saveChangesToProduct();
+    public abstract List<String> getAllSpecKeys();
     
 }

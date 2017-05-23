@@ -10,6 +10,7 @@ import erpimeb.domain.commoditymanager.Product;
 import erpimeb.domain.ordermanager.Order;
 import erpimeb.domain.usermanager.Customer;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -30,6 +31,7 @@ public interface DatabaseManagerFacade {
     public abstract List <Product> searchForProduct(String productName);
     public abstract List<Integer> searchForProductId(String productName);
     
-    
+    public abstract List<Product> getRelatedProducts(Map<String, String> specifications);
+    public abstract List<String> getAllSpecKeys();
     
 }

@@ -19,6 +19,9 @@ import java.util.Scanner;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,6 +30,28 @@ import java.util.List;
 public class DatabaseManager implements DatabaseManagerFacade {
 
     public static DatabaseManager manager;
+
+    public DatabaseManager() {
+        Scanner fileInput;
+        try {
+            fileInput = new Scanner(new File("databaseInfo.txt"));
+        } catch (FileNotFoundException ex) {
+            System.out.println("Database info file not found.");
+            return;
+        }
+
+        this.port = Integer.parseInt(fileInput.nextLine());
+        this.host = fileInput.nextLine();
+        this.databaseName = fileInput.nextLine();
+        this.username = fileInput.nextLine();
+        this.password = fileInput.nextLine();
+
+        try {
+            this.conn = DriverManager.getConnection(this.url + this.host + ":" + this.port + "/" + this.databaseName, this.username, this.password);
+        } catch (SQLException ex) {
+            System.out.println("Database connection error!");
+        }
+    }
 
     public static DatabaseManager getInstance() {
         if (manager == null) {
@@ -227,18 +252,33 @@ public class DatabaseManager implements DatabaseManagerFacade {
 
     @Override
     public boolean saveProduct(Product product) { // For you Daniel my boy
+        boolean alreadyExists = false;
+        
         try {
-            String SQL = "SELECT productid FROM product WHERE productid = " + product.getId();
-            ResultSet rs = conn.createStatement().executeQuery(SQL);
+            String query = "SELECT productid FROM product WHERE productid = ?;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            
+            prepSt.setInt(1, product.getId());
+            
+            ResultSet rs = prepSt.executeQuery();
+            
 
-            if (rs.next() == true) {
-                // Daniel kom igang
-            }
+            alreadyExists = rs.next();
         } catch (Exception e) {
             e.printStackTrace();
         }
         
+        if(alreadyExists) {
+            return this.updateProduct(product);
+        } else {
+            
+        }
+
         return true; // Skal nok returne et eller andet specifikt
+    }
+    
+    private boolean updateProduct(Product product) {
+        
     }
 
     @Override
@@ -294,5 +334,62 @@ public class DatabaseManager implements DatabaseManagerFacade {
         }
 
         return rs;
+    }
+
+    /**
+     *
+     *
+     * (NOTE: For testing, run this SQL in the DB, and then add a product with
+     * 'energimærke' equals 'A'. SQL: "INSERT INTO Has VALUES('A', 1,
+     * 'energimærke');")
+     *
+     * @param specifications
+     * @return
+     */
+    @Override
+    public List<Product> getRelatedProducts(Map<String, String> specifications) {
+        ArrayList<Product> returnProducts = new ArrayList<>();
+
+        for (String keyStr : specifications.keySet()) {
+            String valueStr = specifications.get(keyStr);
+
+            try {
+                String query = "SELECT ProductID, Name FROM Spec NATURAL JOIN Has NATURAL JOIN Product WHERE RelateAble = true AND Key = ? AND Value = ?;";
+                PreparedStatement prepSt = this.conn.prepareStatement(query);
+                prepSt.setString(1, keyStr);
+                prepSt.setString(2, valueStr);
+
+                ResultSet rs = prepSt.executeQuery();
+                if (rs.next()) {
+                    Product tempProduct = new Product(rs.getInt("ProductID"));
+                    tempProduct.setName(rs.getString("Name"));
+                    returnProducts.add(tempProduct);
+                }
+            } catch (SQLException e) {
+                System.out.println("Database error regarding saving a customer object!");
+            }
+        }
+
+        System.out.println(returnProducts);
+        return returnProducts;
+    }
+
+    @Override
+    public List<String> getAllSpecKeys() {
+        ArrayList<String> returnStrings = new ArrayList<>();
+
+        try {
+            String query = "SELECT Key FROM Spec;";
+            Statement st = this.conn.createStatement();
+
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                returnStrings.add(rs.getString("Key"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Database error regarding fetching all the specification keys!" + e);
+        }
+
+        return returnStrings;
     }
 }

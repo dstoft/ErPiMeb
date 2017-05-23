@@ -45,6 +45,8 @@ public class CreateProductController implements Initializable {
     private List<String> videos = new ArrayList<>();
     private ArrayList<Product> related = new ArrayList<>();
     private HashMap<String, String> specs = new HashMap<>();
+    
+    
     @FXML
     private TextField nameTextField;
     @FXML
@@ -77,8 +79,16 @@ public class CreateProductController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        String[] test = {"hej", "med", "dig"};
-        keysComboBox.getItems().addAll(test); // Skal hente keys fra database
+        CommodityManagerFacade comManager = CommodityManager.getInstance();
+        
+        List<String> specKeys = comManager.getAllSpecKeys();
+        
+        if(specKeys.isEmpty()) {
+            System.out.println("wowoow");
+        }
+        System.out.println("not wow");
+        
+        keysComboBox.getItems().addAll(comManager.getAllSpecKeys()); // Skal hente keys fra database
     }
 
     void setReferences(Stage stageRef, Scene preSceneRef) {
