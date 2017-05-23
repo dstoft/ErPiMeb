@@ -20,16 +20,18 @@ public class CommodityManager implements CommodityManagerFacade{
     
     private Product product;
     public static CommodityManager manager;
-    public DatabaseManagerFacade dbManager = DatabaseManager.getInstance();
+    private DatabaseManagerFacade dbManager;
     
     public static CommodityManager getInstance(){
         if(manager == null){
             manager = new CommodityManager();
+            manager.init();
         }
         return manager;
     }
     
-    public CommodityManager(){
+    public void init(){
+        this.dbManager = DatabaseManager.getInstance();
     }
     
     private Set<Category> productCategories;

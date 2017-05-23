@@ -31,13 +31,18 @@ import java.util.logging.Logger;
 public class DatabaseManager implements DatabaseManagerFacade{
     public static DatabaseManager manager;
     
-    private CommodityManagerFacade cmf = CommodityManager.getInstance();
+    private CommodityManagerFacade cmf;
     
     public static DatabaseManager getInstance(){
         if(manager == null){
             manager = new DatabaseManager();
+            manager.init();
         }
         return manager;
+    }
+    
+    public void init() {
+        this.cmf = CommodityManager.getInstance();
     }
     
     public Customer createCustomer(int id) {
