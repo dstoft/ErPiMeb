@@ -17,8 +17,10 @@ import java.util.Set;
  * @author chris
  */
 public class CommodityManager implements CommodityManagerFacade{
+    
+    private Product product;
     public static CommodityManager manager;
-    public DatabaseManagerFacade dbManager;
+    public DatabaseManagerFacade dbManager = DatabaseManager.getInstance();
     
     public static CommodityManager getInstance(){
         if(manager == null){
@@ -28,7 +30,6 @@ public class CommodityManager implements CommodityManagerFacade{
     }
     
     public CommodityManager(){
-        this.dbManager = DatabaseManager.getInstance();
     }
     
     private Set<Category> productCategories;
@@ -43,10 +44,16 @@ public class CommodityManager implements CommodityManagerFacade{
     public void createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, double price, List<Product> relatedProducts) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    @Override
+    public void createCategory(String name, List<Category> subcategories, List<String> tagList, List<Product> products){
+	Category newCategory = new Category(name, subcategories, tagList, products);
+	
+    }
 
     @Override
     public List<Category> showCategories() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return dbManager.getCategories();
     }
 
     @Override

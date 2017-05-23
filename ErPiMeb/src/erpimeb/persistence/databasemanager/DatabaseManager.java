@@ -6,6 +6,8 @@
 package erpimeb.persistence.databasemanager;
 
 import erpimeb.domain.commoditymanager.Category;
+import erpimeb.domain.commoditymanager.CommodityManager;
+import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
 import erpimeb.domain.ordermanager.Order;
 import erpimeb.domain.usermanager.Address;
@@ -28,6 +30,8 @@ import java.util.logging.Logger;
  */
 public class DatabaseManager implements DatabaseManagerFacade{
     public static DatabaseManager manager;
+    
+    private CommodityManagerFacade cmf = CommodityManager.getInstance();
     
     public static DatabaseManager getInstance(){
         if(manager == null){
@@ -342,6 +346,23 @@ public class DatabaseManager implements DatabaseManagerFacade{
     public boolean saveProduct(Product product) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    // implementeres når testdata er færdig
+    @Override
+    public boolean saveCategory(Category category) {
+//	
+//	try {
+//            String SQL = "INSERT INTO category(Ca) "
+//                    + "VALUES (" + category.getName() + ":";
+//	    String SQL1 = "INSERT INTO holds(name) "
+//	    + "VALUES ("+ category.getName() + category.getProductList()));
+//            ResultSet rs = conn.createStatement().executeQuery(SQL);
+//            return true;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+return true;
+    }
 
     @Override
     public Order createOrder(int orderId) {
@@ -378,9 +399,16 @@ public class DatabaseManager implements DatabaseManagerFacade{
 
     @Override
     public List<Category> getCategories() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       Category cat1 = new Category("Hej1", null, null, null);
+       Category cat2 = new Category("Hej2", null, null, null);
+       Category cat3 = new Category("Hej3", null, null, null);
+	ArrayList<Category> catArray = new ArrayList<>();
+	catArray.add(cat1);
+	catArray.add(cat2);
+	catArray.add(cat3);
+	return catArray;
     }
-
+    
     @Override
     public List<Category> getSubcategories(String categoryName) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

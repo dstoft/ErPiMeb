@@ -19,15 +19,30 @@ public class Category {
     private List<String> tagList;
     private List<Product> productList;
     
-    public Category() {
-        this.subcategories = new ArrayList<>();
-        this.tagList = new ArrayList<>();
-        this.productList = new ArrayList<>();
+    public Category(String name, List<Category> subcategories, List<String> tagList, List<Product> productList) {
+	this();
+	this.name = name;
+	this.subcategories.addAll(subcategories);
+	this.tagList = tagList;
+	this.productList = productList;
     }
+
+    public Category() {
+	this.subcategories = new ArrayList<>();
+	this.tagList = new ArrayList<>();
+	this.productList = new ArrayList<>();
+    }
+    
     
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getName() {
+	return name;
+    }
+    
+    
     
     public void addSubcategory(Category category) {
         this.subcategories.add(category);
@@ -40,5 +55,18 @@ public class Category {
     public void addProduct(Product product) {
         this.productList.add(product);
     }
+
+    public List<Category> getSubcategories() {
+	return subcategories;
+    }
+
+    public List<String> getTagList() {
+	return tagList;
+    }
+
+    public List<Product> getProductList() {
+	return productList;
+    }
+    
     
 }
