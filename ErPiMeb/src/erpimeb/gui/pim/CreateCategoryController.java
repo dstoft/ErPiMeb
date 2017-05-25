@@ -27,13 +27,11 @@ import javafx.scene.control.TextField;
  *
  * @author kasper
  */
-public class CreateCategoryController implements Initializable, Switchable{
+public class CreateCategoryController implements Initializable, Switchable {
+
     ObservableList obs = null;
     ObservableList obs2 = null;
-    
-    public CreateCategoryController() {
-    }
-    
+
     @FXML
     private Button returnButton;
     @FXML
@@ -58,16 +56,15 @@ public class CreateCategoryController implements Initializable, Switchable{
     private ListView<String> tagsListview;
     @FXML
     private ListView<Product> productsListview;
-    
-    
+
     private CommodityManagerFacade cmf = CommodityManager.getInstance();
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-	
-	cmf.showCategories();
+        cmf.showCategories();
     }
 
     @FXML
@@ -77,34 +74,29 @@ public class CreateCategoryController implements Initializable, Switchable{
 
     @FXML
     private void handleCreateCategory(ActionEvent event) {
-	
-	cmf.createCategory(nameTextField.getText(), subcategoryListview.getItems().sorted(), 
-		tagsListview.getItems(), productsListview.getItems());
+        cmf.createCategory(nameTextField.getText(), subcategoryListview.getItems().sorted(),tagsListview.getItems(), productsListview.getItems());
     }
 
     @FXML
-    private void handleAddButton(ActionEvent event){
-	
-    if(subcategoriesAddButton.isPressed()){
-	   subcategoryListview.getItems().add(subcategoriesDropdown.getSelectionModel().getSelectedItem());
-	}
-	
-	if (tagsAddButton.isPressed()){
-	    tagsListview.getItems().add(tagTextField.getText());
-	}
-	    
-	if(productsAddButton.isPressed()){
-		// search method is not implemented correct yet
-//	    productsListview.getItems().add(cmf.searchForProduct(productTextField.getText()));
-	}
+    private void handleAddButton(ActionEvent event) {
+        if (subcategoriesAddButton.isPressed()) {
+            subcategoryListview.getItems().add(subcategoriesDropdown.getSelectionModel().getSelectedItem());
+        }
+        if (tagsAddButton.isPressed()) {
+            tagsListview.getItems().add(tagTextField.getText());
+        }
+        if (productsAddButton.isPressed()) {
+            //search method is not implemented correct yet
+	    //productsListview.getItems().add(cmf.searchForProduct(productTextField.getText()));
+        }
+    }
+
+    @FXML
+    private void handleDropdown(ActionEvent event) {
+        
     }
 
     @Override
     public void setupInternals() {
-        
     }
-
-   
-    
-    
 }

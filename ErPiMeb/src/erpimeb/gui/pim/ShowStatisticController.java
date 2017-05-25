@@ -37,9 +37,6 @@ public class ShowStatisticController implements Initializable, Switchable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("Statistics");
-        StatisticManagerFacade statisticManager = StatisticManager.getInstance();
-        this.createLineChart(statisticManager.getCompletedOrders(System.currentTimeMillis() - (28 * 86400000L)));
     }
 
     @FXML
@@ -82,5 +79,11 @@ public class ShowStatisticController implements Initializable, Switchable {
     public void setupInternals() {
         
     }
-    
+
+    @FXML
+    private void handleShowStatistic(ActionEvent event) {
+        System.out.println("Statistics");
+        StatisticManagerFacade statisticManager = StatisticManager.getInstance();
+        this.createLineChart(statisticManager.getCompletedOrders(System.currentTimeMillis() - (28 * 86400000L)));
+    }
 }
