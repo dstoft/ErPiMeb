@@ -31,6 +31,6 @@ public interface DatabaseManagerFacade {
     public abstract List<Category> getSubcategories(String categoryName);
     public abstract List<Product> searchForProduct(String productName);
     
-    
+    public abstract List<Long> getOrderTimestamps(String status, long since);
     
 }

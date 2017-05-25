@@ -501,4 +501,20 @@ return true;
         }
         return foundProducts;
     }
+
+    @Override
+    public List<Long> getOrderTimestamps(String status, long since) {
+        System.out.println("db test!");
+        ArrayList<Long> returnList = new ArrayList<>();
+        
+        returnList.add(1494757676748L);
+        returnList.add(1494757676748L);
+        returnList.add(1494584876748L);
+        returnList.add(1495448876748L);
+        returnList.add(1493288876748L);
+        returnList.add(1493375276748L);
+        returnList.add(1493029676748L);
+        
+        return returnList;
+    }
 }

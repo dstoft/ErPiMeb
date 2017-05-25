@@ -5,6 +5,9 @@
  */
 package erpimeb.domain.statisticmanager;
 
+import erpimeb.persistence.databasemanager.DatabaseManager;
+import erpimeb.persistence.databasemanager.DatabaseManagerFacade;
+
 /**
  *
  * @author chris
@@ -20,4 +23,12 @@ public class StatisticManager implements StatisticManagerFacade{
         return manager;
     }
     
+    @Override
+    public Graphs getCompletedOrders(long since) {
+        DatabaseManagerFacade dbManager = DatabaseManager.getInstance();
+        
+        Graphs returnGraphs = new Graphs(System.currentTimeMillis(), "Dag på måneden", "Antal", "Gennemførte ordre", "Gennemførte ordre");
+        returnGraphs.addData(dbManager.getOrderTimestamps("Completed", since));
+        return returnGraphs;
+    }
 }

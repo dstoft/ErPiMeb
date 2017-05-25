@@ -103,11 +103,29 @@ public class MainController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-	CreateCategoryController pimCreateCategoryController = (CreateCategoryController) loader.getController();
+        CreateCategoryController pimCreateCategoryController = (CreateCategoryController) loader.getController();
         pimCreateCategoryController.setReferences(this.stageRef,this.customerAmount.getScene());
         scene = new Scene(root);
         this.stageRef.setScene(scene);
         this.stageRef.setTitle("PIM Backend - Opret Kategori");
+        this.stageRef.show();
+    }
+
+    @FXML
+    private void handleShowStatistic(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/PimShowStatistic.fxml"));
+        Parent root = null;
+        Scene scene;
+        try {
+            root = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ShowStatisticController showStatisticController = (ShowStatisticController) loader.getController();
+        showStatisticController.setReferences(this.stageRef,this.customerAmount.getScene());
+        scene = new Scene(root);
+        this.stageRef.setScene(scene);
+        this.stageRef.setTitle("PIM Backend - Show statistic");
         this.stageRef.show();
     }
 }
