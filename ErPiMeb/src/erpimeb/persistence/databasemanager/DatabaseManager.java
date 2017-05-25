@@ -402,12 +402,20 @@ public class DatabaseManager implements DatabaseManagerFacade{
 
     @Override
     public List<Category> getCategories() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Category> categories = new ArrayList<>();
+        
+        //Implement SQL
+        
+        return categories;
     }
 
     @Override
     public List<Category> getSubcategories(String categoryName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Category> subCategories = new ArrayList<>();
+        
+        //Implement SQL - get subcategories via main category name
+        
+        return subCategories;
     }
     
     private ResultSet getProductInfo(int id) {

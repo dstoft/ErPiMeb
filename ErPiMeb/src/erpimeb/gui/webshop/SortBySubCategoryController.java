@@ -6,9 +6,12 @@
 package erpimeb.gui.webshop;
 
 import erpimeb.domain.commoditymanager.Category;
+import erpimeb.domain.commoditymanager.CommodityManager;
+import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +34,9 @@ public class SortBySubCategoryController implements Initializable {
     private Stage stageRef;
     private Scene preSceneRef;
     private String preSceneTitle;
-    private Category sortedBy;
+    
+    private CommodityManagerFacade cManager = CommodityManager.getInstance();
+    
     @FXML
     private ListView<Product> foundProducts;
     /**
@@ -39,7 +44,10 @@ public class SortBySubCategoryController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        List<Product> categoryProducts = cManager.showProducts();
+        for (Product p : categoryProducts) {
+            foundProducts.getItems().add(p);
+        }
     }    
 
     void setReferences(Stage stageRef, Scene preSceneRef,String preSceneTitle) {
@@ -48,21 +56,12 @@ public class SortBySubCategoryController implements Initializable {
         this.preSceneTitle = preSceneTitle;
     }
 
-    void setSubCategory(Category subCategory) {
-        this.sortedBy = subCategory;
-        /*
-        for each product ID in the main category, we wish to query PIM module for that product IDs data
-        And create a new ProductWrapper object to put in the foundproducts listview.
-        */
-//        for(Integer productId : this.sortedBy.getProductIds()){
-//            ProductWrapper pw = new ProductWrapper(productId);
-//            this.foundProducts.getItems().add(pw);
-//        }
-    }
-
     @FXML
     private void handleChooseProduct(MouseEvent event) {
         if(this.foundProducts.getSelectionModel().getSelectedItem() != null){
+            Product pickedProduct = foundProducts.getSelectionModel().getSelectedItem();
+            cManager.setCurrentProduct(pickedProduct);
+            
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopViewProduct.fxml"));
             Parent root = null;
             Scene scene;
@@ -73,11 +72,10 @@ public class SortBySubCategoryController implements Initializable {
             }
             ViewProductController viewProductController = (ViewProductController) loader.getController();
             viewProductController.setReferences(this.stageRef,this.foundProducts.getScene(),this.stageRef.getTitle());
-            viewProductController.setProduct(this.foundProducts.getSelectionModel().getSelectedItem());
             viewProductController.setupScene();
             scene = new Scene(root);
             this.stageRef.setScene(scene);
-            this.stageRef.setTitle(/*this.foundProducts.getSelectionModel().getSelectedItem().getName()*/"vis produktets navn");
+            this.stageRef.setTitle(pickedProduct.getName());
             this.stageRef.show();
         }
     }

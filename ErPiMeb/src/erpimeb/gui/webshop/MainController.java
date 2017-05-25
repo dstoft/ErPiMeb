@@ -6,9 +6,12 @@
 package erpimeb.gui.webshop;
 
 import erpimeb.domain.commoditymanager.Category;
+import erpimeb.domain.commoditymanager.CommodityManager;
+import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.usermanager.UserManager;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,17 +31,26 @@ import javafx.stage.Stage;
  * @author DanielToft
  */
 public class MainController implements Initializable {
+
     private Stage primaryStage;
-    
+
+    private CommodityManagerFacade cManager = CommodityManager.getInstance();
+
     @FXML
     private TextField searchTerm;
     @FXML
     private ListView<Category> categoryListView;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    }    
+        // Fill category list view, unless no categories exist
+        if (cManager.showMainCategories() != null) {
+            List<Category> categories = cManager.showMainCategories();
+            for (Category c : categories) {
+                categoryListView.getItems().add(c);
+            }
+        }
+    }
 
     @FXML
     private void handleLogin(ActionEvent event) {
@@ -51,7 +63,7 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         LoginController loginController = (LoginController) loader.getController();
-        loginController.setReferences(this.primaryStage,this.categoryListView.getScene());
+        loginController.setReferences(this.primaryStage, this.categoryListView.getScene());
         scene = new Scene(root);
         this.primaryStage.setScene(scene);
         this.primaryStage.setTitle("Bruger Login");
@@ -73,7 +85,7 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         SearchForProductController searchForProductController = (SearchForProductController) loader.getController();
-        searchForProductController.setReferences(this.primaryStage,this.categoryListView.getScene());
+        searchForProductController.setReferences(this.primaryStage, this.categoryListView.getScene());
         searchForProductController.setSearchTerm(this.searchTerm.getText());
         scene = new Scene(root);
         this.primaryStage.setScene(scene);
@@ -83,7 +95,10 @@ public class MainController implements Initializable {
 
     @FXML
     private void handleChooseCategory(MouseEvent event) {
-        if(this.categoryListView.getSelectionModel().getSelectedItem() != null){
+        if (this.categoryListView.getSelectionModel().getSelectedItem() != null) {
+            Category pickedCategory = categoryListView.getSelectionModel().getSelectedItem();
+            cManager.pickMainCategory(pickedCategory);
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopSortProductByCategory.fxml"));
             Parent root = null;
             Scene scene;
@@ -93,11 +108,10 @@ public class MainController implements Initializable {
                 Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             }
             SortProductByCategoryController sortProductByCategoryController = (SortProductByCategoryController) loader.getController();
-            sortProductByCategoryController.setReferences(this.primaryStage,this.categoryListView.getScene());
-            sortProductByCategoryController.setMainCategory(this.categoryListView.getSelectionModel().getSelectedItem());
+            sortProductByCategoryController.setReferences(this.primaryStage, this.categoryListView.getScene());
             scene = new Scene(root);
             this.primaryStage.setScene(scene);
-            this.primaryStage.setTitle(/*this.categoryListView.getSelectionModel().getSelectedItem().getName()*/"vis kategoriens navn her");
+            this.primaryStage.setTitle(pickedCategory.getName());
             this.primaryStage.show();
         }
     }
@@ -113,7 +127,7 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
         EditCustomerProfileController profileController = (EditCustomerProfileController) loader.getController();
-        profileController.setReferences(this.primaryStage,this.categoryListView.getScene());
+        profileController.setReferences(this.primaryStage, this.categoryListView.getScene());
         scene = new Scene(root);
         this.primaryStage.setScene(scene);
         this.primaryStage.setTitle("Rediger profil");

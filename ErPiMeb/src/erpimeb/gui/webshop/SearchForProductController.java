@@ -68,7 +68,6 @@ public class SearchForProductController implements Initializable {
             }
             ViewProductController viewProductController = (ViewProductController) loader.getController();
             viewProductController.setReferences(this.stageRef,this.foundProducts.getScene(),this.stageRef.getTitle());
-            viewProductController.setProduct(this.foundProducts.getSelectionModel().getSelectedItem());
             viewProductController.setupScene();
             scene = new Scene(root);
             this.stageRef.setScene(scene);

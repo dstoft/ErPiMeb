@@ -5,8 +5,12 @@
  */
 package erpimeb.gui.webshop;
 
+import erpimeb.domain.commoditymanager.CommodityManager;
+import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -15,7 +19,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 /**
@@ -24,54 +32,73 @@ import javafx.stage.Stage;
  * @author chris
  */
 public class ViewProductController implements Initializable {
+
     private Stage stageRef;
     private Scene preSceneRef;
     private String preSceneTitle;
-    private Product product;
+
+    private CommodityManagerFacade cManager = CommodityManager.getInstance();
+    private Product currentProduct = cManager.getCurrentProduct();
+
     private int imageCounter = 0;
+    private int videoCounter = 0;
+    private List<Image> imageList = new ArrayList<>();
+    private boolean image = true;
+
     @FXML
     private ImageView imageView;
     @FXML
-    private Label productName;
+    private TextField productName;
     @FXML
-    private Label productPrice;
+    private TextField productPrice;
     @FXML
-    private Label productDescription;
+    private TextArea productDescription;
     @FXML
     private Button leftArrow;
     @FXML
     private Button rightArrow;
+    @FXML
+    private WebView videoWebView;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    }
-    
-    void setProduct(Product product){
-        this.product = product;
-    }
-    
-    /**
-     * Sets the values of this objects fxml elements
-     * Also determines whether to show the imagery cycle buttons
-     */
-    void setupScene(){
-//        this.imageView.setImage(SwingFXUtils.toFXImage(this.product.getImage(0), null));
-//        if(this.product.getImageCount() == 1){
-//            this.leftArrow.setVisible(false);
-//            this.rightArrow.setVisible(false);
-//        } else {
-//            this.leftArrow.setVisible(true);
-//            this.rightArrow.setVisible(true);
-//        }
-//        this.productName.setText(this.product.getName());
-//        this.productPrice.setText(String.valueOf(this.product.getPrice()));
-//        this.productDescription.setText(this.product.getDescription());
+        setupScene();
+        setImagesAndVideos();
     }
 
-    void setReferences(Stage stageRef, Scene preSceneRef,String preSceneTitle) {
+    /**
+     * Sets the values of this objects fxml elements Also determines whether to
+     * show the imagery cycle buttons
+     */
+    void setupScene() {
+        productName.setText(currentProduct.getName());
+        productPrice.setText(Double.toString(currentProduct.getPrice()));
+        productDescription.setText(currentProduct.getDescription());
+
+        //Add images
+        List<String> images = cManager.getCurrentProductImages();
+
+        for (String s : images) {
+            imageList.add(new Image(s));
+        }
+
+        //Add videos
+        
+
+    }
+    
+    void setImagesAndVideos() {
+        //Set the image
+        imageView.setImage(imageList.get(imageCounter));
+        
+        //Set the video
+        
+    }
+
+    void setReferences(Stage stageRef, Scene preSceneRef, String preSceneTitle) {
         this.stageRef = stageRef;
         this.preSceneRef = preSceneRef;
         this.preSceneTitle = preSceneTitle;
@@ -79,22 +106,28 @@ public class ViewProductController implements Initializable {
 
     @FXML
     private void cycleBackward(ActionEvent event) {
-//        if(this.imageCounter == 0){
-//            this.imageCounter = this.product.getImageCount() - 1;
-//        } else {
-//            this.imageCounter--;
-//        }
-//        this.imageView.setImage(SwingFXUtils.toFXImage(this.product.getImage(this.imageCounter), null));
+        if (image == true) {
+            if (imageCounter != 0) {
+                imageCounter--;
+            }
+        } else if (videoCounter != 0) {
+            videoCounter--;
+        }
+        
+        setImagesAndVideos();
     }
 
     @FXML
     private void cycleForward(ActionEvent event) {
-//        if(this.imageCounter == this.product.getImageCount() - 1){
-//            this.imageCounter = 0;
-//        } else {
-//            this.imageCounter++;
-//        }
-//        this.imageView.setImage(SwingFXUtils.toFXImage(this.product.getImage(this.imageCounter), null));
+        if (image == true) {
+            if (imageCounter < imageList.size()) {
+                imageCounter++;
+            }
+        } else if (videoCounter < imageList.size()) {
+            videoCounter++;
+        }
+        
+        setImagesAndVideos();
     }
 
     @FXML
@@ -103,5 +136,23 @@ public class ViewProductController implements Initializable {
         this.stageRef.setTitle(this.preSceneTitle);
         this.stageRef.show();
     }
-    
+
+    @FXML
+    private void handleImages(ActionEvent event) {
+        image = true;
+        imageView.setDisable(false);
+        imageView.setVisible(true);
+        videoWebView.setDisable(true);
+        videoWebView.setVisible(false);
+    }
+
+    @FXML
+    private void handleVideos(ActionEvent event) {
+        image = false;
+        imageView.setDisable(true);
+        imageView.setVisible(false);
+        videoWebView.setDisable(false);
+        videoWebView.setVisible(true);
+    }
+
 }

@@ -17,6 +17,9 @@ import java.util.Set;
  * @author chris
  */
 public class CommodityManager implements CommodityManagerFacade{
+    private Category currentCategory;
+    private Product currentProduct;
+    
     public static CommodityManager manager;
     public DatabaseManagerFacade dbManager;
     
@@ -46,13 +49,13 @@ public class CommodityManager implements CommodityManagerFacade{
   
 
     @Override
-    public List<Category> showCategories() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Category> showMainCategories() {
+        return dbManager.getCategories();
     }
 
     @Override
-    public Category pickCategory(String categoryName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void pickMainCategory(Category pickedMainCategory) {
+        currentCategory = pickedMainCategory;
     }
 
     @Override
@@ -63,5 +66,45 @@ public class CommodityManager implements CommodityManagerFacade{
     @Override
     public void pickProductToEditFromList(int productId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Category getCurrentCategory() {
+        return currentCategory;
+    }
+
+    @Override
+    public List<Category> showSubCategories(Category mainCategory) {
+        return dbManager.getSubcategories(currentCategory.getName());
+    }
+
+    @Override
+    public void pickSubCategory(Category pickedSubCategory) {
+        currentCategory = pickedSubCategory;
+    }
+
+    @Override
+    public List<Product> showProducts() {
+        return currentCategory.getProductList();
+    }
+
+    @Override
+    public Product getCurrentProduct() {
+        return currentProduct;
+    }
+
+    @Override
+    public void setCurrentProduct(Product product) {
+        currentProduct = product;
+    }
+
+    @Override
+    public List<String> getCurrentProductImages() {
+        return currentProduct.getImages();
+    }
+
+    @Override
+    public List<String> getCurrentProductVideos() {
+        return currentProduct.getVideoLinks();
     }
 }

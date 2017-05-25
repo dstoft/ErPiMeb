@@ -34,10 +34,23 @@ public class Category {
     }
     
     public void addTag(String tagName) {
-        this.tagList.add(name);
+        this.tagList.add(getName());
     }
     
     public void addProduct(Product product) {
-        this.productList.add(product);
+        this.getProductList().add(product);
+    }
+    
+    @Override
+    public String toString() {
+        return getName();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Product> getProductList() {
+        return productList;
     }
 }
