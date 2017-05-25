@@ -268,17 +268,92 @@ public class DatabaseManager implements DatabaseManagerFacade {
             e.printStackTrace();
         }
         
-        if(alreadyExists) {
+        if(alreadyExists && 1 == 0) {
             return this.updateProduct(product);
         } else {
-            
-        }
+            try {
+                this.conn.createStatement().execute("Begin;");
 
-        return true; // Skal nok returne et eller andet specifikt
+                String query = "INSERT INTO Product(Name, Description, Price, Category_Name) VALUES (?, ?, ?, ?) RETURNING ProductID;";
+                PreparedStatement prepSt = this.conn.prepareStatement(query);
+
+                prepSt.setString(1, product.getName());
+                prepSt.setString(2, product.getDescription());
+                prepSt.setInt(3, 1337);
+                prepSt.setString(4, product.getCategory().getName());
+
+                ResultSet rs = prepSt.executeQuery();
+                
+                rs.next();
+                product.setId(rs.getInt("ProductID"));
+                
+                //Related products
+                for(Product relatedProduct : product.getRelatedProducts()) {
+                    query = "INSERT INTO Related VALUES (?, ?);";
+                    prepSt = this.conn.prepareStatement(query);
+                    
+                    prepSt.setInt(1, product.getId());
+                    prepSt.setInt(2, relatedProduct.getId());
+                    
+                    prepSt.executeUpdate();
+                }
+                
+                //Images
+                for(String imgUrl : product.getImages()) {
+                    int imgId;
+                    
+                    query = "SELECT ImageID FROM Image WHERE URL=?;";
+                    prepSt = this.conn.prepareStatement(query);
+                    
+                    prepSt.setString(1, imgUrl);
+                    
+                    rs = prepSt.executeQuery();
+                    
+                    if(rs.next()) {
+                        imgId = rs.getInt("ImageId");
+                    } else {
+                        query = "INSERT INTO Image(URL) VALUES (?) RETURNING ImageID;";
+                        prepSt = this.conn.prepareStatement(query);
+                        prepSt.setString(1, imgUrl);
+                        rs = prepSt.executeQuery();
+                        rs.next();
+                        imgId = rs.getInt("ImageID");
+                    }
+                    
+                    query = "INSERT INTO Contains(ProductID, ImageID) VALUES (?, ?);";
+                    prepSt = this.conn.prepareStatement(query);
+                    prepSt.setInt(1, product.getId());
+                    prepSt.setInt(2, imgId);
+                    prepSt.executeUpdate();
+                }
+                
+                //Specifications
+                for(String specKey : product.getSpecification().keySet()) {
+                    System.out.println(specKey);
+                    query = "INSERT INTO Has(ProductID, Key, Value) VALUES (?, ?, ?);";
+                    prepSt = this.conn.prepareStatement(query);
+                    prepSt.setInt(1, product.getId());
+                    prepSt.setString(2, specKey);
+                    prepSt.setString(3, product.getSpecification().get(specKey));
+                    prepSt.executeUpdate();
+                }
+                
+                
+                this.conn.createStatement().execute("Commit;");
+                return true;
+            } catch (SQLException e) {
+                System.out.println("Database error regarding inserting a product!" + e);
+                return false;
+            }
+        }
     }
     
     private boolean updateProduct(Product product) {
-        
+        return false;
+    }
+    
+    private boolean insertProductRelationships(Product product) {
+        return false;
     }
 
     @Override

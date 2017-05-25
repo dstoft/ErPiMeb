@@ -42,6 +42,7 @@ public class CommodityManager implements CommodityManagerFacade{
         Product newProduct = new Product(name, images, videoLinks, description, specifications, price, relatedProducts);
         
         newProduct.setRelatedProducts(this.dbManager.getRelatedProducts(specifications));
+        newProduct.setCategory(new Category());
         
         return dbManager.saveProduct(newProduct);
     }

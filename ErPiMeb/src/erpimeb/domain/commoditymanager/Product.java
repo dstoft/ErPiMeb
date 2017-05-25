@@ -23,6 +23,7 @@ public class Product {
     private List<Product> relatedProducts;
     private double price;
     private HashMap<String, String> specification;
+    private Category category;
 //    private Cart cart; ved ikke om denne skal være der da den er i en anden pakke
     
     public Product(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, double price, List<Product> relatedProducts) {
@@ -42,6 +43,10 @@ public class Product {
 
     public int getId() {
         return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -90,6 +95,14 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+    
+    public Category getCategory() {
+        return this.category;
+    }
+    
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public HashMap<String, String> getSpecification() {

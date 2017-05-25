@@ -13,8 +13,12 @@ import java.util.List;
  */
 public class Category {
     
-    private String name;
+    private String name = "Madlavning";
     private List<String> subCategories;
     private List<String> tagList;
     private List<Product> productList;
+    
+    public String getName() {
+        return this.name;
+    }
 }
