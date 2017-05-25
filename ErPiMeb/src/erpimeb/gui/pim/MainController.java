@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
@@ -33,6 +34,8 @@ public class MainController implements Initializable {
     private Label orderAmount;
     @FXML
     private Label customerAmount;
+    @FXML
+    private Button createCategotyButton;
 
     /**
      * Initializes the controller class.
@@ -87,6 +90,24 @@ public class MainController implements Initializable {
     private void handleLogOut(ActionEvent event) {
         this.stageRef.setScene(this.preSceneRef);
         this.stageRef.setTitle("Admin login");
+        this.stageRef.show();
+    }
+    
+    @FXML
+    private void handleCreateCategory(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/PimCreateCategory.fxml"));
+        Parent root = null;
+        Scene scene;
+        try {
+            root = loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+	CreateCategoryController pimCreateCategoryController = (CreateCategoryController) loader.getController();
+        pimCreateCategoryController.setReferences(this.stageRef,this.customerAmount.getScene());
+        scene = new Scene(root);
+        this.stageRef.setScene(scene);
+        this.stageRef.setTitle("PIM Backend - Opret Kategori");
         this.stageRef.show();
     }
 }
