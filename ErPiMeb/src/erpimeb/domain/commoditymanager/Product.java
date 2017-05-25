@@ -41,6 +41,10 @@ public class Product {
     public int getId() {
         return this.id;
     }
+    
+    public double getPrice(){
+        return this.price;
+    }
 
     public void setName(String name) {
         this.name = name;

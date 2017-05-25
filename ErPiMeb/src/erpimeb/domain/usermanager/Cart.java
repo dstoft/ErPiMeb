@@ -16,4 +16,8 @@ public class Cart {
     
     private List<Product> products;
     private int total;
+    
+    public List<Product> getProducts(){
+        return this.products;
+    }
 }

@@ -39,7 +39,7 @@ public class CommodityManager implements CommodityManagerFacade{
 
     @Override
     public void fillProduct(Product product) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.dbManager.fillProduct(product);
     }
 
     @Override
