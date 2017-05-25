@@ -23,11 +23,15 @@ public class MailManager implements MailManagerFacade{
 
     @Override
     public boolean validateEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String[] emailArr = email.split("@");
+        if(emailArr.length != 2){
+            return false;
+        }
+        return emailArr[1].contains(".");
     }
 
     @Override
     public void emailReceipt(Order order) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println(order.getEmail() + " bought products for total price of: " + order.getTotalPrice());
     }
 }
