@@ -6,10 +6,8 @@
 package erpimeb.gui.webshop;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
+import erpimeb.gui.SceneSwitcher;
 
 /**
  *
@@ -19,14 +17,8 @@ public class Main extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopMain.fxml"));
-        Parent root = loader.load();
-        MainController mainController = (MainController) loader.getController();
-        Scene scene = new Scene(root);
-        mainController.setStageRef(stage);
-        stage.setScene(scene);
-        stage.setTitle("Webshop");
-        stage.show();
+        SceneSwitcher.setStage(stage);
+        SceneSwitcher.changeScene("/resources/WebshopMain.fxml", "Webshop");
     }
 
     /**

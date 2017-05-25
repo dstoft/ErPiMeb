@@ -9,37 +9,31 @@ import erpimeb.domain.commoditymanager.Category;
 import erpimeb.domain.commoditymanager.CommodityManager;
 import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
+import erpimeb.gui.SceneSwitcher;
+import erpimeb.gui.Switchable;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
  *
  * @author kasper
  */
-public class CreateCategoryController implements Initializable{
+public class CreateCategoryController implements Initializable, Switchable{
     ObservableList obs = null;
     ObservableList obs2 = null;
     
     public CreateCategoryController() {
     }
     
-    private Stage stageRef;
-    private Scene preSceneRef;
     @FXML
     private Button returnButton;
     @FXML
@@ -74,19 +68,11 @@ public class CreateCategoryController implements Initializable{
     public void initialize(URL url, ResourceBundle rb) {
 	
 	cmf.showCategories();
-    }   
-    
-
-    void setReferences(Stage stageRef, Scene preSceneRef) {
-        this.stageRef = stageRef;
-        this.preSceneRef = preSceneRef;
     }
 
     @FXML
     private void handleReturnToParent(ActionEvent event) {
-        this.stageRef.setScene(this.preSceneRef);
-        this.stageRef.setTitle("PIM Backend");
-        this.stageRef.show();
+        SceneSwitcher.cycleBackward();
     }
 
     @FXML
@@ -111,6 +97,11 @@ public class CreateCategoryController implements Initializable{
 		// search method is not implemented correct yet
 //	    productsListview.getItems().add(cmf.searchForProduct(productTextField.getText()));
 	}
+    }
+
+    @Override
+    public void setupInternals() {
+        
     }
 
    

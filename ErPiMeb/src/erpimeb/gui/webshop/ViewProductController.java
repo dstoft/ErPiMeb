@@ -5,28 +5,27 @@
  */
 package erpimeb.gui.webshop;
 
+import erpimeb.domain.commoditymanager.CommodityManager;
+import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.embed.swing.SwingFXUtils;
+import erpimeb.gui.Switchable;
+import erpimeb.gui.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
  *
  * @author chris
  */
-public class ViewProductController implements Initializable {
-    private Stage stageRef;
-    private Scene preSceneRef;
-    private String preSceneTitle;
+public class ViewProductController implements Initializable, Switchable {
+    private CommodityManagerFacade cmf;
     private Product product;
     private int imageCounter = 0;
     @FXML
@@ -46,11 +45,8 @@ public class ViewProductController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    }
-    
-    void setProduct(Product product){
-        this.product = product;
+        cmf = CommodityManager.getInstance();
+        this.product = cmf.getProduct();
     }
     
     /**
@@ -69,12 +65,6 @@ public class ViewProductController implements Initializable {
 //        this.productName.setText(this.product.getName());
 //        this.productPrice.setText(String.valueOf(this.product.getPrice()));
 //        this.productDescription.setText(this.product.getDescription());
-    }
-
-    void setReferences(Stage stageRef, Scene preSceneRef,String preSceneTitle) {
-        this.stageRef = stageRef;
-        this.preSceneRef = preSceneRef;
-        this.preSceneTitle = preSceneTitle;
     }
 
     @FXML
@@ -99,9 +89,12 @@ public class ViewProductController implements Initializable {
 
     @FXML
     private void handleReturnToParent(ActionEvent event) {
-        this.stageRef.setScene(this.preSceneRef);
-        this.stageRef.setTitle(this.preSceneTitle);
-        this.stageRef.show();
+        SceneSwitcher.cycleBackward();
+    }
+
+    @Override
+    public void setupInternals() {
+        this.setupScene();
     }
     
 }
