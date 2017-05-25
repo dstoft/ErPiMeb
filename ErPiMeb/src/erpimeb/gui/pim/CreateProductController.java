@@ -81,13 +81,6 @@ public class CreateProductController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         CommodityManagerFacade comManager = CommodityManager.getInstance();
         
-        List<String> specKeys = comManager.getAllSpecKeys();
-        
-        if(specKeys.isEmpty()) {
-            System.out.println("wowoow");
-        }
-        System.out.println("not wow");
-        
         keysComboBox.getItems().addAll(comManager.getAllSpecKeys()); // Skal hente keys fra database
     }
 
@@ -153,6 +146,9 @@ public class CreateProductController implements Initializable {
 
     @FXML
     private void handleSpecClick(MouseEvent event) {
+        if(specListView.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
         String[] parts = splitSpecification(specListView.getSelectionModel().getSelectedItem());
         specs.remove(parts[0]);
         specListView.getItems().remove(specListView.getSelectionModel().getSelectedItem());

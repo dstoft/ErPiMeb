@@ -71,7 +71,9 @@ public class EditProductController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        CommodityManagerFacade comManager = CommodityManager.getInstance();
         
+        keysComboBox.getItems().addAll(comManager.getAllSpecKeys()); // Skal hente keys fra database
     }    
 
     void setReferences(Stage stageRef,Scene preSceneRef) {
@@ -100,7 +102,25 @@ public class EditProductController implements Initializable {
 
     @FXML
     private void handleSaveChanges(ActionEvent event) {
-        cManager.saveChangesToProduct();
+        this.pickedProduct.setName(this.nameTextField.getText());
+        this.pickedProduct.setDescription(this.descriptionTextArea.getText());
+        
+        double price;
+        try {
+            price = Double.parseDouble(this.priceTextField.getText());
+        } catch(NumberFormatException e) {
+            System.out.println("Number format exception regarding price!");
+            price = this.pickedProduct.getPrice();
+        }
+        this.pickedProduct.setPrice(price);
+        this.pickedProduct.setSpecification(this.specs);
+        this.pickedProduct.setImages(this.images);
+        this.pickedProduct.setVideoLinks(this.videos);
+        //this.pickedProduct.setCategory(category); No dropdown implemented yet!
+        this.pickedProduct.setRelatedProducts(this.related);
+        
+        
+        this.cManager.saveChangesToProduct();
         
         // Go back to PIM
             this.stageRef.setScene(this.preSceneRef);
@@ -147,6 +167,12 @@ public class EditProductController implements Initializable {
             for (String s : pickedProduct.getVideoLinks()) {
                 videos.add(s);
                 videoListView.getItems().add(s);
+            }
+        }
+        if(pickedProduct.getSpecification() != null) {
+            for(String specKey : pickedProduct.getSpecification().keySet()) {
+                this.specs.put(specKey, pickedProduct.getSpecification().get(specKey));
+                specListView.getItems().add(specKey + " = " + pickedProduct.getSpecification().get(specKey));
             }
         }
     }

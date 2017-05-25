@@ -18,6 +18,10 @@ public class Category {
     private List<String> tagList;
     private List<Product> productList;
     
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public String getName() {
         return this.name;
     }

@@ -226,23 +226,75 @@ public class DatabaseManager implements DatabaseManagerFacade {
     @Override
     public void fillProduct(Product product) {
         int id = product.getId();
-
-        try {
-            ResultSet rs = getProductInfo(id);
-            while (rs.next()) {
-                product.setName(rs.getString("name"));
-                product.setDescription(rs.getString("description"));
-                product.setPrice(rs.getDouble("price"));
-                // Daniel henter specfications, images og videolinks
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(id < 0) {
+            throw new IllegalArgumentException("There is not a valid id in the product!");
         }
+        
+        ResultSet rs = this.getProductInfo(id);
+        try {
+            rs.next();
+            product.setName(rs.getString("Name"));
+            product.setDescription(rs.getString("Description"));
+            product.setPrice(rs.getDouble("Price"));
+            product.setCategory(this.fillCategory(rs.getString("ProductCategory_Name")));
+        } catch (SQLException ex) {
+            System.out.println("Database error regarding fetching product data from a resultset!" + ex);
+            return;
+        }
+        
+        // Related products
+        try {
+            String query = "SELECT ProductID_2 FROM Related WHERE ProductID_1=?;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, id);
+            rs = prepSt.executeQuery();
+            while(rs.next()) {
+                product.addRelatedProduct(new Product(rs.getInt("ProductID_2")));
+            }
+        } catch(SQLException e) {
+            System.out.println("Database error regarding fetching product related products from a resultset!");
+            return;
+        }
+        
+        // Images
+        try {
+            String query = "SELECT URL FROM Contains NATURAL JOIN Image WHERE ProductID=?;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, id);
+            rs = prepSt.executeQuery();
+            while(rs.next()) {
+                product.addImage(rs.getString("URL"));
+            }
+        } catch(SQLException e) {
+            System.out.println("Database error regarding fetching product images from a resultset!" + e);
+            return;
+        }
+        
+        // Specifications
+        try {
+            String query = "SELECT SpecKey, Value FROM Has NATURAL JOIN Spec WHERE ProductID=?;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, id);
+            rs = prepSt.executeQuery();
+            while(rs.next()) {
+                product.addSpecification(rs.getString("SpecKey"), rs.getString("Value"));
+            }
+        } catch(SQLException e) {
+            System.out.println("Database error regarding fetching product specifications from a resultset!" + e);
+            return;
+        }
+        
+        // There is no data regarding videos in the database!
+        
+        // Category
+        
     }
 
     @Override
     public Category fillCategory(String categoryName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Category newCategory = new Category();
+        newCategory.setName(categoryName);
+        return newCategory;
     }
 
     @Override
@@ -252,108 +304,185 @@ public class DatabaseManager implements DatabaseManagerFacade {
 
     @Override
     public boolean saveProduct(Product product) { // For you Daniel my boy
+        boolean whatToReturn;
         boolean alreadyExists = false;
         
         try {
-            String query = "SELECT productid FROM product WHERE productid = ?;";
+            String query = "SELECT ProductID FROM Product WHERE ProductID = ?;";
             PreparedStatement prepSt = this.conn.prepareStatement(query);
-            
+
             prepSt.setInt(1, product.getId());
-            
+
             ResultSet rs = prepSt.executeQuery();
-            
 
             alreadyExists = rs.next();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Error checking whether a product exists before inserting / updating it!");
+            return false;
         }
         
-        if(alreadyExists && 1 == 0) {
+        
+        
+        if(alreadyExists) {
             return this.updateProduct(product);
         } else {
             try {
                 this.conn.createStatement().execute("Begin;");
-
-                String query = "INSERT INTO Product(Name, Description, Price, Category_Name) VALUES (?, ?, ?, ?) RETURNING ProductID;";
+            } catch (SQLException ex) {
+                System.out.println("Database error regarding beginning a transaction!");
+            }
+            
+            try {
+                String query = "INSERT INTO Product(Name, Description, Price, ProductCategory_Name, ERP_SN) VALUES (?, ?, ?, ?, ?) RETURNING ProductID;";
                 PreparedStatement prepSt = this.conn.prepareStatement(query);
 
                 prepSt.setString(1, product.getName());
                 prepSt.setString(2, product.getDescription());
                 prepSt.setInt(3, 1337);
                 prepSt.setString(4, product.getCategory().getName());
+                prepSt.setInt(5, (int)(Math.random()*10000));
 
                 ResultSet rs = prepSt.executeQuery();
                 
                 rs.next();
                 product.setId(rs.getInt("ProductID"));
                 
-                //Related products
-                for(Product relatedProduct : product.getRelatedProducts()) {
-                    query = "INSERT INTO Related VALUES (?, ?);";
-                    prepSt = this.conn.prepareStatement(query);
-                    
-                    prepSt.setInt(1, product.getId());
-                    prepSt.setInt(2, relatedProduct.getId());
-                    
-                    prepSt.executeUpdate();
-                }
+                this.insertProductRelationships(product);
                 
-                //Images
-                for(String imgUrl : product.getImages()) {
-                    int imgId;
-                    
-                    query = "SELECT ImageID FROM Image WHERE URL=?;";
-                    prepSt = this.conn.prepareStatement(query);
-                    
-                    prepSt.setString(1, imgUrl);
-                    
-                    rs = prepSt.executeQuery();
-                    
-                    if(rs.next()) {
-                        imgId = rs.getInt("ImageId");
-                    } else {
-                        query = "INSERT INTO Image(URL) VALUES (?) RETURNING ImageID;";
-                        prepSt = this.conn.prepareStatement(query);
-                        prepSt.setString(1, imgUrl);
-                        rs = prepSt.executeQuery();
-                        rs.next();
-                        imgId = rs.getInt("ImageID");
-                    }
-                    
-                    query = "INSERT INTO Contains(ProductID, ImageID) VALUES (?, ?);";
-                    prepSt = this.conn.prepareStatement(query);
-                    prepSt.setInt(1, product.getId());
-                    prepSt.setInt(2, imgId);
-                    prepSt.executeUpdate();
-                }
-                
-                //Specifications
-                for(String specKey : product.getSpecification().keySet()) {
-                    System.out.println(specKey);
-                    query = "INSERT INTO Has(ProductID, Key, Value) VALUES (?, ?, ?);";
-                    prepSt = this.conn.prepareStatement(query);
-                    prepSt.setInt(1, product.getId());
-                    prepSt.setString(2, specKey);
-                    prepSt.setString(3, product.getSpecification().get(specKey));
-                    prepSt.executeUpdate();
-                }
-                
-                
-                this.conn.createStatement().execute("Commit;");
-                return true;
+                whatToReturn = true;
             } catch (SQLException e) {
                 System.out.println("Database error regarding inserting a product!" + e);
-                return false;
+                whatToReturn = false;
             }
+            
+            try {
+                this.conn.createStatement().execute("Commit;");
+            } catch (SQLException ex) {
+                System.out.println("Database error regarding committing a transaction!");
+            }
+            
+            return whatToReturn;
         }
     }
     
     private boolean updateProduct(Product product) {
-        return false;
+        boolean whatToReturn;
+        
+        try {
+            this.conn.createStatement().execute("Begin;");
+        } catch (SQLException ex) {
+            System.out.println("Database error regarding beginning a transaction!");
+        }
+        
+        try {
+            String query = "UPDATE Product SET Name=?, Description=?, ProductCategory_Name=?, Price=?, ERP_SN=? WHERE ProductID=?;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+
+            prepSt.setString(1, product.getName());
+            prepSt.setString(2, product.getDescription());
+            prepSt.setString(3, product.getCategory().getName());
+            prepSt.setInt(4, 1337);
+            prepSt.setInt(5, (int)(Math.random()*100000));
+            prepSt.setInt(6, product.getId());
+
+            prepSt.executeUpdate();
+            
+            query = "DELETE FROM Has WHERE ProductID=?;";
+            prepSt = this.conn.prepareStatement(query);
+
+            prepSt.setInt(1, product.getId());
+
+            prepSt.executeUpdate();
+            
+            query = "DELETE FROM Related WHERE ProductID_1=? OR ProductID_2=?;";
+            prepSt = this.conn.prepareStatement(query);
+
+            prepSt.setInt(1, product.getId());
+            prepSt.setInt(2, product.getId());
+
+            prepSt.executeUpdate();
+            
+            query = "DELETE FROM Contains WHERE ProductID=?;";
+            prepSt = this.conn.prepareStatement(query);
+
+            prepSt.setInt(1, product.getId());
+
+            prepSt.executeUpdate();
+            
+            this.insertProductRelationships(product);
+            whatToReturn = true;
+        } catch (SQLException e) {
+            System.out.println("Database error regarding updating a product!" + e);
+            whatToReturn = false;
+        }
+        
+        try {
+            this.conn.createStatement().execute("Commit;");
+        } catch (SQLException ex) {
+            System.out.println("Database error regarding committing a transaction!");
+        }
+        
+        return whatToReturn;
     }
     
-    private boolean insertProductRelationships(Product product) {
-        return false;
+    /**
+     * 
+     * @param product
+     * @throws SQLException so it will break the transaction whereever it is used. This is instead of returning a boolean;
+     */
+    private void insertProductRelationships(Product product) throws SQLException {
+        //Related products
+        PreparedStatement prepSt;
+        String query;
+        for(Product relatedProduct : product.getRelatedProducts()) {
+            query = "INSERT INTO Related VALUES (?, ?);";
+            prepSt = this.conn.prepareStatement(query);
+
+            prepSt.setInt(1, product.getId());
+            prepSt.setInt(2, relatedProduct.getId());
+
+            prepSt.executeUpdate();
+        }
+
+        //Images
+        for(String imgUrl : product.getImages()) {
+            int imgId;
+
+            query = "SELECT ImageID FROM Image WHERE URL=?;";
+            prepSt = this.conn.prepareStatement(query);
+
+            prepSt.setString(1, imgUrl);
+
+            ResultSet rs = prepSt.executeQuery();
+
+            if(rs.next()) {
+                imgId = rs.getInt("ImageId");
+            } else {
+                query = "INSERT INTO Image(URL) VALUES (?) RETURNING ImageID;";
+                prepSt = this.conn.prepareStatement(query);
+                prepSt.setString(1, imgUrl);
+                rs = prepSt.executeQuery();
+                rs.next();
+                imgId = rs.getInt("ImageID");
+            }
+
+            query = "INSERT INTO Contains(ProductID, ImageID) VALUES (?, ?);";
+            prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, product.getId());
+            prepSt.setInt(2, imgId);
+            prepSt.executeUpdate();
+        }
+
+        //Specifications
+        for(String specKey : product.getSpecification().keySet()) {
+            System.out.println(specKey);
+            query = "INSERT INTO Has(ProductID, SpecKey, Value) VALUES (?, ?, ?);";
+            prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, product.getId());
+            prepSt.setString(2, specKey);
+            prepSt.setString(3, product.getSpecification().get(specKey));
+            prepSt.executeUpdate();
+        }
     }
 
     @Override
@@ -378,7 +507,27 @@ public class DatabaseManager implements DatabaseManagerFacade {
 
     @Override
     public List<Product> searchForProduct(String productName) {
-        throw new UnsupportedOperationException("Not supported yet."); // Agger har lavet den
+        ArrayList<Product> returnList = new ArrayList<>();
+        if(productName.isEmpty()) {
+            try {
+                String query = "SELECT ProductID FROM Product;";
+                ResultSet rs = this.conn.createStatement().executeQuery(query);
+                
+                while(rs.next()) {
+                    returnList.add(new Product(rs.getInt("ProductID")));
+                }
+            } catch(SQLException e) {
+                System.out.println("Database error regarding fetching all of the products when search for an empty string!" + e);
+                return new ArrayList<>();
+            }
+        }
+        
+        for(Product product : returnList) {
+            this.fillProduct(product);
+        }
+        
+        System.out.println("Return list len: " + returnList.size());
+        return returnList;
     }
 
     @Override
@@ -399,16 +548,15 @@ public class DatabaseManager implements DatabaseManagerFacade {
     }
 
     private ResultSet getProductInfo(int id) {
-        ResultSet rs = null;
+        String query = "SELECT Name, Price, Description, ProductCategory_Name FROM Product WHERE ProductID=?";
         try {
-            String SQL = "SELECT name, images, videolinks, description, specifications, "
-                    + "price, relatedproducts FROM product WHERE productid = " + id;
-            return rs = conn.createStatement().executeQuery(SQL);
-        } catch (Exception e) {
-            e.printStackTrace();
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, id);
+            return prepSt.executeQuery();
+        } catch(SQLException e) {
+            System.out.println("Something went wrong with fetching product info from the database!" + e);
+            return null;
         }
-
-        return rs;
     }
 
     /**
@@ -454,12 +602,12 @@ public class DatabaseManager implements DatabaseManagerFacade {
         ArrayList<String> returnStrings = new ArrayList<>();
 
         try {
-            String query = "SELECT Key FROM Spec;";
+            String query = "SELECT SpecKey FROM Spec;";
             Statement st = this.conn.createStatement();
 
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                returnStrings.add(rs.getString("Key"));
+                returnStrings.add(rs.getString("SpecKey"));
             }
         } catch (SQLException e) {
             System.out.println("Database error regarding fetching all the specification keys!" + e);

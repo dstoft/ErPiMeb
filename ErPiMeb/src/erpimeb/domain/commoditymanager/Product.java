@@ -6,6 +6,7 @@
 package erpimeb.domain.commoditymanager;
 
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,7 +39,15 @@ public class Product {
     }
     
     public Product(int id) {
+        this();
         this.id = id;
+    }
+    
+    private Product() {
+        this.images = new ArrayList<>();
+        this.videoLinks = new ArrayList<>();
+        this.relatedProducts = new ArrayList<>();
+        this.specification = new HashMap<>();
     }
 
     public int getId() {
@@ -115,5 +124,21 @@ public class Product {
     
     public String toString() {
         return name;
+    }
+    
+    public void addImage(String url) {
+        this.images.add(url);
+    }
+    
+    public void addVideo(String url) {
+        this.videoLinks.add(url);
+    }
+    
+    public void addRelatedProduct(Product product) {
+        this.relatedProducts.add(product);
+    }
+    
+    public void addSpecification(String key, String value) {
+        this.specification.put(key, value);
     }
 }
