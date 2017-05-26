@@ -8,129 +8,59 @@ package erpimeb.gui.webshop;
 import erpimeb.domain.commoditymanager.Category;
 import erpimeb.domain.commoditymanager.CommodityManager;
 import erpimeb.domain.commoditymanager.CommodityManagerFacade;
-import erpimeb.domain.usermanager.UserManager;
-import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+import erpimeb.gui.Switchable;
+import erpimeb.gui.SceneSwitcher;
 
 /**
  *
  * @author DanielToft
  */
-public class MainController implements Initializable {
-
-    private Stage primaryStage;
-
-    private CommodityManagerFacade cManager = CommodityManager.getInstance();
-
+public class MainController implements Initializable, Switchable {
+    private CommodityManagerFacade cmf;
     @FXML
     private TextField searchTerm;
     @FXML
     private ListView<Category> categoryListView;
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Fill category list view, unless no categories exist
-        if (cManager.showMainCategories() != null) {
-            List<Category> categories = cManager.showMainCategories();
-            for (Category c : categories) {
-                categoryListView.getItems().add(c);
-            }
-        }
-    }
+        cmf = CommodityManager.getInstance();
+    }    
 
     @FXML
     private void handleLogin(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopLogin.fxml"));
-        Parent root = null;
-        Scene scene;
-        try {
-            root = loader.load();
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        LoginController loginController = (LoginController) loader.getController();
-        loginController.setReferences(this.primaryStage, this.categoryListView.getScene());
-        scene = new Scene(root);
-        this.primaryStage.setScene(scene);
-        this.primaryStage.setTitle("Bruger Login");
-        this.primaryStage.show();
-    }
-
-    void setStageRef(Stage stage) {
-        this.primaryStage = stage;
+        SceneSwitcher.changeScene("/resources/WebshopLogin.fxml", "Bruger Login");
     }
 
     @FXML
     private void handleSearchForProduct(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopSearchForProduct.fxml"));
-        Parent root = null;
-        Scene scene;
-        try {
-            root = loader.load();
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        SearchForProductController searchForProductController = (SearchForProductController) loader.getController();
-        searchForProductController.setReferences(this.primaryStage, this.categoryListView.getScene());
-        searchForProductController.setSearchTerm(this.searchTerm.getText());
-        scene = new Scene(root);
-        this.primaryStage.setScene(scene);
-        this.primaryStage.setTitle("Søgning: " + this.searchTerm.getText());
-        this.primaryStage.show();
+        cmf.setSearchTerm(this.searchTerm.getText());
+        SceneSwitcher.changeScene("/resources/WebshopSearchForProduct.fxml", "Søgning: " + this.searchTerm.getText());
     }
 
     @FXML
     private void handleChooseCategory(MouseEvent event) {
-        if (this.categoryListView.getSelectionModel().getSelectedItem() != null) {
-            Category pickedCategory = categoryListView.getSelectionModel().getSelectedItem();
-            cManager.pickMainCategory(pickedCategory);
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopSortProductByCategory.fxml"));
-            Parent root = null;
-            Scene scene;
-            try {
-                root = loader.load();
-            } catch (IOException ex) {
-                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            SortProductByCategoryController sortProductByCategoryController = (SortProductByCategoryController) loader.getController();
-            sortProductByCategoryController.setReferences(this.primaryStage, this.categoryListView.getScene());
-            scene = new Scene(root);
-            this.primaryStage.setScene(scene);
-            this.primaryStage.setTitle(pickedCategory.getName());
-            this.primaryStage.show();
+        if(this.categoryListView.getSelectionModel().getSelectedItem() != null){
+            cmf.setCategory(this.categoryListView.getSelectionModel().getSelectedItem());
+            SceneSwitcher.changeScene("/resources/WebshopSortProductByCategory.fxml", "vis kategoriens navn her");
         }
     }
 
     @FXML
     private void handleEditProfile(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopEditCustomerProfile.fxml"));
-        Parent root = null;
-        Scene scene;
-        try {
-            root = loader.load();
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        EditCustomerProfileController profileController = (EditCustomerProfileController) loader.getController();
-        profileController.setReferences(this.primaryStage, this.categoryListView.getScene());
-        scene = new Scene(root);
-        this.primaryStage.setScene(scene);
-        this.primaryStage.setTitle("Rediger profil");
-        this.primaryStage.show();
+        SceneSwitcher.changeScene("/resources/WebshopEditCustomerProfile.fxml", "Rediger profil");
+    }
+
+    @Override
+    public void setupInternals() {
+        
     }
 }

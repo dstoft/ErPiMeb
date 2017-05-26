@@ -5,32 +5,28 @@
  */
 package erpimeb.gui.webshop;
 
-import erpimeb.domain.usermanager.Address;
 import erpimeb.domain.usermanager.Customer;
 import erpimeb.domain.usermanager.UserManager;
 import erpimeb.domain.usermanager.UserManagerFacade;
+import erpimeb.gui.SceneSwitcher;
+import erpimeb.gui.Switchable;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
  *
  * @author AKT
  */
-public class EditCustomerProfileController implements Initializable {
-
+public class EditCustomerProfileController implements Initializable, Switchable {
     private UserManagerFacade userManager;
     
-    private Stage stageRef;
-    private Scene preSceneRef;
     @FXML
     private TextField emailField;
     @FXML
@@ -72,16 +68,9 @@ public class EditCustomerProfileController implements Initializable {
 
     }
 
-    void setReferences(Stage primaryStage, Scene preSceneRef) {
-        this.stageRef = primaryStage;
-        this.preSceneRef = preSceneRef;
-    }
-
     @FXML
     private void handleReturnToParent(ActionEvent event) {
-        this.stageRef.setScene(this.preSceneRef);
-        this.stageRef.setTitle("Webshop");
-        this.stageRef.show();
+        SceneSwitcher.cycleBackward();
     }
 
     @FXML
@@ -110,6 +99,11 @@ public class EditCustomerProfileController implements Initializable {
         }
 
         return true;
+    }
+
+    @Override
+    public void setupInternals() {
+        
     }
 
 }

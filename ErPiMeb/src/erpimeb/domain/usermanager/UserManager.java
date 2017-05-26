@@ -5,6 +5,8 @@
  */
 package erpimeb.domain.usermanager;
 
+import erpimeb.domain.commoditymanager.CommodityManager;
+import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
 import erpimeb.persistence.databasemanager.DatabaseManager;
 import erpimeb.persistence.databasemanager.DatabaseManagerFacade;
@@ -18,6 +20,7 @@ public class UserManager implements UserManagerFacade{
     public static UserManager manager;
     
     public DatabaseManagerFacade dbManager;
+    private CommodityManagerFacade cmf;
     
     private int currentUserId;
     private Customer currentUser;
@@ -28,6 +31,7 @@ public class UserManager implements UserManagerFacade{
     
     public UserManager() {
         this.dbManager = DatabaseManager.getInstance();
+        this.cmf = CommodityManager.getInstance();
     }
     
     public static UserManager getInstance(){
@@ -39,9 +43,13 @@ public class UserManager implements UserManagerFacade{
     
     @Override
     public Customer getCurrentCustomer() {
-        currentUser = this.dbManager.fillCustomer(currentUserId);
-        
-        return currentUser;
+        if(this.currentUserId > 0){
+            currentUser = this.dbManager.fillCustomer(this.currentUserId);
+
+            return this.currentUser;
+        } else {
+            return null;
+        }
     }
     
     public boolean saveCustomerChanges(String name, String email, String password, String phoneNumber, Address address) {
@@ -51,7 +59,11 @@ public class UserManager implements UserManagerFacade{
 
     @Override
     public List<Product> getCartProducts() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Product> localProducts = this.cart.getProducts();
+        for(Product prod : localProducts){
+            this.cmf.fillProduct(prod);
+        }
+        return localProducts;
     }
 
     @Override

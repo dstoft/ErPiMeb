@@ -12,11 +12,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.embed.swing.SwingFXUtils;
+import erpimeb.gui.Switchable;
+import erpimeb.gui.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -31,15 +31,10 @@ import javafx.stage.Stage;
  *
  * @author chris
  */
-public class ViewProductController implements Initializable {
-
-    private Stage stageRef;
-    private Scene preSceneRef;
-    private String preSceneTitle;
-
-    private CommodityManagerFacade cManager = CommodityManager.getInstance();
-    private Product currentProduct = cManager.getCurrentProduct();
-
+public class ViewProductController implements Initializable, Switchable {
+    private CommodityManagerFacade cmf;
+    private Product product;
+    
     private int imageCounter = 0;
     private int videoCounter = 0;
     private List<Image> imageList = new ArrayList<>();
@@ -65,25 +60,24 @@ public class ViewProductController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setupScene();
-        setImagesAndVideos();
+        cmf = CommodityManager.getInstance();
+        this.product = cmf.getProduct();
     }
-
     /**
      * Sets the values of this objects fxml elements Also determines whether to
      * show the imagery cycle buttons
      */
     void setupScene() {
-        productName.setText(currentProduct.getName());
-        productPrice.setText(Double.toString(currentProduct.getPrice()));
-        productDescription.setText(currentProduct.getDescription());
+        productName.setText(product.getName());
+        productPrice.setText(Double.toString(product.getPrice()));
+        productDescription.setText(product.getDescription());
 
         //Add images
-        List<String> images = cManager.getCurrentProductImages();
-
-        for (String s : images) {
-            imageList.add(new Image(s));
-        }
+//        List<String> images = cmf.getCurrentProductImages();
+//
+//        for (String s : images) {
+//            imageList.add(new Image(s));
+//        }
 
         //Add videos
         
@@ -97,13 +91,6 @@ public class ViewProductController implements Initializable {
         //Set the video
         
     }
-
-    void setReferences(Stage stageRef, Scene preSceneRef, String preSceneTitle) {
-        this.stageRef = stageRef;
-        this.preSceneRef = preSceneRef;
-        this.preSceneTitle = preSceneTitle;
-    }
-
     @FXML
     private void cycleBackward(ActionEvent event) {
         if (image == true) {
@@ -132,9 +119,12 @@ public class ViewProductController implements Initializable {
 
     @FXML
     private void handleReturnToParent(ActionEvent event) {
-        this.stageRef.setScene(this.preSceneRef);
-        this.stageRef.setTitle(this.preSceneTitle);
-        this.stageRef.show();
+        SceneSwitcher.cycleBackward();
+    }
+
+    @Override
+    public void setupInternals() {
+        this.setupScene();
     }
 
     @FXML

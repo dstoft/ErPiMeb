@@ -17,45 +17,63 @@ import java.util.Set;
  * @author chris
  */
 public class CommodityManager implements CommodityManagerFacade{
-    private Category currentCategory;
-    private Product currentProduct;
     
+    private Product product;
     public static CommodityManager manager;
-    public DatabaseManagerFacade dbManager;
+    private DatabaseManagerFacade dbManager;
     
     public static CommodityManager getInstance(){
         if(manager == null){
             manager = new CommodityManager();
+            manager.init();
         }
         return manager;
     }
     
-    public CommodityManager(){
+    public void init(){
         this.dbManager = DatabaseManager.getInstance();
     }
     
     private Set<Category> productCategories;
     private ArrayList<Product> products;
+    private String currentSearchTerm;
+    private Product currentProduct;
+    private Category currentCategory;
+    
+    @Override
+    public void setSearchTerm(String searchTerm){
+        this.currentSearchTerm = searchTerm;
+    }
+    
+    @Override
+    public String getSearchTerm(){
+        return this.currentSearchTerm;
+    }
 
     @Override
     public void fillProduct(Product product) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.dbManager.fillProduct(product);
     }
 
     @Override
     public void createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, double price, List<Product> relatedProducts) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-  
+    
+    @Override
+    public void createCategory(String name, List<Category> subcategories, List<String> tagList, List<Product> products){
+	Category newCategory = new Category(name, subcategories, tagList, products);
+	
+    }
 
     @Override
-    public List<Category> showMainCategories() {
+    public List<Category> showCategories() {
         return dbManager.getCategories();
     }
 
     @Override
-    public void pickMainCategory(Category pickedMainCategory) {
-        currentCategory = pickedMainCategory;
+    public Category pickCategory(String categoryName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -69,42 +87,22 @@ public class CommodityManager implements CommodityManagerFacade{
     }
 
     @Override
-    public Category getCurrentCategory() {
-        return currentCategory;
+    public void pickProductFromList(Product product) {
+        this.currentProduct = product;
     }
 
     @Override
-    public List<Category> showSubCategories(Category mainCategory) {
-        return dbManager.getSubcategories(currentCategory.getName());
+    public Product getProduct() {
+        return this.currentProduct;
     }
 
     @Override
-    public void pickSubCategory(Category pickedSubCategory) {
-        currentCategory = pickedSubCategory;
+    public void setCategory(Category category) {
+        this.currentCategory = category;
     }
 
     @Override
-    public List<Product> showProducts() {
-        return currentCategory.getProductList();
-    }
-
-    @Override
-    public Product getCurrentProduct() {
-        return currentProduct;
-    }
-
-    @Override
-    public void setCurrentProduct(Product product) {
-        currentProduct = product;
-    }
-
-    @Override
-    public List<String> getCurrentProductImages() {
-        return currentProduct.getImages();
-    }
-
-    @Override
-    public List<String> getCurrentProductVideos() {
-        return currentProduct.getVideoLinks();
+    public Category getCategory() {
+        return this.currentCategory;
     }
 }

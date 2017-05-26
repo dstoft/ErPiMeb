@@ -9,33 +9,25 @@ import erpimeb.domain.commoditymanager.Category;
 import erpimeb.domain.commoditymanager.CommodityManager;
 import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+import erpimeb.gui.Switchable;
+import erpimeb.gui.SceneSwitcher;
 
 /**
  * FXML Controller class
  *
  * @author Agger
  */
-public class SortProductByCategoryController implements Initializable {
-    private Stage stageRef;
-    private Scene preSceneRef;
-    
-    private CommodityManagerFacade cManager = CommodityManager.getInstance();
-    
+public class SortProductByCategoryController implements Initializable, Switchable {
+    private Category sortedBy;
+    private CommodityManagerFacade cmf;
     @FXML
     private ListView<Category> subCategoryListview;
     @FXML
@@ -46,74 +38,45 @@ public class SortProductByCategoryController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        cmf = CommodityManager.getInstance();
         // Fill category list view
-        List<Category> subCategories = cManager.showSubCategories(cManager.getCurrentCategory());
-        for (Category c : subCategories) {
-            subCategoryListview.getItems().add(c);
-        }
-        List<Product> categoryProducts = cManager.showProducts();
-        for (Product p : categoryProducts) {
-            foundProducts.getItems().add(p);
-        }
-    }
-
-    void setReferences(Stage primaryStage, Scene preSceneRef) {
-        this.stageRef = primaryStage;
-        this.preSceneRef = preSceneRef;
+        
+        //THYGE
+//        List<Category> subCategories = cmf.showSubCategories(cmf.getCurrentCategory());
+//        for (Category c : subCategories) {
+//            subCategoryListview.getItems().add(c);
+//        }
+//        List<Product> categoryProducts = cmf.showProducts();
+//        for (Product p : categoryProducts) {
+//            foundProducts.getItems().add(p);
+//        }
+        this.sortedBy = cmf.getCategory();
     }
 
     @FXML
     private void handleSelectSubCategory(MouseEvent event) {
         if(this.subCategoryListview.getSelectionModel().getSelectedItem() != null){
-            Category pickedSubCategory = subCategoryListview.getSelectionModel().getSelectedItem();
-            cManager.pickMainCategory(pickedSubCategory);
-            
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopSortBySubCategory.fxml"));
-            Parent root = null;
-            Scene scene;
-            try {
-                root = loader.load();
-            } catch (IOException ex) {
-                Logger.getLogger(SortProductByCategoryController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            SortBySubCategoryController sortBySubCategoryController = (SortBySubCategoryController) loader.getController();
-            sortBySubCategoryController.setReferences(this.stageRef,this.foundProducts.getScene(),this.stageRef.getTitle());
-            scene = new Scene(root);
-            this.stageRef.setScene(scene);
-            this.stageRef.setTitle(pickedSubCategory.getName());
-            this.stageRef.show();
+            cmf.setCategory(this.subCategoryListview.getSelectionModel().getSelectedItem());
+            SceneSwitcher.changeScene("/resources/WebshopSortBySubCategory.fxml", "vis sub kategoriens navn her");
         }
     }
 
     @FXML
     private void handleChooseProduct(MouseEvent event) {
         if(this.foundProducts.getSelectionModel().getSelectedItem() != null){
-            Product pickedProduct = foundProducts.getSelectionModel().getSelectedItem();
-            cManager.setCurrentProduct(pickedProduct);
-            
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/WebshopViewProduct.fxml"));
-            Parent root = null;
-            Scene scene;
-            try {
-                root = loader.load();
-            } catch (IOException ex) {
-                Logger.getLogger(SearchForProductController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            ViewProductController viewProductController = (ViewProductController) loader.getController();
-            viewProductController.setReferences(this.stageRef,this.foundProducts.getScene(),this.stageRef.getTitle());
-            viewProductController.setupScene();
-            scene = new Scene(root);
-            this.stageRef.setScene(scene);
-            this.stageRef.setTitle(pickedProduct.getName());
-            this.stageRef.show();
+            cmf.pickProductFromList(this.foundProducts.getSelectionModel().getSelectedItem());
+            SceneSwitcher.changeScene("/resources/WebshopViewProduct.fxml", "vis produktets navn her");
         }
     }
 
     @FXML
     private void handleReturnToParent(ActionEvent event) {
-        this.stageRef.setScene(this.preSceneRef);
-        this.stageRef.setTitle("Webshop");
-        this.stageRef.show();
+        SceneSwitcher.cycleBackward();
+    }
+
+    @Override
+    public void setupInternals() {
+        
     }
     
 }

@@ -6,6 +6,8 @@
 package erpimeb.persistence.databasemanager;
 
 import erpimeb.domain.commoditymanager.Category;
+import erpimeb.domain.commoditymanager.CommodityManager;
+import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
 import erpimeb.domain.ordermanager.Order;
 import erpimeb.domain.usermanager.Address;
@@ -29,9 +31,9 @@ import java.util.logging.Logger;
 public class DatabaseManager implements DatabaseManagerFacade {
 
     public static DatabaseManager manager;
-
-    public static DatabaseManager getInstance() {
-        if (manager == null) {
+    
+    public static DatabaseManager getInstance(){
+        if(manager == null){
             manager = new DatabaseManager();
         }
         return manager;
@@ -54,7 +56,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
             System.out.println("Connection information is invalid. Please edit the information.!!!");
         }
     }
-
+    
     public Customer createCustomer(int id) {
         return new Customer();
 
@@ -386,6 +388,23 @@ public class DatabaseManager implements DatabaseManagerFacade {
     public boolean saveProduct(Product product) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    // implementeres når testdata er færdig
+    @Override
+    public boolean saveCategory(Category category) {
+//	
+//	try {
+//            String SQL = "INSERT INTO category(Ca) "
+//                    + "VALUES (" + category.getName() + ":";
+//	    String SQL1 = "INSERT INTO holds(name) "
+//	    + "VALUES ("+ category.getName() + category.getProductList()));
+//            ResultSet rs = conn.createStatement().executeQuery(SQL);
+//            return true;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+        return true;
+    }
 
     @Override
     public Order createOrder(int orderId) {
@@ -422,7 +441,6 @@ public class DatabaseManager implements DatabaseManagerFacade {
 
     @Override
     public List<Category> getCategories() {
-//        connect();
         List<Category> categories = new ArrayList<>();
 
         ResultSet rs;
@@ -439,7 +457,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
 
         return categories;
     }
-
+    
     @Override
     public List<Category> getSubcategories(String categoryName) {
         List<Category> subCategories = new ArrayList<>();
@@ -516,5 +534,21 @@ public class DatabaseManager implements DatabaseManagerFacade {
             this.fillProduct(prod);
         }
         return foundProducts;
+    }
+
+    @Override
+    public List<Long> getOrderTimestamps(String status, long since) {
+        System.out.println("db test!");
+        ArrayList<Long> returnList = new ArrayList<>();
+        
+        returnList.add(1494757676748L);
+        returnList.add(1494757676748L);
+        returnList.add(1494584876748L);
+        returnList.add(1495448876748L);
+        returnList.add(1493288876748L);
+        returnList.add(1493375276748L);
+        returnList.add(1493029676748L);
+        
+        return returnList;
     }
 }

@@ -13,5 +13,7 @@
       <Label fx:id="productAmount" layoutX="433.0" layoutY="252.0" text="Antal produkter i database" />
       <Label fx:id="orderAmount" layoutX="433.0" layoutY="277.0" text="Antal ordre i alt" />
       <Label fx:id="customerAmount" layoutX="433.0" layoutY="302.0" text="Antal kunder" />
+      <Button fx:id="createCategotyButton" layoutX="54.0" layoutY="319.0" mnemonicParsing="false" onAction="#handleCreateCategory" prefHeight="25.0" prefWidth="97.0" text="Opret Kategori" />
+      <Button layoutX="54.0" layoutY="352.0" mnemonicParsing="false" onAction="#handleShowStatistic" text="Show statistic" />
    </children>
 </AnchorPane>

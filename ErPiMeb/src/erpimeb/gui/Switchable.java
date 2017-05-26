@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package erpimeb.domain.statisticmanager;
+package erpimeb.gui;
 
 /**
  *
  * @author chris
  */
-public interface StatisticManagerFacade {
-    
-    public abstract Graphs getCompletedOrders(long since);
-    
+public interface Switchable {
+    public abstract void setupInternals();
 }

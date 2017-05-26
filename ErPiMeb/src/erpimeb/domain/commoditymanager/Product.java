@@ -42,6 +42,10 @@ public class Product {
     public int getId() {
         return this.id;
     }
+    
+    public double getPrice(){
+        return this.price;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -78,10 +82,6 @@ public class Product {
 
     public String getName() {
         return name;
-    }
-
-    public double getPrice() {
-        return price;
     }
 
     public String getDescription() {
