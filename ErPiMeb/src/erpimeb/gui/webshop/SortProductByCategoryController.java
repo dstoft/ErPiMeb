@@ -56,16 +56,18 @@ public class SortProductByCategoryController implements Initializable, Switchabl
     @FXML
     private void handleSelectSubCategory(MouseEvent event) {
         if(this.subCategoryListview.getSelectionModel().getSelectedItem() != null){
-            cManager.setCategory(this.subCategoryListview.getSelectionModel().getSelectedItem());
-            SceneSwitcher.changeScene("/resources/WebshopSortBySubCategory.fxml", "vis sub kategoriens navn her");
+            Category cat = this.subCategoryListview.getSelectionModel().getSelectedItem();
+            cManager.setCategory(cat);
+            SceneSwitcher.changeScene("/resources/WebshopSortBySubCategory.fxml", cat.getName());
         }
     }
 
     @FXML
     private void handleChooseProduct(MouseEvent event) {
         if(this.foundProducts.getSelectionModel().getSelectedItem() != null){
-            cManager.pickProductFromList(this.foundProducts.getSelectionModel().getSelectedItem());
-            SceneSwitcher.changeScene("/resources/WebshopViewProduct.fxml", "vis produktets navn her");
+            Product pro = this.foundProducts.getSelectionModel().getSelectedItem();
+            cManager.pickProductFromList(pro);
+            SceneSwitcher.changeScene("/resources/WebshopViewProduct.fxml", pro.getName());
         }
     }
 

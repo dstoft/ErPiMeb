@@ -5,7 +5,6 @@
  */
 package erpimeb.gui.webshop;
 
-import erpimeb.domain.commoditymanager.Category;
 import erpimeb.domain.commoditymanager.CommodityManager;
 import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
@@ -26,7 +25,6 @@ import erpimeb.gui.SceneSwitcher;
  * @author chris
  */
 public class SortBySubCategoryController implements Initializable, Switchable {
-    private Category sortedBy;
     private CommodityManagerFacade cManager;
     
     @FXML
@@ -37,7 +35,6 @@ public class SortBySubCategoryController implements Initializable, Switchable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cManager = CommodityManager.getInstance();
-        this.sortedBy = cManager.getCategory();
         
         List<Product> categoryProducts = cManager.showProducts();
         for (Product p : categoryProducts) {
@@ -48,8 +45,9 @@ public class SortBySubCategoryController implements Initializable, Switchable {
     @FXML
     private void handleChooseProduct(MouseEvent event) {
         if(this.foundProducts.getSelectionModel().getSelectedItem() != null){
-            cManager.pickProductFromList(this.foundProducts.getSelectionModel().getSelectedItem());
-            SceneSwitcher.changeScene("/resources/WebshopViewProduct.fxml", "vis produktets navn");
+            Product pro = this.foundProducts.getSelectionModel().getSelectedItem();
+            cManager.pickProductFromList(pro);
+            SceneSwitcher.changeScene("/resources/WebshopViewProduct.fxml", pro.getName());
         }
     }
 

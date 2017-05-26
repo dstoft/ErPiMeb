@@ -56,7 +56,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
             System.out.println("Connection information is invalid. Please edit the information.!!!");
         }
     }
-    
+
     public Customer createCustomer(int id) {
         return new Customer();
 
@@ -248,10 +248,10 @@ public class DatabaseManager implements DatabaseManagerFacade {
     @Override
     public void fillProduct(Product product) {
         int id = product.getId();
-        if(id < 0) {
+        if (id < 0) {
             throw new IllegalArgumentException("There is not a valid id in the product!");
         }
-        
+
         ResultSet rs = this.getProductInfo(id);
         try {
             rs.next();
@@ -263,51 +263,50 @@ public class DatabaseManager implements DatabaseManagerFacade {
             System.out.println("Database error regarding fetching product data from a resultset!" + ex);
             return;
         }
-        
+
         // Related products
         try {
             String query = "SELECT ProductID_2 FROM Related WHERE ProductID_1=?;";
             PreparedStatement prepSt = this.conn.prepareStatement(query);
             prepSt.setInt(1, id);
             rs = prepSt.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 product.addRelatedProduct(new Product(rs.getInt("ProductID_2")));
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Database error regarding fetching product related products from a resultset!");
             return;
         }
-        
+
         // Images
         try {
             String query = "SELECT URL FROM Contains NATURAL JOIN Image WHERE ProductID=?;";
             PreparedStatement prepSt = this.conn.prepareStatement(query);
             prepSt.setInt(1, id);
             rs = prepSt.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 product.addImage(rs.getString("URL"));
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Database error regarding fetching product images from a resultset!" + e);
             return;
         }
-        
+
         // Specifications
         try {
             String query = "SELECT SpecKey, Value FROM Has NATURAL JOIN Spec WHERE ProductID=?;";
             PreparedStatement prepSt = this.conn.prepareStatement(query);
             prepSt.setInt(1, id);
             rs = prepSt.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 product.addSpecification(rs.getString("SpecKey"), rs.getString("Value"));
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Database error regarding fetching product specifications from a resultset!" + e);
             return;
         }
-        
+
         // There is no data regarding videos in the database!
-        
         // Category
     }
 
@@ -320,7 +319,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
         ResultSet rs;
         Category returnCategory = new Category();
         returnCategory.setName(categoryName);
-        
+
         // Subcategories
         try {
             ArrayList<Category> tempCategories = new ArrayList<>();
@@ -341,7 +340,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
             System.out.println("Database error regarding fetching category's subcategories from a resultset!");
             return null;
         }
-        
+
         // Products
         try {
             ArrayList<Product> tempProducts = new ArrayList<>();
@@ -363,7 +362,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
         }
 
         // Tags
-        /*try {
+        try {
             ArrayList<Category> tempCategories = new ArrayList<>();
             String query = "SELECT TagName FROM Includes NATURAL JOIN Tag WHERE Name=?;";
             PreparedStatement prepSt = this.conn.prepareStatement(query);
@@ -375,7 +374,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
         } catch (SQLException e) {
             System.out.println("Database error regarding fetching category's subcategories from a resultset!");
             return null;
-        }*/
+        }
         return returnCategory;
     }
 
@@ -388,6 +387,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
     public boolean saveProduct(Product product) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     // implementeres når testdata er færdig
     @Override
     public boolean saveCategory(Category category) {
@@ -403,7 +403,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
 //            e.printStackTrace();
 //            return false;
 //        }
-return true;
+        return true;
     }
 
     @Override
@@ -457,7 +457,7 @@ return true;
 
         return categories;
     }
-    
+
     @Override
     public List<Category> getSubcategories(String categoryName) {
         List<Category> subCategories = new ArrayList<>();
@@ -468,12 +468,12 @@ return true;
             PreparedStatement prepSt = this.conn.prepareStatement(query);
             rs = prepSt.executeQuery();
             while (rs.next()) {
-                subCategories.add(this.fillCategory(rs.getString("categoryname_2")));
+                subCategories.add(this.fillSubCategory(rs.getString("categoryname_2")));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return subCategories;
     }
 
@@ -484,7 +484,7 @@ return true;
             PreparedStatement prepSt = this.conn.prepareStatement(query);
             prepSt.setInt(1, id);
             return prepSt.executeQuery();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Something went wrong with fetching product info from the database!" + e);
             return null;
         }
@@ -540,7 +540,7 @@ return true;
     public List<Long> getOrderTimestamps(String status, long since) {
         System.out.println("db test!");
         ArrayList<Long> returnList = new ArrayList<>();
-        
+
         returnList.add(1494757676748L);
         returnList.add(1494757676748L);
         returnList.add(1494584876748L);
@@ -548,7 +548,36 @@ return true;
         returnList.add(1493288876748L);
         returnList.add(1493375276748L);
         returnList.add(1493029676748L);
-        
+
         return returnList;
+    }
+
+    @Override
+    public Category fillSubCategory(String categoryName) {
+        // Calling this.getCategoryInfo is useless, since Category only holds a name
+        ResultSet rs;
+        Category returnCategory = new Category();
+        returnCategory.setName(categoryName);
+
+        // Products
+        try {
+            ArrayList<Product> tempProducts = new ArrayList<>();
+            String query = "SELECT DISTINCT productid FROM product NATURAL JOIN subcategory WHERE productcategory_name = '" + categoryName + "';";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            //prepSt.setString(1, categoryName);
+            rs = prepSt.executeQuery();
+            while (rs.next()) {
+                tempProducts.add(new Product(rs.getInt("productid")));
+            }
+
+            for (Product product : tempProducts) {
+                this.fillProduct(product);
+                returnCategory.addProduct(product);
+            }
+        } catch (SQLException e) {
+            System.out.println("Database error regarding fetching category's products from a resultset!");
+            return null;
+        }
+        return returnCategory;
     }
 }

@@ -70,6 +70,9 @@ public class ViewProductController implements Initializable, Switchable {
      * show the imagery cycle buttons
      */
     void setupScene() {
+        videoWebView.setDisable(true);
+        videoWebView.setVisible(false);
+        
         productName.setText(currentProduct.getName());
         productPrice.setText(Double.toString(currentProduct.getPrice()));
         productDescription.setText(currentProduct.getDescription());
@@ -77,9 +80,10 @@ public class ViewProductController implements Initializable, Switchable {
         //Add images
         List<String> images = cManager.getCurrentProductImages();
 
-        for (String s : images) {
+        // For loop cannot be implemented until images are
+        /*for (String s : images) {
             imageList.add(new Image(s));
-        }
+        }*/ 
 
         //Add videos
         
@@ -104,7 +108,7 @@ public class ViewProductController implements Initializable, Switchable {
             videoCounter--;
         }
         
-        setImagesAndVideos();
+//        setImagesAndVideos();
     }
 
     @FXML
@@ -117,7 +121,7 @@ public class ViewProductController implements Initializable, Switchable {
             videoCounter++;
         }
         
-        setImagesAndVideos();
+//        setImagesAndVideos();
     }
 
     @FXML

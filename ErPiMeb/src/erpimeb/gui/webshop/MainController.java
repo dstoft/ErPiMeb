@@ -63,8 +63,9 @@ public class MainController implements Initializable, Switchable {
     @FXML
     private void handleChooseCategory(MouseEvent event) {
         if(this.categoryListView.getSelectionModel().getSelectedItem() != null){
-            cManager.setCategory(this.categoryListView.getSelectionModel().getSelectedItem());
-            SceneSwitcher.changeScene("/resources/WebshopSortProductByCategory.fxml", "vis kategoriens navn her");
+            Category cat = this.categoryListView.getSelectionModel().getSelectedItem();
+            cManager.setCategory(cat);
+            SceneSwitcher.changeScene("/resources/WebshopSortProductByCategory.fxml", cat.getName());
         }
     }
 
