@@ -33,30 +33,25 @@ public class DatabaseManager implements DatabaseManagerFacade {
     public static DatabaseManager getInstance() {
         if (manager == null) {
             manager = new DatabaseManager();
-
         }
         return manager;
     }
 
     private DatabaseManager() {
-        // Empty private constructor, to prevent the breakage of singleton
-    }
-
-    public void connect() {
         try (Scanner fileInput = new Scanner(new File("databaseInfo.txt"))) {
-            manager.port = Integer.parseInt(fileInput.nextLine());
-            manager.host = fileInput.nextLine();
-            manager.databaseName = fileInput.nextLine();
-            manager.username = fileInput.nextLine();
-            manager.password = fileInput.nextLine();
+            this.port = Integer.parseInt(fileInput.nextLine());
+            this.host = fileInput.nextLine();
+            this.databaseName = fileInput.nextLine();
+            this.username = fileInput.nextLine();
+            this.password = fileInput.nextLine();
         } catch (FileNotFoundException ex) {
             System.out.println("Database info file not found.");
         }
 
         try {
-            manager.conn = DriverManager.getConnection(manager.url + manager.host + ":" + manager.port + "/" + manager.databaseName, manager.username, manager.password);
+            this.conn = DriverManager.getConnection(this.url + this.host + ":" + this.port + "/" + this.databaseName, this.username, this.password);
         } catch (SQLException ex) {
-            System.out.println("Connection information is invalid. Please edit the information.");
+            System.out.println("Connection information is invalid. Please edit the information.!!!");
         }
     }
 
@@ -250,7 +245,6 @@ public class DatabaseManager implements DatabaseManagerFacade {
 
     @Override
     public void fillProduct(Product product) {
-        connect();
         int id = product.getId();
         if(id < 0) {
             throw new IllegalArgumentException("There is not a valid id in the product!");
@@ -317,7 +311,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
 
     @Override
     public Category fillCategory(String categoryName) {
-        connect();
+//        connect();
         //Should probably check whether the name exists in the db first, but oh well
 
         // Calling this.getCategoryInfo is useless, since Category only holds a name
@@ -428,7 +422,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
 
     @Override
     public List<Category> getCategories() {
-        connect();
+//        connect();
         List<Category> categories = new ArrayList<>();
 
         ResultSet rs;
@@ -466,11 +460,11 @@ public class DatabaseManager implements DatabaseManagerFacade {
     }
 
     private ResultSet getProductInfo(int id) {
-        connect();
+//        connect();
         String query = "SELECT Name, Price, Description, ProductCategory_Name FROM Product WHERE ProductID=?";
         try {
             PreparedStatement prepSt = this.conn.prepareStatement(query);
-            //prepSt.setInt(1, id);
+            prepSt.setInt(1, id);
             return prepSt.executeQuery();
         } catch(SQLException e) {
             System.out.println("Something went wrong with fetching product info from the database!" + e);
