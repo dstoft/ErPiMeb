@@ -1,5 +1,5 @@
 5432
 localhost
+erpimeb
 postgres
-postgres
-admin
+anderst

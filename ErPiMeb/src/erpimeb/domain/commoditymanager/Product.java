@@ -23,6 +23,7 @@ public class Product {
     private List<String> videoLinks;
     private List<Product> relatedProducts;
     private double price;
+    private Category category;
     private HashMap<String, String> specification;
 //    private Cart cart; ved ikke om denne skal være der da den er i en anden pakke
     
@@ -93,5 +94,9 @@ public class Product {
 
     public List<String> getVideoLinks() {
         return videoLinks;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
