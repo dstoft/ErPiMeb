@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.pim.EditProductController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.pim.EditProductController">
    <children>
       <Button layoutX="15.0" layoutY="13.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Tilbage til PIM" />
       <TextField fx:id="nameTextField" layoutX="21.0" layoutY="82.0" promptText="Produkt navn" />
@@ -28,10 +28,7 @@
          </font>
       </Label>
       <Button layoutX="481.0" layoutY="354.0" mnemonicParsing="false" onAction="#handleSaveChanges" text="Gem ændringer" />
-      <ComboBox fx:id="allProductsComboBox" layoutX="308.0" layoutY="279.0" prefHeight="25.0" prefWidth="120.0" promptText="Alle produkter" />
-      <ComboBox fx:id="relatedProductsComboBox" layoutX="452.0" layoutY="279.0" prefHeight="25.0" prefWidth="120.0" promptText="Relaterede produkter" />
-      <Button layoutX="347.0" layoutY="306.0" mnemonicParsing="false" onAction="#handleAttachRelatedProduct" text="Tilføj" />
-      <Button layoutX="491.0" layoutY="306.0" mnemonicParsing="false" onAction="#handleRemoveRelatedProduct" text="Fjern" />
+      <ComboBox fx:id="allCategoriesComboBox" layoutX="307.0" layoutY="313.0" prefHeight="25.0" prefWidth="120.0" promptText="Alle kategorier" />
       <TabPane layoutX="21.0" layoutY="112.0" prefHeight="275.0" prefWidth="254.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab text="Beskrivelse">

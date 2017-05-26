@@ -15,12 +15,14 @@ import java.util.List;
 public interface CommodityManagerFacade {
     
     public abstract void fillProduct(Product product);
-    public abstract boolean createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, double price, List<Product> relatedProducts);
+    public abstract boolean createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, Category pickedCategory);
     public abstract List<Category> showCategories();
     public abstract Category pickCategory(String categoryName);
     public abstract List<Product> searchForProduct(String productName);
     public abstract void pickProductToEditFromList(Product pickedProduct);
     public abstract boolean saveChangesToProduct();
     public abstract List<String> getAllSpecKeys();
+    public abstract List<Category> getAllCategories();
+    public abstract Product getPickedProduct();
     
 }

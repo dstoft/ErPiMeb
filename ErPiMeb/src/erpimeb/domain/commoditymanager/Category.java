@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Category {
     
-    private String name = "Madlavning";
+    private String name;
     private List<String> subCategories;
     private List<String> tagList;
     private List<Product> productList;
@@ -23,6 +23,11 @@ public class Category {
     }
     
     public String getName() {
+        return this.name;
+    }
+    
+    @Override
+    public String toString() {
         return this.name;
     }
 }

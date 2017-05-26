@@ -38,11 +38,10 @@ public class CommodityManager implements CommodityManagerFacade{
     }
 
     @Override
-    public boolean createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, double price, List<Product> relatedProducts) {
-        Product newProduct = new Product(name, images, videoLinks, description, specifications, price, relatedProducts);
+    public boolean createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, Category pickedCategory) {
+        Product newProduct = new Product(name, images, videoLinks, description, specifications, pickedCategory);
         
         newProduct.setRelatedProducts(this.dbManager.getRelatedProducts(specifications));
-        newProduct.setCategory(new Category());
         
         return dbManager.saveProduct(newProduct);
     }
@@ -69,6 +68,8 @@ public class CommodityManager implements CommodityManagerFacade{
     
     @Override
     public boolean saveChangesToProduct() {
+        this.currentProduct.setRelatedProducts(this.dbManager.getRelatedProducts(this.currentProduct.getSpecification()));
+        
         return dbManager.saveProduct(currentProduct);
     }
 
@@ -77,5 +78,13 @@ public class CommodityManager implements CommodityManagerFacade{
         return this.dbManager.getAllSpecKeys();
     }
     
+    @Override
+    public List<Category> getAllCategories() {
+        return this.dbManager.getAllCategories();
+    }
     
+    @Override
+    public Product getPickedProduct() {
+        return this.currentProduct;
+    }
 }

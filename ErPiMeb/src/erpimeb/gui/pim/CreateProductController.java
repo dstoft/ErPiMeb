@@ -5,6 +5,7 @@
  */
 package erpimeb.gui.pim;
 
+import erpimeb.domain.commoditymanager.Category;
 import erpimeb.domain.commoditymanager.CommodityManager;
 import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
@@ -62,10 +63,6 @@ public class CreateProductController implements Initializable {
     @FXML
     private TextField videoLinkTextField;
     @FXML
-    private ComboBox<Product> allProductsComboBox;
-    @FXML
-    private ComboBox<Product> relatedProductsComboBox;
-    @FXML
     private ComboBox<String> keysComboBox;
     @FXML
     private TextField specValueTextField;
@@ -73,6 +70,8 @@ public class CreateProductController implements Initializable {
     private ListView<String> specListView;
     @FXML
     private Label statusLabel;
+    @FXML
+    private ComboBox<Category> allCategoriesComboBox;
 
     /**
      * Initializes the controller class.
@@ -82,6 +81,8 @@ public class CreateProductController implements Initializable {
         CommodityManagerFacade comManager = CommodityManager.getInstance();
         
         keysComboBox.getItems().addAll(comManager.getAllSpecKeys()); // Skal hente keys fra database
+        
+        this.allCategoriesComboBox.getItems().addAll(comManager.getAllCategories());
     }
 
     void setReferences(Stage stageRef, Scene preSceneRef) {
@@ -113,8 +114,8 @@ public class CreateProductController implements Initializable {
         if (!nameTextField.getText().isEmpty() || !priceTextField.getText().isEmpty() || !descriptionTextArea.getText().isEmpty()) {
             CommodityManagerFacade comManager = CommodityManager.getInstance();
             comManager.createProduct(nameTextField.getText(), images, videos,
-                    descriptionTextArea.getText(), specs,
-                    Integer.parseInt(priceTextField.getText()), related);
+                    descriptionTextArea.getText(), specs, 
+                    this.allCategoriesComboBox.getSelectionModel().getSelectedItem());
 
             // Go back to PIM
             this.stageRef.setScene(this.preSceneRef);
@@ -126,15 +127,6 @@ public class CreateProductController implements Initializable {
 
     }
 
-    @FXML
-    private void handleAttachRelatedProduct(ActionEvent event) {
-        
-    }
-
-    @FXML
-    private void handleRemoveRelatedProduct(ActionEvent event) {
-        
-    }
 
     @FXML
     private void handleAddSpecifications(ActionEvent event) {

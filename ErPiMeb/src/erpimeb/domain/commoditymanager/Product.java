@@ -27,14 +27,13 @@ public class Product {
     private Category category;
 //    private Cart cart; ved ikke om denne skal være der da den er i en anden pakke
     
-    public Product(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, double price, List<Product> relatedProducts) {
+    public Product(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, Category pickedCategory) {
         this.name = name;
         this.images = images;
         this.videoLinks = videoLinks;
         this.description = description;
         this.specification = specifications;
-        this.price = price;
-        this.relatedProducts = relatedProducts;
+        this.category = pickedCategory;
         
     }
     

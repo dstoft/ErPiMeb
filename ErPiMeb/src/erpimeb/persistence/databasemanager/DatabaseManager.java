@@ -5,6 +5,7 @@
  */
 package erpimeb.persistence.databasemanager;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import erpimeb.domain.commoditymanager.Category;
 import erpimeb.domain.commoditymanager.Product;
 import erpimeb.domain.ordermanager.Order;
@@ -577,13 +578,13 @@ public class DatabaseManager implements DatabaseManagerFacade {
             String valueStr = specifications.get(keyStr);
 
             try {
-                String query = "SELECT ProductID, Name FROM Spec NATURAL JOIN Has NATURAL JOIN Product WHERE RelateAble = true AND Key = ? AND Value = ?;";
+                String query = "SELECT ProductID, Name FROM Spec NATURAL JOIN Has NATURAL JOIN Product WHERE RelateAble = true AND SpecKey = ? AND Value = ?;";
                 PreparedStatement prepSt = this.conn.prepareStatement(query);
                 prepSt.setString(1, keyStr);
                 prepSt.setString(2, valueStr);
 
                 ResultSet rs = prepSt.executeQuery();
-                if (rs.next()) {
+                while (rs.next()) {
                     Product tempProduct = new Product(rs.getInt("ProductID"));
                     tempProduct.setName(rs.getString("Name"));
                     returnProducts.add(tempProduct);
@@ -614,5 +615,26 @@ public class DatabaseManager implements DatabaseManagerFacade {
         }
 
         return returnStrings;
+    }
+
+    @Override
+    public List<Category> getAllCategories() {
+        String query = "SELECT CategoryName FROM ProductCategory;";
+        Statement st;
+        try {
+            st = this.conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            
+            ArrayList<Category> returnCategories = new ArrayList<>();
+            while(rs.next()) {
+                Category newCategory = new Category();
+                newCategory.setName(rs.getString("CategoryName"));
+                returnCategories.add(newCategory);
+            }
+            return returnCategories;
+        } catch (SQLException ex) {
+            System.out.println("Database error regarding fetching all of the categories.");
+            return new ArrayList<>();
+        }
     }
 }

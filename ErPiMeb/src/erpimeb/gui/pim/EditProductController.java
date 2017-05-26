@@ -5,6 +5,7 @@
  */
 package erpimeb.gui.pim;
 
+import erpimeb.domain.commoditymanager.Category;
 import erpimeb.domain.commoditymanager.CommodityManager;
 import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
@@ -52,10 +53,6 @@ public class EditProductController implements Initializable {
     @FXML
     private TextField videoLinkTextField;
     @FXML
-    private ComboBox<Product> allProductsComboBox;
-    @FXML
-    private ComboBox<Product> relatedProductsComboBox;
-    @FXML
     private TextArea descriptionTextArea;
     @FXML
     private TextField specValueTextField;
@@ -65,6 +62,8 @@ public class EditProductController implements Initializable {
     private ListView<String> specListView;
     @FXML
     private Label statusLabel;
+    @FXML
+    private ComboBox<Category> allCategoriesComboBox;
     
     /**
      * Initializes the controller class.
@@ -72,8 +71,12 @@ public class EditProductController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         CommodityManagerFacade comManager = CommodityManager.getInstance();
+        this.setPickedProduct(comManager.getPickedProduct());
         
         keysComboBox.getItems().addAll(comManager.getAllSpecKeys()); // Skal hente keys fra database
+        
+        this.allCategoriesComboBox.getItems().addAll(comManager.getAllCategories());
+        this.allCategoriesComboBox.getSelectionModel().select(this.pickedProduct.getCategory());
     }    
 
     void setReferences(Stage stageRef,Scene preSceneRef) {
@@ -116,7 +119,7 @@ public class EditProductController implements Initializable {
         this.pickedProduct.setSpecification(this.specs);
         this.pickedProduct.setImages(this.images);
         this.pickedProduct.setVideoLinks(this.videos);
-        //this.pickedProduct.setCategory(category); No dropdown implemented yet!
+        this.pickedProduct.setCategory(this.allCategoriesComboBox.getSelectionModel().getSelectedItem());
         this.pickedProduct.setRelatedProducts(this.related);
         
         
@@ -128,13 +131,6 @@ public class EditProductController implements Initializable {
             this.stageRef.show();
     }
 
-    @FXML
-    private void handleAttachRelatedProduct(ActionEvent event) {
-    }
-
-    @FXML
-    private void handleRemoveRelatedProduct(ActionEvent event) {
-    }
 
     @FXML
     private void handleAddSpecifications(ActionEvent event) {
