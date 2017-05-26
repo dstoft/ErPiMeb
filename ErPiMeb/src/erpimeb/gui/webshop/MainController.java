@@ -8,7 +8,10 @@ package erpimeb.gui.webshop;
 import erpimeb.domain.commoditymanager.Category;
 import erpimeb.domain.commoditymanager.CommodityManager;
 import erpimeb.domain.commoditymanager.CommodityManagerFacade;
+import erpimeb.domain.usermanager.UserManager;
+import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,32 +27,43 @@ import erpimeb.gui.SceneSwitcher;
  * @author DanielToft
  */
 public class MainController implements Initializable, Switchable {
-    private CommodityManagerFacade cmf;
+    private CommodityManagerFacade cManager;
+    
     @FXML
     private TextField searchTerm;
     @FXML
     private ListView<Category> categoryListView;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cmf = CommodityManager.getInstance();
+        cManager = CommodityManager.getInstance();
+        this.categoryListView.getItems().addAll(cManager.showMainCategories());
     }    
 
     @FXML
     private void handleLogin(ActionEvent event) {
         SceneSwitcher.changeScene("/resources/WebshopLogin.fxml", "Bruger Login");
+        
+        // Fill category list view, unless no categories exist
+        if (cManager.showMainCategories() != null) {
+            List<Category> categories = cManager.showMainCategories();
+            for (Category c : categories) {
+                categoryListView.getItems().add(c);
+            }
+        }
     }
+    
 
     @FXML
     private void handleSearchForProduct(ActionEvent event) {
-        cmf.setSearchTerm(this.searchTerm.getText());
+        cManager.setSearchTerm(this.searchTerm.getText());
         SceneSwitcher.changeScene("/resources/WebshopSearchForProduct.fxml", "Søgning: " + this.searchTerm.getText());
     }
 
     @FXML
     private void handleChooseCategory(MouseEvent event) {
         if(this.categoryListView.getSelectionModel().getSelectedItem() != null){
-            cmf.setCategory(this.categoryListView.getSelectionModel().getSelectedItem());
+            cManager.setCategory(this.categoryListView.getSelectionModel().getSelectedItem());
             SceneSwitcher.changeScene("/resources/WebshopSortProductByCategory.fxml", "vis kategoriens navn her");
         }
     }
@@ -61,6 +75,5 @@ public class MainController implements Initializable, Switchable {
 
     @Override
     public void setupInternals() {
-        
     }
 }

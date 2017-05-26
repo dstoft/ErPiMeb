@@ -27,5 +27,14 @@ public interface CommodityManagerFacade {
     public abstract Product getProduct();
     public abstract void setCategory(Category category);
     public abstract Category getCategory();
-    
+    public abstract List<Category> showMainCategories();
+    public abstract List<Category> showSubCategories(Category mainCategory);
+    public abstract List<Product> showProducts();
+    public abstract void pickMainCategory(Category pickedMainCategory);
+    public abstract void pickSubCategory(Category pickedSubCategory);
+    public abstract Category getCurrentCategory();
+    public abstract Product getCurrentProduct();
+    public abstract void setCurrentProduct(Product product);
+    public abstract List<String> getCurrentProductImages();
+    public abstract List<String> getCurrentProductVideos();
 }

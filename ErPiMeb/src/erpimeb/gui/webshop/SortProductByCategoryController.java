@@ -10,6 +10,7 @@ import erpimeb.domain.commoditymanager.CommodityManager;
 import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,7 +27,8 @@ import erpimeb.gui.SceneSwitcher;
  */
 public class SortProductByCategoryController implements Initializable, Switchable {
     private Category sortedBy;
-    private CommodityManagerFacade cmf;
+    private CommodityManagerFacade cManager;
+    
     @FXML
     private ListView<Category> subCategoryListview;
     @FXML
@@ -37,14 +39,24 @@ public class SortProductByCategoryController implements Initializable, Switchabl
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cmf = CommodityManager.getInstance();
-        this.sortedBy = cmf.getCategory();
+        this.cManager = CommodityManager.getInstance();
+        this.sortedBy = cManager.getCategory();
+        
+        // Fill category list view
+        List<Category> subCategories = cManager.showSubCategories(cManager.getCurrentCategory());
+        for (Category c : subCategories) {
+            subCategoryListview.getItems().add(c);
+        }
+        List<Product> categoryProducts = cManager.showProducts();
+        for (Product p : categoryProducts) {
+            foundProducts.getItems().add(p);
+        }
     }
 
     @FXML
     private void handleSelectSubCategory(MouseEvent event) {
         if(this.subCategoryListview.getSelectionModel().getSelectedItem() != null){
-            cmf.setCategory(this.subCategoryListview.getSelectionModel().getSelectedItem());
+            cManager.setCategory(this.subCategoryListview.getSelectionModel().getSelectedItem());
             SceneSwitcher.changeScene("/resources/WebshopSortBySubCategory.fxml", "vis sub kategoriens navn her");
         }
     }
@@ -52,7 +64,7 @@ public class SortProductByCategoryController implements Initializable, Switchabl
     @FXML
     private void handleChooseProduct(MouseEvent event) {
         if(this.foundProducts.getSelectionModel().getSelectedItem() != null){
-            cmf.pickProductFromList(this.foundProducts.getSelectionModel().getSelectedItem());
+            cManager.pickProductFromList(this.foundProducts.getSelectionModel().getSelectedItem());
             SceneSwitcher.changeScene("/resources/WebshopViewProduct.fxml", "vis produktets navn her");
         }
     }

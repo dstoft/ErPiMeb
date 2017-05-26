@@ -49,11 +49,20 @@ public class Category {
     }
     
     public void addTag(String tagName) {
-        this.tagList.add(name);
+        this.tagList.add(getName());
     }
     
     public void addProduct(Product product) {
-        this.productList.add(product);
+        this.getProductList().add(product);
+    }
+    
+    @Override
+    public String toString() {
+        return getName();
+    }
+
+    public List<Product> getProductList() {
+        return productList;
     }
 
     public List<Category> getSubcategories() {
@@ -62,9 +71,5 @@ public class Category {
 
     public List<String> getTagList() {
 	return tagList;
-    }
-
-    public List<Product> getProductList() {
-	return productList;
     }
 }

@@ -10,6 +10,7 @@ import erpimeb.domain.commoditymanager.CommodityManager;
 import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,7 +27,7 @@ import erpimeb.gui.SceneSwitcher;
  */
 public class SortBySubCategoryController implements Initializable, Switchable {
     private Category sortedBy;
-    private CommodityManagerFacade cmf;
+    private CommodityManagerFacade cManager;
     
     @FXML
     private ListView<Product> foundProducts;
@@ -35,14 +36,19 @@ public class SortBySubCategoryController implements Initializable, Switchable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cmf = CommodityManager.getInstance();
-        this.sortedBy = cmf.getCategory();
+        cManager = CommodityManager.getInstance();
+        this.sortedBy = cManager.getCategory();
+        
+        List<Product> categoryProducts = cManager.showProducts();
+        for (Product p : categoryProducts) {
+            foundProducts.getItems().add(p);
+        }
     }
 
     @FXML
     private void handleChooseProduct(MouseEvent event) {
         if(this.foundProducts.getSelectionModel().getSelectedItem() != null){
-            cmf.pickProductFromList(this.foundProducts.getSelectionModel().getSelectedItem());
+            cManager.pickProductFromList(this.foundProducts.getSelectionModel().getSelectedItem());
             SceneSwitcher.changeScene("/resources/WebshopViewProduct.fxml", "vis produktets navn");
         }
     }

@@ -23,6 +23,7 @@ public class Product {
     private List<String> videoLinks;
     private List<Product> relatedProducts;
     private double price;
+    private Category category;
     private HashMap<String, String> specification;
 //    private Cart cart; ved ikke om denne skal være der da den er i en anden pakke
     
@@ -59,11 +60,11 @@ public class Product {
     }
     
     public void addImage(String url) {
-        this.images.add(url);
+        this.getImages().add(url);
     }
     
     public void addVideo(String url) {
-        this.videoLinks.add(url);
+        this.getVideoLinks().add(url);
     }
     
     public void addRelatedProduct(Product product) {
@@ -72,5 +73,30 @@ public class Product {
     
     public void addSpecification(String key, String value) {
         this.specification.put(key, value);
+    }
+    
+    @Override
+    public String toString() {
+        return getName();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public List<String> getVideoLinks() {
+        return videoLinks;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
