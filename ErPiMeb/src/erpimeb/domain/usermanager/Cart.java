@@ -6,6 +6,7 @@
 package erpimeb.domain.usermanager;
 
 import erpimeb.domain.commoditymanager.Product;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,9 +16,33 @@ import java.util.List;
 public class Cart {
     
     private List<Product> products;
-    private int total;
+    private double total;
+    
+    public Cart(){
+        this.products = new ArrayList<>();
+    }
     
     public List<Product> getProducts(){
         return this.products;
+    }
+    
+    public void addProduct(Product product){
+        this.products.add(product);
+        this.total += product.getPrice();
+    }
+    
+    public void removeProduct(Product product){
+        while(this.products.contains(product)){
+            this.removeOneProduct(product);
+        }
+    }
+    
+    public void removeOneProduct(Product product){
+        this.total -= product.getPrice();
+        this.products.remove(product);
+    }
+    
+    public double getTotalPrice(){
+        return this.total;
     }
 }

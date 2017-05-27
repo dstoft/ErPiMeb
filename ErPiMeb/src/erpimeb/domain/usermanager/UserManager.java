@@ -32,6 +32,7 @@ public class UserManager implements UserManagerFacade{
     public UserManager() {
         this.dbManager = DatabaseManager.getInstance();
         this.cmf = CommodityManager.getInstance();
+        this.cart = new Cart();
     }
     
     public static UserManager getInstance(){
@@ -52,6 +53,11 @@ public class UserManager implements UserManagerFacade{
         }
     }
     
+    @Override
+    public void addProduct(Product product){
+        this.cart.addProduct(product);
+    }
+    
     public boolean saveCustomerChanges(String name, String email, String password, String phoneNumber, Address address) {
         currentUser.setUserInfo(name, email, password, phoneNumber, address);
         return this.dbManager.saveCustomer(currentUser);
@@ -59,11 +65,12 @@ public class UserManager implements UserManagerFacade{
 
     @Override
     public List<Product> getCartProducts() {
-        List<Product> localProducts = this.cart.getProducts();
-        for(Product prod : localProducts){
-            this.cmf.fillProduct(prod);
-        }
-        return localProducts;
+//        List<Product> localProducts = this.cart.getProducts();
+//        for(Product prod : localProducts){
+//            this.cmf.fillProduct(prod);
+//        }
+//        return localProducts;
+        return this.cart.getProducts();
     }
 
     @Override
@@ -106,5 +113,20 @@ public class UserManager implements UserManagerFacade{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void removeProduct(Product product) {
+        this.cart.removeProduct(product);
+    }
+
+    @Override
+    public void removeOneProduct(Product product) {
+        this.cart.removeOneProduct(product);
+    }
+
+    @Override
+    public double getTotalCartPrice() {
+        return this.cart.getTotalPrice();
     }
 }
