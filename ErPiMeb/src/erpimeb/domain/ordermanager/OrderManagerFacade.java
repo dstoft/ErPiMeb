@@ -15,6 +15,7 @@ public interface OrderManagerFacade {
     public abstract void setOrderAddress(String address, int zip, String country);
     public abstract void setOrderEmail(String email);
     public abstract void setOrderTOS(boolean status);
+    public abstract void setOrderPhone(String phoneNumber);
     public abstract boolean confirmOrder();
     public abstract void cancelOrder();
     public abstract Order showSpecificOrder(int orderId);

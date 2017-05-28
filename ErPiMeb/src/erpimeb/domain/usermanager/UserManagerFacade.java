@@ -20,5 +20,6 @@ public interface UserManagerFacade {
     public abstract boolean adminLogin(String username, String password);
     public abstract boolean userLogin(String username, String password);
     public abstract boolean createCustomer(String name, String password, String email, Address address, String phoneNumber);
+    public abstract void addProduct(Product product);
     
 }

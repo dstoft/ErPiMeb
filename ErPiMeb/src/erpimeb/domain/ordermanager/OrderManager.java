@@ -50,6 +50,11 @@ public class OrderManager implements OrderManagerFacade{
     public void setOrderName(String name) {
         this.currentOrder.setName(name);
     }
+    
+    @Override
+    public void setOrderPhone(String phoneNumber){
+        this.currentOrder.setPhoneNumber(phoneNumber);
+    }
 
     @Override
     public void setOrderAddress(String address, int zip, String country) {
@@ -101,8 +106,7 @@ public class OrderManager implements OrderManagerFacade{
     @Override
     public Order startCheckout() {
         this.currentOrder = new Order();
-        this.products = umf.getCartProducts();
-        this.currentOrder.addProducts(this.products);
+        this.currentOrder.addProducts(umf.getCartProducts());
         Customer customer = umf.getCurrentCustomer();
         if(customer != null){
             String name = customer.getName(), email = customer.getEmail(), phoneNumber = customer.getPhoneNumber();
@@ -110,8 +114,13 @@ public class OrderManager implements OrderManagerFacade{
             this.currentOrder.setEmail(email);
             this.currentOrder.setPhoneNumber(phoneNumber);
             Address address = customer.getAddress();
-            customer.setAddress(address);
+            this.currentOrder.setAddress(address);
             customer = null;
+        } else {
+            this.currentOrder.setName(null);
+            this.currentOrder.setEmail(null);
+            this.currentOrder.setPhoneNumber(null);
+            this.currentOrder.setAddress(null);
         }
         return this.currentOrder;
     }

@@ -32,6 +32,6 @@ public class MailManager implements MailManagerFacade{
 
     @Override
     public void emailReceipt(Order order) {
-        System.out.println(order.getEmail() + " bought products for total price of: " + order.getTotalPrice());
+        System.out.println(order.getEmail() + " bought products for total price of: " + order.getTotal());
     }
 }
