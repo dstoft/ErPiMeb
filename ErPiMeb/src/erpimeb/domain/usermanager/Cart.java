@@ -30,4 +30,19 @@ public class Cart {
         this.products.add(product);
         this.total += product.getPrice();
     }
+    
+    public void removeProduct(Product product){
+        while(this.products.contains(product)){
+            this.removeOneProduct(product);
+        }
+    }
+    
+    public void removeOneProduct(Product product){
+        this.total -= product.getPrice();
+        this.products.remove(product);
+    }
+    
+    public double getTotalPrice(){
+        return this.total;
+    }
 }

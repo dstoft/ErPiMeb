@@ -21,5 +21,8 @@ public interface UserManagerFacade {
     public abstract boolean userLogin(String username, String password);
     public abstract boolean createCustomer(String name, String password, String email, Address address, String phoneNumber);
     public abstract void addProduct(Product product);
+    public abstract void removeProduct(Product product);
+    public abstract void removeOneProduct(Product product);
+    public abstract double getTotalCartPrice();
     
 }

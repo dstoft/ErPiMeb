@@ -18,7 +18,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         SceneSwitcher.setStage(stage);
-        SceneSwitcher.changeScene("/resources/WebshopMain.fxml", "Webshop");
+        //SceneSwitcher.changeScene("/resources/WebshopMain.fxml", "Webshop"); //MAIN
+        SceneSwitcher.changeScene("/resources/WebshopCart.fxml", "Webshop"); // CART TEST
     }
 
     /**

@@ -65,11 +65,12 @@ public class UserManager implements UserManagerFacade{
 
     @Override
     public List<Product> getCartProducts() {
-        List<Product> localProducts = this.cart.getProducts();
-        for(Product prod : localProducts){
-            this.cmf.fillProduct(prod);
-        }
-        return localProducts;
+//        List<Product> localProducts = this.cart.getProducts();
+//        for(Product prod : localProducts){
+//            this.cmf.fillProduct(prod);
+//        }
+//        return localProducts;
+        return this.cart.getProducts();
     }
 
     @Override
@@ -112,5 +113,20 @@ public class UserManager implements UserManagerFacade{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void removeProduct(Product product) {
+        this.cart.removeProduct(product);
+    }
+
+    @Override
+    public void removeOneProduct(Product product) {
+        this.cart.removeOneProduct(product);
+    }
+
+    @Override
+    public double getTotalCartPrice() {
+        return this.cart.getTotalPrice();
     }
 }
