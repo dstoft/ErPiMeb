@@ -37,4 +37,5 @@ public interface CommodityManagerFacade {
     public abstract void setCurrentProduct(Product product);
     public abstract List<String> getCurrentProductImages();
     public abstract List<String> getCurrentProductVideos();
+    public abstract List<Product> getNewProducts();
 }

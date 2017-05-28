@@ -153,4 +153,9 @@ public class CommodityManager implements CommodityManagerFacade {
     public Category pickCategory(String categoryName) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public List<Product> getNewProducts() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
