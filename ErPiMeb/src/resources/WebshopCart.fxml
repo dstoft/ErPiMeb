@@ -11,7 +11,7 @@
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.webshop.CartController">
    <children>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Back to product" />
-      <ScrollPane fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" layoutX="64.0" layoutY="59.0" prefHeight="282.0" prefWidth="407.0" AnchorPane.bottomAnchor="59.0" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="129.0" AnchorPane.topAnchor="59.0">
+      <ScrollPane fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" layoutX="64.0" layoutY="67.0" prefHeight="302.0" prefWidth="407.0" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="129.0" AnchorPane.topAnchor="67.0">
          <content>
             <AnchorPane fx:id="productPane" focusTraversable="true" prefHeight="282.0" prefWidth="407.0">
                <children>
@@ -23,13 +23,17 @@
                </children>
             </AnchorPane>
          </content></ScrollPane>
-      <Button layoutX="492.0" layoutY="316.0" mnemonicParsing="false" onAction="#beginCheckout" text="Gå til kassen" />
-      <Label layoutX="492.0" layoutY="235.0" text="Total pris:" />
-      <Label fx:id="totalPrice" layoutX="520.0" layoutY="260.0" text="0">
+      <Button layoutX="492.0" layoutY="344.0" mnemonicParsing="false" onAction="#beginCheckout" text="Gå til kassen" />
+      <Label layoutX="492.0" layoutY="263.0" text="Total pris:" />
+      <Label fx:id="totalPrice" layoutX="520.0" layoutY="288.0" text="0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
       <Button layoutX="164.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToMain" text="Fortsæt med at handle" />
+      <Label layoutX="93.0" layoutY="50.0" text="Produkt" />
+      <Label layoutX="288.0" layoutY="50.0" text="Antal" />
+      <Label layoutX="356.0" layoutY="50.0" text="Pris" />
+      <Label layoutX="419.0" layoutY="50.0" text="Fjern" />
    </children>
 </AnchorPane>
