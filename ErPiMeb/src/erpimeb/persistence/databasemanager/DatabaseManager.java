@@ -8,6 +8,7 @@ package erpimeb.persistence.databasemanager;
 import erpimeb.domain.commoditymanager.Category;
 import erpimeb.domain.commoditymanager.Product;
 import erpimeb.domain.ordermanager.Order;
+import erpimeb.domain.ordermanager.ReturnCase;
 import erpimeb.domain.usermanager.Address;
 import erpimeb.domain.usermanager.Customer;
 import java.io.BufferedWriter;
@@ -446,6 +447,10 @@ public class DatabaseManager implements DatabaseManagerFacade{
         }
     }
     
+    public String getEmail(int orderId){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 //    private ResultSet getCategoryInfo(String categoryName) {
 //        String query = "SELECT Address, Zip, Country FROM ShipTo NATURAL JOIN Address WHERE CustomerID=?";
 //        try {
@@ -468,4 +473,23 @@ public class DatabaseManager implements DatabaseManagerFacade{
         }
         return foundProducts;
     }
+    
+    @Override
+    //Dummy data.
+    public Order fillOrder(int orderId){ 
+        ArrayList<Product> dummyData = new ArrayList<>();
+        Order filledOrder = new Order(1," name", "email", 
+        "phoneNumber",  1,  "status",  true, 
+        1, dummyData, 1, 
+        "paymentMethod",  "deliveryInformation" , true);
+        return filledOrder; 
+         
+    }
+    @Override
+    public void submitReturnForm(ReturnCase returnCase){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    
 }

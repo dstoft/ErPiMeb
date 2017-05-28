@@ -8,6 +8,7 @@ package erpimeb.persistence.databasemanager;
 import erpimeb.domain.commoditymanager.Category;
 import erpimeb.domain.commoditymanager.Product;
 import erpimeb.domain.ordermanager.Order;
+import erpimeb.domain.ordermanager.ReturnCase;
 import erpimeb.domain.usermanager.Customer;
 import java.util.List;
 
@@ -20,7 +21,6 @@ public interface DatabaseManagerFacade {
     public abstract Customer fillCustomer(int userId);
     public abstract void fillProduct(Product product);
     public abstract Category fillCategory(String categoryName);
-    
     public abstract boolean saveOrder(Order order);
     public abstract boolean saveCustomer(Customer customer);
     public abstract boolean saveProduct(Product product);
@@ -29,7 +29,7 @@ public interface DatabaseManagerFacade {
     public abstract List<Category> getCategories();
     public abstract List<Category> getSubcategories(String categoryName);
     public abstract List<Product> searchForProduct(String productName);
-    
-    
-    
+    public abstract void submitReturnForm(ReturnCase returnCase);
+    public abstract Order fillOrder(int orderId); 
+    public abstract String getEmail(int orderId);
 }

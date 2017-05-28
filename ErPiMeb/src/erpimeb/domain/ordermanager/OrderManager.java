@@ -5,6 +5,8 @@
  */
 package erpimeb.domain.ordermanager;
 
+import erpimeb.persistence.databasemanager.DatabaseManager;
+
 /**
  *
  * @author chris
@@ -12,6 +14,7 @@ package erpimeb.domain.ordermanager;
 public class OrderManager implements OrderManagerFacade{
     public static OrderManager manager;
     private Order currentOrder;
+    public  DatabaseManager databaseManager; 
     
     public static OrderManager getInstance(){
         if(manager == null){
@@ -53,5 +56,17 @@ public class OrderManager implements OrderManagerFacade{
     @Override
     public Order showSpecificOrder(int orderId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public ReturnCase showReturnForm(int orderId){
+        String email  = databaseManager.getEmail(orderId);
+        ReturnCase returnCase =  new ReturnCase(databaseManager.fillOrder(orderId));
+        return returnCase;
+    }
+    
+    //Saves the returnForm
+    public void submitReturnForm(ReturnCase returnCase){
+        databaseManager.submitReturnForm(returnCase);
     }
 }

@@ -5,6 +5,10 @@
  */
 package erpimeb.domain.ordermanager;
 
+import erpimeb.domain.commoditymanager.Product;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author AKT
@@ -15,5 +19,12 @@ public class ReturnCase {
     private String returnKind;
     private String status;
     private Order order;
+
+    public ReturnCase(Order order) {
+        this.order = order;
+    }
     
+    
+
+
 }

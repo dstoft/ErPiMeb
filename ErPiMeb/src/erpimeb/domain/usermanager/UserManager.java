@@ -16,7 +16,6 @@ import java.util.List;
  */
 public class UserManager implements UserManagerFacade{
     public static UserManager manager;
-    
     public DatabaseManagerFacade dbManager;
     
     private int currentUserId;
@@ -95,4 +94,6 @@ public class UserManager implements UserManagerFacade{
         }
         return false;
     }
+    
+
 }
