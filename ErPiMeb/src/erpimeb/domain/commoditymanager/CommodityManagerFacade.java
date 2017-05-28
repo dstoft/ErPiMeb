@@ -15,7 +15,6 @@ import java.util.List;
 public interface CommodityManagerFacade {
     
     public abstract void fillProduct(Product product);
-    public abstract void createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, double price, List<Product> relatedProducts);
     public abstract void createCategory(String name, List<Category> subcategories, List<String> tagList, List<Product> productList);
     public abstract List<Category> showCategories();
     public abstract Category pickCategory(String categoryName);
@@ -37,4 +36,10 @@ public interface CommodityManagerFacade {
     public abstract void setCurrentProduct(Product product);
     public abstract List<String> getCurrentProductImages();
     public abstract List<String> getCurrentProductVideos();
+    public abstract boolean createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, Category pickedCategory);
+    public abstract void pickProductToEditFromList(Product pickedProduct);
+    public abstract boolean saveChangesToProduct();
+    public abstract List<String> getAllSpecKeys();
+    public abstract List<Category> getAllCategories();
+    public abstract Product getPickedProduct();
 }

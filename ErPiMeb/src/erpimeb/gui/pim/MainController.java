@@ -45,7 +45,7 @@ public class MainController implements Initializable, Switchable {
 
     @FXML
     private void handleEditProduct(ActionEvent event) {
-        SceneSwitcher.changeScene("/resources/PimEditProduct.fxml", "PIM Backend - Ændre Produkt");
+        SceneSwitcher.changeScene("/resources/PimPreEditProduct.fxml", "PIM Backend - Ændre Produkt Search");
     }
 
     @FXML

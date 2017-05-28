@@ -55,8 +55,12 @@ public class CommodityManager implements CommodityManagerFacade {
     }
 
     @Override
-    public void createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, double price, List<Product> relatedProducts) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, Category pickedCategory) {
+        Product newProduct = new Product(name, images, videoLinks, description, specifications, pickedCategory);
+        
+        newProduct.setRelatedProducts(this.dbManager.getRelatedProducts(specifications));
+        
+        return dbManager.saveProduct(newProduct);
     }
     
     @Override
@@ -105,6 +109,7 @@ public class CommodityManager implements CommodityManagerFacade {
         return this.currentCategory;
     }
     
+    @Override
     public Category getCurrentCategory() {
         return currentCategory;
     }
@@ -152,5 +157,32 @@ public class CommodityManager implements CommodityManagerFacade {
     @Override
     public Category pickCategory(String categoryName) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void pickProductToEditFromList(Product pickedProduct) {
+        currentProduct = pickedProduct;
+    }
+    
+    @Override
+    public boolean saveChangesToProduct() {
+        this.currentProduct.setRelatedProducts(this.dbManager.getRelatedProducts(this.currentProduct.getSpecification()));
+        
+        return dbManager.saveProduct(currentProduct);
+    }
+
+    @Override
+    public List<String> getAllSpecKeys() {
+        return this.dbManager.getAllSpecKeys();
+    }
+    
+    @Override
+    public List<Category> getAllCategories() {
+        return this.dbManager.getAllCategories();
+    }
+    
+    @Override
+    public Product getPickedProduct() {
+        return this.currentProduct;
     }
 }

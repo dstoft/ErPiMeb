@@ -36,7 +36,7 @@ public class SceneSwitcher {
         try {
             root = loader.load();
         } catch (IOException ex) {
-            Logger.getLogger(SceneSwitcher.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Something went wrong with changing the scene!" + ex);
         }
         currentController = loader.getController();
         currentController.setupInternals();

@@ -27,6 +27,16 @@ public class Product {
     private HashMap<String, String> specification;
 //    private Cart cart; ved ikke om denne skal være der da den er i en anden pakke
     
+    public Product(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, Category pickedCategory) {
+        this.name = name;
+        this.images = images;
+        this.videoLinks = videoLinks;
+        this.description = description;
+        this.specification = specifications;
+        this.category = pickedCategory;
+        
+    }
+    
     public Product(int id) {
         this();
         this.id = id;
@@ -46,15 +56,51 @@ public class Product {
     public double getPrice(){
         return this.price;
     }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public void setName(String name) {
         this.name = name;
     }
-
+    
+    public String getDescription() {
+        return description;
+    }
+    
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    public List<String> getImages() {
+        return images;
+    }
 
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+    public List<String> getVideoLinks() {
+        return videoLinks;
+    }
+
+    public void setVideoLinks(List<String> videoLinks) {
+        this.videoLinks = videoLinks;
+    }
+
+    public List<Product> getRelatedProducts() {
+        return relatedProducts;
+    }
+
+    public void setRelatedProducts(List<Product> relatedProducts) {
+        this.relatedProducts = relatedProducts;
+    }
+    
     public void setPrice(double price) {
         this.price = price;
     }
@@ -77,26 +123,22 @@ public class Product {
     
     @Override
     public String toString() {
-        return getName();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public List<String> getImages() {
-        return images;
-    }
-
-    public List<String> getVideoLinks() {
-        return videoLinks;
+        return this.getName();
     }
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+    
+    public Category getCategory() {
+        return this.category;
+    }
+
+    public HashMap<String, String> getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(HashMap<String, String> specification) {
+        this.specification = specification;
     }
 }

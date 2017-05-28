@@ -77,4 +77,6 @@ public class MainController implements Initializable, Switchable {
     @Override
     public void setupInternals() {
     }
+
+
 }
