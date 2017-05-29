@@ -76,14 +76,13 @@ public class OrderManager implements OrderManagerFacade{
         if(this.currentOrder.isRequiredInformationFilled()){
             if(this.mmf.validateEmail(this.currentOrder.getEmail())){
                 if(this.currentOrder.isTosVerified()){
-                    if(this.pmf.iniatePayment()){
-                        this.mmf.emailReceipt(this.currentOrder);
-                        this.currentOrder.setStatus("Completed");
-                        if(this.dmf.saveOrder(this.currentOrder)){
-                            this.currentOrder.setAddress(null);
-                            this.currentOrder = null;
-                            return true;
-                        }
+                    this.currentOrder.setPaymentMethod(this.pmf.iniatePayment());
+                    this.mmf.emailReceipt(this.currentOrder);
+                    this.currentOrder.setStatus("Completed");
+                    if(this.dmf.saveOrder(this.currentOrder)){
+                        this.currentOrder.setAddress(null);
+                        this.currentOrder = null;
+                        return true;
                     }
                 }
             }

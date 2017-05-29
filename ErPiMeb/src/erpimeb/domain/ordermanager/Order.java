@@ -16,24 +16,22 @@ import java.util.List;
  */
 public class Order {
     
-    private int id;
     private String name;
     private String email;
     private String phoneNumber;
     private long timeStamp;
     private String status;
-    private boolean tempOrder;
-    private int orderNumber;
     private List<Product> products;
     private double total;
     private String paymentMethod;
-    private String deliveryInformation;
     private Address address;
     private boolean tos;
     
     public Order(){
         this.products = new ArrayList<>();
         this.setStatus("In Progress");
+        this.timeStamp = System.currentTimeMillis();
+        this.paymentMethod = "VISA";
     }
 
     public String getName() {
@@ -50,10 +48,6 @@ public class Order {
 
     public double getTotal() {
         return total;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
     }
 
     public Address getAddress() {
@@ -127,5 +121,13 @@ public class Order {
     
     protected boolean isTosVerified(){
         return this.tos;
+    }
+
+    void setPaymentMethod(String method) {
+        this.paymentMethod = method;
+    }
+    
+    public String getPaymentMethod(){
+        return this.paymentMethod;
     }
 }

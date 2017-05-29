@@ -1,5 +1,5 @@
 5432
 localhost
-erpimeb
+elektroshoppen
 postgres
-anderst
+admin

@@ -29,7 +29,7 @@
       </TitledPane>
       <Button layoutX="476.0" layoutY="346.0" mnemonicParsing="false" onAction="#confirmOrder" text="Bekræft Ordre" />
       <Button layoutX="498.0" layoutY="14.0" mnemonicParsing="false" onAction="#cancelOrder" text="Afbryd Ordre" />
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Back to cart" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Tilbage til forrige side" />
       <Label fx:id="totalPrice" layoutX="505.0" layoutY="226.0" text="0">
          <font>
             <Font name="System Bold" size="12.0" />
