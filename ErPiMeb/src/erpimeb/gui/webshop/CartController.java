@@ -44,6 +44,8 @@ public class CartController implements Initializable, Switchable {
     private AnchorPane productPane;
     @FXML
     private GridPane productsGrid;
+    @FXML
+    private Button goToCart;
     
     /**
      * Initializes the controller class.
@@ -173,6 +175,11 @@ public class CartController implements Initializable, Switchable {
     
     private void updateTotal(){
         this.totalPrice.setText(String.format("%-6.2f", this.umf.getTotalCartPrice()));
+        if(this.umf.getCartProducts().isEmpty()){
+            this.goToCart.setDisable(true);
+        } else {
+            this.goToCart.setDisable(false);
+        }
     }
 
     @FXML
