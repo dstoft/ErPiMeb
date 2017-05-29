@@ -66,10 +66,10 @@ public class CreateUserController implements Initializable, Switchable {
 		throw new NumberFormatException();
 	    }
 	} catch(NumberFormatException nfe){ 	
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Oprettelse af bruger kunne ikke gennemføres");
-		alert.setHeaderText("Der er en fejl i et af felterne, tjek dine informationer og prøv igen.");
-		alert.showAndWait();
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Oprettelse af bruger kunne ikke gennemføres");
+            alert.setHeaderText("Der er en fejl i et af felterne, tjek dine informationer og prøv igen.");
+            alert.showAndWait();
 	}
     }
 

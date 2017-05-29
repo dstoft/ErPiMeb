@@ -37,5 +37,6 @@ public interface DatabaseManagerFacade {
     public abstract List<Product> getRelatedProducts(Map<String, String> specifications);
     public abstract List<String> getAllSpecKeys();
     public abstract List<Category> getAllCategories();
+    public abstract List<Category> getNonMainCategories();
     
 }

@@ -43,14 +43,6 @@ public class MainController implements Initializable, Switchable {
     @FXML
     private void handleLogin(ActionEvent event) {
         SceneSwitcher.changeScene("/resources/WebshopLogin.fxml", "Bruger Login");
-        
-        // Fill category list view, unless no categories exist
-        if (cManager.showMainCategories() != null) {
-            List<Category> categories = cManager.showMainCategories();
-            for (Category c : categories) {
-                categoryListView.getItems().add(c);
-            }
-        }
     }
     
 

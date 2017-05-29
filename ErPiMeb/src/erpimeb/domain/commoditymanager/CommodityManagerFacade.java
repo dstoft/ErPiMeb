@@ -15,7 +15,7 @@ import java.util.List;
 public interface CommodityManagerFacade {
     
     public abstract void fillProduct(Product product);
-    public abstract void createCategory(String name, List<Category> subcategories, List<String> tagList, List<Product> productList);
+    public abstract boolean createCategory(String name, List<Category> subcategories, List<String> tagList, List<Product> productList);
     public abstract List<Category> showCategories();
     public abstract Category pickCategory(String categoryName);
     public abstract List<Product> searchForProduct(String productName);
@@ -42,4 +42,5 @@ public interface CommodityManagerFacade {
     public abstract List<String> getAllSpecKeys();
     public abstract List<Category> getAllCategories();
     public abstract Product getPickedProduct();
+    public abstract List<Category> getNonMainCategories();
 }

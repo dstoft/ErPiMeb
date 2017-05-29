@@ -13,12 +13,12 @@
       <Button fx:id="createCategoryButton" layoutX="216.0" layoutY="348.0" mnemonicParsing="false" onAction="#handleCreateCategory" text="Opret Kategori" />
       <ComboBox fx:id="subcategoriesDropdown" layoutX="23.0" layoutY="143.0" onAction="#handleDropdown" prefHeight="25.0" prefWidth="150.0" promptText="Subkategorier" />
       <Button fx:id="subcategoriesAddButton" layoutX="197.0" layoutY="143.0" mnemonicParsing="false" onAction="#handleAddButton" text="Tilføj" />
-      <Button fx:id="productsAddButton" layoutX="197.0" layoutY="298.0" mnemonicParsing="false" onAction="#handleAddButton" text="Tilføj" />
+      <Button fx:id="updateProductListBt" layoutX="480.0" layoutY="298.0" mnemonicParsing="false" onAction="#handleAddButton" text="Opdater liste" />
       <Button fx:id="tagsAddButton" layoutX="197.0" layoutY="224.0" mnemonicParsing="false" onAction="#handleAddButton" text="Tilføj" />
-      <ListView fx:id="subcategoryListview" layoutX="311.0" layoutY="126.0" prefHeight="59.0" prefWidth="175.0" />
-      <ListView fx:id="tagsListview" layoutX="311.0" layoutY="207.0" prefHeight="59.0" prefWidth="175.0" />
-      <ListView fx:id="productsListview" layoutX="311.0" layoutY="281.0" prefHeight="59.0" prefWidth="175.0" />
+      <ListView fx:id="subcategoryListview" layoutX="270.0" layoutY="126.0" prefHeight="59.0" prefWidth="200.0" />
+      <ListView fx:id="tagsListview" layoutX="270.0" layoutY="207.0" prefHeight="59.0" prefWidth="200.0" />
+      <ListView fx:id="productsListview" layoutX="270.0" layoutY="281.0" prefHeight="59.0" prefWidth="200.0" />
       <TextField fx:id="tagTextField" layoutX="24.0" layoutY="224.0" promptText="Tag" />
-      <TextField fx:id="productTextField" layoutX="24.0" layoutY="298.0" promptText="Produkt" />
+      <Button fx:id="productsAddButton" layoutX="33.0" layoutY="298.0" mnemonicParsing="false" onAction="#handleAddButton" text="Find product at tilføje" />
    </children>
 </AnchorPane>

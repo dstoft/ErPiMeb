@@ -19,6 +19,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import erpimeb.gui.Switchable;
 import erpimeb.gui.SceneSwitcher;
+import java.util.HashSet;
 
 /**
  * FXML Controller class
@@ -46,11 +47,12 @@ public class SortProductByCategoryController implements Initializable, Switchabl
         List<Category> subCategories = cManager.showSubCategories(cManager.getCurrentCategory());
         for (Category c : subCategories) {
             subCategoryListview.getItems().add(c);
+            this.cManager.setCategory(c);
+            this.foundProducts.getItems().addAll(this.cManager.showProducts());
         }
-        List<Product> categoryProducts = cManager.showProducts();
-        for (Product p : categoryProducts) {
-            foundProducts.getItems().add(p);
-        }
+        
+        this.cManager.setCategory(this.sortedBy);
+        this.foundProducts.getItems().addAll(this.cManager.showProducts());
     }
 
     @FXML

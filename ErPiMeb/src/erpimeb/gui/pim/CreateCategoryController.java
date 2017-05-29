@@ -17,6 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
@@ -43,8 +44,6 @@ public class CreateCategoryController implements Initializable, Switchable {
     @FXML
     private TextField tagTextField;
     @FXML
-    private TextField productTextField;
-    @FXML
     private Button subcategoriesAddButton;
     @FXML
     private Button productsAddButton;
@@ -57,14 +56,16 @@ public class CreateCategoryController implements Initializable, Switchable {
     @FXML
     private ListView<Product> productsListview;
 
-    private CommodityManagerFacade cmf = CommodityManager.getInstance();
+    private CommodityManagerFacade cmf;
+    @FXML
+    private Button updateProductListBt;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cmf.showCategories();
+        
     }
 
     @FXML
@@ -74,20 +75,50 @@ public class CreateCategoryController implements Initializable, Switchable {
 
     @FXML
     private void handleCreateCategory(ActionEvent event) {
-        cmf.createCategory(nameTextField.getText(), subcategoryListview.getItems().sorted(),tagsListview.getItems(), productsListview.getItems());
+        if(cmf.createCategory(nameTextField.getText(), subcategoryListview.getItems().sorted(),tagsListview.getItems(), productsListview.getItems())) {
+            SceneSwitcher.cycleBackward();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Oprettelsen af kategorien fejlede");
+            alert.setHeaderText("Den nye kategori kunne ikke gemmes, tjek venligst kategoriens informationer.");
+            alert.showAndWait();
+        }
+        
     }
 
     @FXML
     private void handleAddButton(ActionEvent event) {
-        if (subcategoriesAddButton.isPressed()) {
-            subcategoryListview.getItems().add(subcategoriesDropdown.getSelectionModel().getSelectedItem());
+        if (event.getSource() == this.subcategoriesAddButton) {
+            Category selectedCategory = this.subcategoriesDropdown.getSelectionModel().getSelectedItem();
+            if(!this.subcategoryListview.getItems().contains(selectedCategory)) {
+                subcategoryListview.getItems().add(selectedCategory);
+                this.subcategoriesDropdown.getSelectionModel().clearSelection();
+                this.subcategoriesDropdown.getItems().remove(selectedCategory);
+            }
         }
-        if (tagsAddButton.isPressed()) {
+        if (event.getSource() == this.tagsAddButton) {
             tagsListview.getItems().add(tagTextField.getText());
+            this.tagTextField.clear();
         }
-        if (productsAddButton.isPressed()) {
-            //search method is not implemented correct yet
-	    //productsListview.getItems().add(cmf.searchForProduct(productTextField.getText()));
+        if(event.getSource() == this.productsAddButton) {
+            SceneSwitcher.changeScene("/resources/PimSearchForProduct.fxml", "Search for product to add");
+            
+            Product selectedProduct = this.cmf.getCurrentProduct();
+            if(selectedProduct == null) {
+                return;
+            }
+            if(!this.productsListview.getItems().contains(selectedProduct)) {
+                this.productsListview.getItems().add(selectedProduct);
+            }
+        }
+        if(event.getSource() == this.updateProductListBt) {
+            Product selectedProduct = this.cmf.getCurrentProduct();
+            if(selectedProduct == null) {
+                return;
+            }
+            if(!this.productsListview.getItems().contains(selectedProduct)) {
+                this.productsListview.getItems().add(selectedProduct);
+            }
         }
     }
 
@@ -98,5 +129,7 @@ public class CreateCategoryController implements Initializable, Switchable {
 
     @Override
     public void setupInternals() {
+        this.cmf = CommodityManager.getInstance();
+        this.subcategoriesDropdown.getItems().addAll(this.cmf.getNonMainCategories());
     }
 }

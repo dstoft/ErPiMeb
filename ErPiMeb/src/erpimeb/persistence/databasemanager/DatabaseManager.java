@@ -59,44 +59,6 @@ public class DatabaseManager implements DatabaseManagerFacade {
         return manager;
     }
     
-    public Customer createCustomer(int id) {
-        return new Customer();
-
-        /*
-        ResultSet rs;
-        
-        rs = manager.getCustomerInfo(id);
-        
-        Customer currentCustomer = new Customer();
-        
-        try {
-            while (rs.next()) {
-                currentCustomer.setEmail(rs.getString("email"));
-                currentCustomer.setName(rs.getString("name"));
-                currentCustomer.setPhoneNumber(rs.getString("phone"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        rs = manager.getAddressInfo(id);
-        
-        Address newAddress = null;
-        
-        try {
-            while (rs.next()) {
-                newAddress = new Address(rs.getString("address"), rs.getInt("zip"), rs.getString("country"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        currentCustomer.addAddress(newAddress);
-        
-        return currentCustomer;
-         */
-    }
-    
     @Override
     public boolean saveCustomer(Customer currentUser) {
 
@@ -254,6 +216,11 @@ public class DatabaseManager implements DatabaseManagerFacade {
         return returnCustomer;
     }
 
+    private void fillProduct(Product product, Category category) {
+        product.setCategory(category);
+        this.fillProduct(product);
+    }
+    
     @Override
     public void fillProduct(Product product) {
         int id = product.getId();
@@ -267,7 +234,9 @@ public class DatabaseManager implements DatabaseManagerFacade {
             product.setName(rs.getString("Name"));
             product.setDescription(rs.getString("Description"));
             product.setPrice(rs.getDouble("Price"));
-            product.setCategory(this.fillCategory(rs.getString("ProductCategory_Name")));
+            if(product.getCategory() == null) {
+                product.setCategory(this.fillCategory(rs.getString("ProductCategory_Name")));
+            }
         } catch (SQLException ex) {
             System.out.println("Database error regarding fetching product data from a resultset!" + ex);
             return;
@@ -352,20 +321,21 @@ public class DatabaseManager implements DatabaseManagerFacade {
         // Products
         try {
             ArrayList<Product> tempProducts = new ArrayList<>();
-            String query = "SELECT productid FROM product NATURAL JOIN subcategory WHERE productcategory_name = subcategory.categoryname_2 AND categoryname_1 = '" + categoryName + "';";
+            //String query = "SELECT productid FROM product NATURAL JOIN subcategory WHERE productcategory_name = subcategory.categoryname_2 AND categoryname_1 = '" + categoryName + "';";
+            String query = "SELECT ProductID FROM Product WHERE ProductCategory_Name = ?;";
             PreparedStatement prepSt = this.conn.prepareStatement(query);
-            //prepSt.setString(1, categoryName);
+            prepSt.setString(1, categoryName);
             rs = prepSt.executeQuery();
             while (rs.next()) {
                 tempProducts.add(new Product(rs.getInt("productid")));
             }
 
             for (Product product : tempProducts) {
-                this.fillProduct(product);
+                this.fillProduct(product, returnCategory);
                 returnCategory.addProduct(product);
             }
         } catch (SQLException e) {
-            System.out.println("Database error regarding fetching category's products from a resultset!");
+            System.out.println("Database error regarding fetching category's products from a resultset!" + e);
             return null;
         }
 
@@ -577,19 +547,79 @@ public class DatabaseManager implements DatabaseManagerFacade {
     // implementeres når testdata er færdig
     @Override
     public boolean saveCategory(Category category) {
-//	
-//	try {
-//            String SQL = "INSERT INTO category(Ca) "
-//                    + "VALUES (" + category.getName() + ":";
-//	    String SQL1 = "INSERT INTO holds(name) "
-//	    + "VALUES ("+ category.getName() + category.getProductList()));
-//            ResultSet rs = conn.createStatement().executeQuery(SQL);
-//            return true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-        return true;
+        boolean whatToReturn = false;
+        
+        try {
+            String query = "SELECT CategoryName FROM ProductCategory WHERE CategoryName=?;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setString(1, category.getName());
+            ResultSet rs = prepSt.executeQuery();
+            if(rs.next()) {
+                System.out.println("The category already exists!");
+                return false;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Database error regarding figuring out whether a category already exists!");
+        }
+        
+        try {
+            this.conn.createStatement().execute("Begin;");
+        } catch (SQLException ex) {
+            System.out.println("Database error regarding beginning a transaction!");
+        }
+
+        try {
+            String query = "INSERT INTO ProductCategory(CategoryName) VALUES (?);";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+
+            prepSt.setString(1, category.getName());
+            
+            prepSt.executeUpdate();
+            
+            ResultSet rs;
+            for(String tagStr : category.getTagList()) {
+                query = "INSERT INTO Tag(TagName) VALUES (?) RETURNING TagID;";
+                prepSt = this.conn.prepareStatement(query);
+                prepSt.setString(1, tagStr);
+                rs = prepSt.executeQuery();
+                rs.next();
+                int tagID = rs.getInt("TagID");
+                
+                query = "INSERT INTO Includes VALUES (?, ?);";
+                prepSt = this.conn.prepareStatement(query);
+                prepSt.setInt(1, tagID);
+                prepSt.setString(2, category.getName());
+                prepSt.executeUpdate();
+            }
+            
+            for(Product product : category.getProductList()) {
+                query = "UPDATE Product SET ProductCategory_Name = ? WHERE ProductID = ?;";
+                prepSt = this.conn.prepareStatement(query);
+                prepSt.setString(1, category.getName());
+                prepSt.setInt(2, product.getId());
+                prepSt.executeUpdate();
+            }
+            
+            for(Category subcategory : category.getSubcategories()) {
+                query = "INSERT INTO Subcategory VALUES (?, ?);";
+                prepSt = this.conn.prepareStatement(query);
+                prepSt.setString(1, category.getName());
+                prepSt.setString(2, subcategory.getName());
+                prepSt.executeUpdate();
+            }
+            
+            whatToReturn = true;
+        } catch (SQLException e) {
+            System.out.println("Database error regarding inserting a product!" + e);
+            whatToReturn = false;
+        }
+
+        try {
+            this.conn.createStatement().execute("Commit;");
+        } catch (SQLException ex) {
+            System.out.println("Database error regarding committing a transaction!");
+        }
+        return whatToReturn;
     }
 
     @Override
@@ -846,6 +876,27 @@ public class DatabaseManager implements DatabaseManagerFacade {
     @Override
     public List<Category> getAllCategories() {
         String query = "SELECT CategoryName FROM ProductCategory;";
+        Statement st;
+        try {
+            st = this.conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            
+            ArrayList<Category> returnCategories = new ArrayList<>();
+            while(rs.next()) {
+                Category newCategory = new Category();
+                newCategory.setName(rs.getString("CategoryName"));
+                returnCategories.add(newCategory);
+            }
+            return returnCategories;
+        } catch (SQLException ex) {
+            System.out.println("Database error regarding fetching all of the categories.");
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public List<Category> getNonMainCategories() {
+        String query = "SELECT CategoryName FROM ProductCategory WHERE NOT CategoryName IN (SELECT CategoryName_1 FROM Subcategory);";
         Statement st;
         try {
             st = this.conn.createStatement();

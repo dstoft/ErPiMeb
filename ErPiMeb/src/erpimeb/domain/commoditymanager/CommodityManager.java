@@ -64,9 +64,9 @@ public class CommodityManager implements CommodityManagerFacade {
     }
     
     @Override
-    public void createCategory(String name, List<Category> subcategories, List<String> tagList, List<Product> products){
+    public boolean createCategory(String name, List<Category> subcategories, List<String> tagList, List<Product> products){
 	Category newCategory = new Category(name, subcategories, tagList, products);
-	
+	return this.dbManager.saveCategory(newCategory);
     }
 
     @Override
@@ -184,5 +184,10 @@ public class CommodityManager implements CommodityManagerFacade {
     @Override
     public Product getPickedProduct() {
         return this.currentProduct;
+    }
+
+    @Override
+    public List<Category> getNonMainCategories() {
+        return this.dbManager.getNonMainCategories();
     }
 }
