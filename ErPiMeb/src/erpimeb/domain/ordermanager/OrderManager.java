@@ -115,4 +115,14 @@ public class OrderManager implements OrderManagerFacade{
         }
         return this.currentOrder;
     }
+
+    @Override
+    public void setCurrentOrder(Order order) {
+        this.currentOrder = order;
+    }
+
+    @Override
+    public Order getCurrentOrder() {
+        return this.currentOrder;
+    }
 }

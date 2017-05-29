@@ -29,6 +29,14 @@ public class Order {
     private String deliveryInformation;
     private Address address;
     private boolean tos;
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public int getOrderNumber() {
+        return orderNumber;
+    }
     
     public Order(){
         this.status = "In Progress";
@@ -105,5 +113,9 @@ public class Order {
     
     protected boolean isTosVerified(){
         return this.tos;
+    }
+
+    public String getStatus() {
+        return this.status;
     }
 }

@@ -8,6 +8,7 @@ package erpimeb.domain.usermanager;
 import erpimeb.domain.commoditymanager.CommodityManager;
 import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
+import erpimeb.domain.ordermanager.Order;
 import erpimeb.persistence.databasemanager.DatabaseManager;
 import erpimeb.persistence.databasemanager.DatabaseManagerFacade;
 import java.util.List;
@@ -106,5 +107,10 @@ public class UserManager implements UserManagerFacade{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Order> getOrderHistory() {
+        return this.currentUser.getOrders();
     }
 }

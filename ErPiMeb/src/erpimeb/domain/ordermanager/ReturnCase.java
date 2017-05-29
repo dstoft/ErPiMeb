@@ -11,9 +11,12 @@ package erpimeb.domain.ordermanager;
  */
 public class ReturnCase {
     
-    private int returnId;
-    private String returnKind;
     private String status;
     private Order order;
+    
+    public ReturnCase(Order order){
+        this.order = order;
+    }
+    
     
 }

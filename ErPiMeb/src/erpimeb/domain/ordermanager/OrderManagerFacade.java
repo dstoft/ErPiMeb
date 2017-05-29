@@ -19,5 +19,7 @@ public interface OrderManagerFacade {
     public abstract void cancelOrder();
     public abstract Order showSpecificOrder(int orderId);
     public abstract Order startCheckout();
+    public abstract void setCurrentOrder(Order order);
+    public abstract Order getCurrentOrder();
     
 }

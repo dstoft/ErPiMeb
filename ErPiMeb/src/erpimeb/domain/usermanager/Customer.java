@@ -108,5 +108,9 @@ public class Customer {
     public String getPassword() {
         return password;
     }
+
+    public List<Order> getOrders() {
+        return this.orders;
+    }
     
 }
