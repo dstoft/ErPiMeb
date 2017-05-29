@@ -31,7 +31,7 @@ public class Order {
     private boolean tos;
     
     public Order(){
-        this.setStatus("In Progress");
+        this.status = "In Progress";
     }
     
     protected void setStatus(String status){

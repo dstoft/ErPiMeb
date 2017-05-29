@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="411.0" prefWidth="589.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.webshop.MainController">
+<AnchorPane id="AnchorPane" prefHeight="411.0" prefWidth="589.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.webshop.MainController">
     <children>
         <Button layoutX="530.0" layoutY="372.0" onAction="#handleLogin" text="Login" />
       <Button layoutX="534.0" layoutY="22.0" mnemonicParsing="false" onAction="#handleSearchForProduct" text="Søg" />
@@ -23,6 +23,5 @@
             <Font name="System Bold" size="28.0" />
          </font>
       </Label>
-      <Button layoutX="381.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleEditProfile" text="Rediger profil" />
     </children>
 </AnchorPane>

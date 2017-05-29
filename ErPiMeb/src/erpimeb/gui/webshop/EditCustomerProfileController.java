@@ -5,6 +5,7 @@
  */
 package erpimeb.gui.webshop;
 
+import erpimeb.domain.usermanager.Address;
 import erpimeb.domain.usermanager.Customer;
 import erpimeb.domain.usermanager.UserManager;
 import erpimeb.domain.usermanager.UserManagerFacade;
@@ -25,8 +26,9 @@ import javafx.scene.control.TextField;
  * @author AKT
  */
 public class EditCustomerProfileController implements Initializable, Switchable {
+
     private UserManagerFacade userManager;
-    
+
     @FXML
     private TextField emailField;
     @FXML
@@ -62,8 +64,8 @@ public class EditCustomerProfileController implements Initializable, Switchable 
             addressField.setText(currentCustomer.getAddress().getAddress());
             zipField.setText(Integer.toString(currentCustomer.getAddress().getZip()));
             countryField.setText(currentCustomer.getAddress().getCountry());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            statusLabel.setText("Der skete en fejl, ved hentning af postnummeret");
         }
 
     }
@@ -76,23 +78,22 @@ public class EditCustomerProfileController implements Initializable, Switchable 
     @FXML
     private void handleSaveChanges(ActionEvent event) {
         try {
-            if (passwordField.getText().equals(rePasswordField.getText()) && checkFieldsFiilled() == true) {
-                statusLabel.setText("");
-//                Address newAddress = new Address(addressField.getText(), Integer.parseInt(zipField.getText()), countryField.getText());
+            if (passwordField.getText().equals(rePasswordField.getText()) && checkFieldsFilled()) {
+                statusLabel.setText("Din profil er blevet opdateret.");
+                Address newAddress = new Address(addressField.getText(), Integer.parseInt(zipField.getText()), countryField.getText());
 
-                this.userManager.saveCustomerChanges(firstNameField.getText() + " " + lastNameField.getText(),
-                        emailField.getText(), phoneField.getText(), addressField.getText(), Integer.parseInt(zipField.getText()), countryField.getText());
-            } else if (checkFieldsFiilled() == false) {
-                statusLabel.setText("Required fields have not been filled. Try again.");
+                this.userManager.saveCustomerChanges(firstNameField.getText() + " " + lastNameField.getText(),emailField.getText(), phoneField.getText(), addressField.getText(), Integer.parseInt(zipField.getText()), countryField.getText());
+            } else if (!checkFieldsFilled()) {
+                statusLabel.setText("De nødvendige felter må ikke være tomme. Prøv igen.");
             } else {
-                statusLabel.setText("Passwords must match.");
+                statusLabel.setText("De indtastede kodeord stemmer ikke overens.");
             }
-        } catch (Exception e) {
-            statusLabel.setText("Unexpected error. Try again.");
+        } catch (NumberFormatException e) {
+            statusLabel.setText("Dit postnummer må kun bestå af tal. Prøv igen.");
         }
     }
 
-    public boolean checkFieldsFiilled() {
+    private boolean checkFieldsFilled() {
         // If fields are unaltered, change nothing.
         if (emailField.getText().isEmpty() || firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty()) {
             return false;
@@ -103,7 +104,7 @@ public class EditCustomerProfileController implements Initializable, Switchable 
 
     @Override
     public void setupInternals() {
-        
+
     }
 
 }
