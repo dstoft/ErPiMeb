@@ -31,7 +31,6 @@ public class Order {
         this.products = new ArrayList<>();
         this.setStatus("In Progress");
         this.timeStamp = System.currentTimeMillis();
-        this.paymentMethod = "VISA";
     }
 
     public String getName() {
