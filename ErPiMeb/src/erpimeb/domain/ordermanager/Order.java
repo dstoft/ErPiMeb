@@ -7,6 +7,7 @@ package erpimeb.domain.ordermanager;
 
 import erpimeb.domain.commoditymanager.Product;
 import erpimeb.domain.usermanager.Address;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +37,29 @@ public class Order {
     }
     
     public Order(){
-        this.status = "In Progress";
+        this.products = new ArrayList<>();
+        this.setStatus("In Progress");
+        this.timeStamp = System.currentTimeMillis();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public Address getAddress() {
+        return address;
     }
     
     protected void setStatus(String status){
@@ -52,10 +75,6 @@ public class Order {
         for(Product prod : this.products){
             this.total += prod.getPrice();
         }
-    }
-    
-    public double getTotalPrice(){
-        return this.total;
     }
     
     protected void setName(String name){
@@ -112,18 +131,6 @@ public class Order {
         return this.tos;
     }
 
-    public String getStatus() {
-        return this.status;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
     public List<Product> getProducts() {
         return products;
     }
@@ -134,5 +141,9 @@ public class Order {
 
     public boolean isTos() {
         return tos;
+    }
+    
+    void setPaymentMethod(String method) {
+        this.paymentMethod = method;
     }
 }

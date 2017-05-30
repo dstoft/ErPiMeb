@@ -1,5 +1,5 @@
 5432
 localhost
-ErPiMeb
+elektroshoppen
 postgres
 admin

@@ -32,6 +32,7 @@ public class UserManager implements UserManagerFacade{
     public UserManager() {
         this.dbManager = DatabaseManager.getInstance();
         this.cmf = CommodityManager.getInstance();
+        this.cart = new Cart();
     }
     
     public static UserManager getInstance(){
@@ -50,6 +51,11 @@ public class UserManager implements UserManagerFacade{
         } else {
             return null;
         }
+    }
+    
+    @Override
+    public void addProduct(Product product){
+        this.cart.addProduct(product);
     }
     
     public boolean saveCustomerChanges(String name, String email, String password, String phoneNumber, Address address) {
@@ -120,5 +126,20 @@ public class UserManager implements UserManagerFacade{
     
     public int getCurrentUserId() {
         return currentUserId;
+    }
+    
+    @Override
+    public void removeProduct(Product product) {
+        this.cart.removeProduct(product);
+    }
+
+    @Override
+    public void removeOneProduct(Product product) {
+        this.cart.removeOneProduct(product);
+    }
+
+    @Override
+    public double getTotalCartPrice() {
+        return this.cart.getTotalPrice();
     }
 }

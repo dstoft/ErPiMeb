@@ -5,12 +5,16 @@
  */
 package external.domain.paymentmanager;
 
+import erpimeb.domain.ordermanager.OrderManager;
+import erpimeb.domain.ordermanager.OrderManagerFacade;
+
 /**
  * Out of scope
  * @author chris
  */
 public class PaymentManager implements PaymentManagerFacade{
     public static PaymentManager manager;
+    private OrderManagerFacade omf;
     
     public static PaymentManager getInstance(){
         if(manager == null){
@@ -18,9 +22,13 @@ public class PaymentManager implements PaymentManagerFacade{
         }
         return manager;
     }
+    
+    private PaymentManager(){
+        this.omf = OrderManager.getInstance();
+    }
 
     @Override
-    public boolean iniatePayment() {
-        return true;
+    public String iniatePayment() {
+        return "VISA";
     }
 }
