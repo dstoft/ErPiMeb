@@ -134,28 +134,17 @@ public class OrderManager implements OrderManagerFacade{
         return this.currentOrder;
     }
     
-    @Override
-    public ReturnCase showReturnForm(int orderId){
-        // checks if the currentUser is a customer, since email is unique
-        if (this.umf.getCurrentCustomer().getEmail() != null) {
-            ReturnCase returnCase = new ReturnCase(dmf.fillOrder(orderId)); 
-        }
-            
-        //If the currentUser is not a customer. 
-        ReturnCase returnCase =  new ReturnCase(dmf.fillOrder(orderId));
-        return returnCase;
-    }
-    
     //Saves the returnForm. 
     @Override
-    public void submitReturnForm(ReturnCase returnCase){
-        dmf.submitReturnForm(returnCase);
+    public void createAndSaveReturnCase(){
+        ReturnCase returnCase = new ReturnCase(this.currentOrder);
+        dmf.saveReturnCase(returnCase);
     }
     
     @Override
     public boolean iswarrantyExpired(ReturnCase returnCase){
-        //Seconds in a year
-        long sec2Year = 31921072;
+        //Milliseconds on 2 years
+        long sec2Year = 63072000000L;
         // checks if the warrenty is expired.
         if ((System.currentTimeMillis() - sec2Year) >= returnCase.getOrder().getTimeStamp()){
             return false;

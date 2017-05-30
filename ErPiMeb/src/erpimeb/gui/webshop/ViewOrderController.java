@@ -71,6 +71,7 @@ public class ViewOrderController implements Initializable, Switchable {
 
     @FXML
     private void handleCreateReturnCase(ActionEvent event) {
+        this.omf.createAndSaveReturnCase();
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Success");
         alert.setHeaderText("A return case based on this order has been created and stored.");

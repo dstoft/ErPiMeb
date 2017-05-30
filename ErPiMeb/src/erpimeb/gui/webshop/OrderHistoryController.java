@@ -62,7 +62,7 @@ public class OrderHistoryController implements Initializable, Switchable {
             innerOrderPane.setLayoutX(15);
             innerOrderPane.setLayoutY(10);
             
-            Label innerProductLabelId = new Label(String.valueOf(order.getOrderNumber()));
+            Label innerProductLabelId = new Label(String.valueOf(order.getOrderID()));
             innerProductLabelId.setLayoutX(65);
             innerProductLabelId.setLayoutY(20);
             
@@ -86,7 +86,7 @@ public class OrderHistoryController implements Initializable, Switchable {
                 @Override
                 public void handle(Event event) {
                     omf.setCurrentOrder(order);
-                    SceneSwitcher.changeScene("/resources/WebshopViewOrder.fxml", "Ordre: " + String.valueOf(order.getOrderNumber()));
+                    SceneSwitcher.changeScene("/resources/WebshopViewOrder.fxml", "Ordre: " + String.valueOf(order.getOrderID()));
                 }
             });
             

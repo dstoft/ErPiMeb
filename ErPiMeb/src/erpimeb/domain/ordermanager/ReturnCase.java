@@ -20,6 +20,7 @@ public class ReturnCase {
 
     public ReturnCase(Order order) {
         this.order = order;
+        this.status = "Incomplete";
     }
 
     public String getStatus() {

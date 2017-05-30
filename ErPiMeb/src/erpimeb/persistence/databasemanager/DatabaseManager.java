@@ -719,21 +719,6 @@ public class DatabaseManager implements DatabaseManagerFacade {
             return null;
         }
     }
-    public String getEmail(int orderId){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-//    private ResultSet getCategoryInfo(String categoryName) {
-//        String query = "SELECT Address, Zip, Country FROM ShipTo NATURAL JOIN Address WHERE CustomerID=?";
-//        try {
-//            PreparedStatement prepSt = this.conn.prepareStatement(query);
-//            prepSt.setInt(1, userId);
-//            return prepSt.executeQuery();
-//        } catch(SQLException e) {
-//            System.out.println("Something went wrong with fetching product info from the database!");
-//            return null;
-//        }
-//    }
     
     @Override
     public List<Long> getOrderTimestamps(String status, long since) {
@@ -932,14 +917,14 @@ public class DatabaseManager implements DatabaseManagerFacade {
 
     @Override
     public boolean isErpSnAssigned(int erpSn) {
-        String query = "SELECT ERP_SN FROM Product WHERE ERP_SN=?";
+        String query = "SELECT ERP_SN FROM Product WHERE ERP_SN=?;";
         try {
             PreparedStatement prepSt = this.conn.prepareStatement(query);
             prepSt.setInt(1, erpSn);
             ResultSet rs = prepSt.executeQuery();
             return rs.next();
         } catch(SQLException e) {
-            System.out.println("Something went wrong with fetching product info from the database!" + e);
+            System.out.println("Something went wrong with finding out whether a ERP SN is assigned!");
             return false;
         }
     }
@@ -947,18 +932,69 @@ public class DatabaseManager implements DatabaseManagerFacade {
     @Override
     //Dummy data.
     public Order fillOrder(int orderId){ 
-//        ArrayList<Product> dummyData = new ArrayList<>();
-//        Order filledOrder = new Order(1," name", "email", 
-//        "phoneNumber",  1,  "status",  true, 
-//        1, dummyData, 1, 
-//        "paymentMethod",  "deliveryInformation" , true);
-//        return filledOrder; 
-//
-// return null, is only so i dont get error before merge. 
-        return null; 
+        Order returnOrder = new Order();
+        returnOrder.setOrderId(orderId);
+        
+        String query = "SELECT Total, TimeStamp, Status, PaymentMethod FROM Order WHERE OrderID=?;";
+        try {
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, returnOrder.getOrderID());
+            ResultSet rs = prepSt.executeQuery();
+            rs.next();
+            returnOrder.setTotal(rs.getDouble("Total"));
+            returnOrder.setTimeStamp(rs.getLong("TimeStamp"));
+            returnOrder.setStatus(rs.getString("Status"));
+            returnOrder.setPaymentMethod(rs.getString("PaymentMethod"));
+        } catch(SQLException e) {
+            System.out.println("Database error regarding fetching order information!");
+            return null;
+        }
+        
+        // Customer information
+        query = "SELECT Phone, Name, Email FROM Creates NATURAL JOIN Customer WHERE OrderID=?;";
+        try {
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, returnOrder.getOrderID());
+            ResultSet rs = prepSt.executeQuery();
+            rs.next();
+            returnOrder.setPhoneNumber(rs.getString("Phone"));
+            returnOrder.setName(rs.getString("Name"));
+            returnOrder.setEmail(rs.getString("Email"));
+        } catch(SQLException e) {
+            System.out.println("Database error regarding fetching order information!");
+            return null;
+        }
+        
+        // Address information
+        query = "SELECT Address, Zip, Country FROM Address NATURAL JOIN Customer WHERE OrderID=?;";
+        try {
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, returnOrder.getOrderID());
+            ResultSet rs = prepSt.executeQuery();
+            rs.next();
+            returnOrder.setPhoneNumber(rs.getString("Phone"));
+            returnOrder.setName(rs.getString("Name"));
+            returnOrder.setEmail(rs.getString("Email"));
+        } catch(SQLException e) {
+            System.out.println("Database error regarding fetching order information!");
+            return null;
+        }
+        
+        return returnOrder; 
     }
+    
     @Override
-    public void submitReturnForm(ReturnCase returnCase){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean saveReturnCase(ReturnCase returnCase){
+        String query = "INSERT INTO ReturnCase(OrderID, Status) VALUES (?, ?);";
+        try {
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, returnCase.getOrder().getOrderID());
+            prepSt.setString(2, returnCase.getStatus());
+            prepSt.executeUpdate();
+            return true;
+        } catch(SQLException e) {
+            System.out.println("Something went wrong with insertion a returncase in the database!");
+            return false;
+        }
     }
 }

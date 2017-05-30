@@ -162,7 +162,7 @@ public class ViewProductController implements Initializable, Switchable {
 
     @FXML
     private void addToCart(ActionEvent event) {
-        this.umf.addProduct(this.currentProduct);
+        this.umf.addProductToCart(this.currentProduct);
         SceneSwitcher.changeScene("/resources/WebshopCart.fxml", "Kurv");
     }
 

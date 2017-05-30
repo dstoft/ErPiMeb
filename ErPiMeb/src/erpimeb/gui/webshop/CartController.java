@@ -63,31 +63,31 @@ public class CartController implements Initializable, Switchable {
 //        testProduct.addImage("/images/test.jpg");
 //        testProduct.setName("Test Produkt");
 //        testProduct.setPrice(500.50);
-//        this.umf.addProduct(testProduct);
+//        this.umf.addProductToCart(testProduct);
 //        
 //        Product testProduct2 = new Product(2);
 //        testProduct2.addImage("/images/test2.jpg");
 //        testProduct2.setName("Test Produkt2056");
 //        testProduct2.setPrice(1000.10);
-//        this.umf.addProduct(testProduct2);
+//        this.umf.addProductToCart(testProduct2);
 //        
 //        Product testProduct3 = new Product(3);
 //        testProduct3.addImage("/images/test3.png");
 //        testProduct3.setName("Test Produkt2056");
 //        testProduct3.setPrice(1000.10);
-//        this.umf.addProduct(testProduct3);
+//        this.umf.addProductToCart(testProduct3);
 //        
 //        Product testProduct4 = new Product(4);
 //        testProduct4.addImage("/images/test4.jpg");
 //        testProduct4.setName("Test Produkt2056");
 //        testProduct4.setPrice(1000.10);
-//        this.umf.addProduct(testProduct4);
+//        this.umf.addProductToCart(testProduct4);
 //        
 //        Product testProduct5 = new Product(5);
 //        testProduct5.addImage("/images/test5.png");
 //        testProduct5.setName("Test Produkt2056");
 //        testProduct5.setPrice(1000.10);
-//        this.umf.addProduct(testProduct5);
+//        this.umf.addProductToCart(testProduct5);
         
         int i = 0;
         for(Product product : this.umf.getCartProducts()){
@@ -118,7 +118,7 @@ public class CartController implements Initializable, Switchable {
                         return;
                     }
                     if(current != 1 || current >= 0){
-                        umf.removeOneProduct(product);
+                        umf.removeOneProductFromCart(product);
                     }
                     this.setValue(current - steps);
                 }
@@ -130,7 +130,7 @@ public class CartController implements Initializable, Switchable {
                         return;
                     }
                     if(current != 100){
-                        umf.addProduct(product);
+                        umf.addProductToCart(product);
                     }
                     this.setValue(current + steps);
                 }
@@ -155,7 +155,7 @@ public class CartController implements Initializable, Switchable {
             innerProductButton.setOnAction(new EventHandler() {
                 @Override
                 public void handle(Event event) {
-                    umf.removeProduct(product);
+                    umf.removeProductFromCart(product);
                     innerProductPane.setDisable(true);
                     updateTotal();
                 }

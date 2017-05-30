@@ -39,7 +39,7 @@ public interface DatabaseManagerFacade {
     public abstract List<Category> getAllCategories();
     public abstract List<Category> getNonMainCategories();
     public abstract boolean isErpSnAssigned(int erpSn);
-    public abstract void submitReturnForm(ReturnCase returnCase);
+    public abstract boolean saveReturnCase(ReturnCase returnCase);
     public abstract Order fillOrder(int orderId); 
-    public abstract String getEmail(int orderId);
+//    public abstract String getEmail(int orderId);
 }

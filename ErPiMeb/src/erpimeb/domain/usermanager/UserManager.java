@@ -54,7 +54,7 @@ public class UserManager implements UserManagerFacade{
     }
     
     @Override
-    public void addProduct(Product product){
+    public void addProductToCart(Product product){
         this.cart.addProduct(product);
     }
     
@@ -129,12 +129,12 @@ public class UserManager implements UserManagerFacade{
     }
     
     @Override
-    public void removeProduct(Product product) {
+    public void removeProductFromCart(Product product) {
         this.cart.removeProduct(product);
     }
 
     @Override
-    public void removeOneProduct(Product product) {
+    public void removeOneProductFromCart(Product product) {
         this.cart.removeOneProduct(product);
     }
 

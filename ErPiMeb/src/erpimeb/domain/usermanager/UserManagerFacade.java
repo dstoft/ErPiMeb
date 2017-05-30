@@ -23,9 +23,9 @@ public interface UserManagerFacade {
     public abstract boolean createCustomer(String name, String password, String email, Address address, String phoneNumber);
     public abstract List<Order> getOrderHistory();
     public Administrator getCurrentAdmin();
-    public abstract void addProduct(Product product);
-    public abstract void removeProduct(Product product);
-    public abstract void removeOneProduct(Product product);
+    public abstract void addProductToCart(Product product);
+    public abstract void removeProductFromCart(Product product);
+    public abstract void removeOneProductFromCart(Product product);
     public abstract double getTotalCartPrice();
     
 }

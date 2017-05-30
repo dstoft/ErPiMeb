@@ -21,7 +21,7 @@ public class Order {
     private String phoneNumber;
     private long timeStamp;
     private String status;
-    private int orderNumber;
+    private int orderID;
     private List<Product> products;
     private double total;
     private String paymentMethod;
@@ -39,8 +39,8 @@ public class Order {
         return timeStamp;
     }
 
-    public int getOrderNumber() {
-        return orderNumber;
+    public int getOrderID() {
+        return orderID;
     }
 
     public String getName() {
@@ -85,19 +85,23 @@ public class Order {
     /* Getters end */
     
     /* Setters begin */
-    protected void setName(String name){
+    public void setOrderId(int id) {
+        this.orderID = id;
+    }
+    
+    public void setName(String name){
         this.name = name;
     }
     
-    protected void setEmail(String email){
+    public void setEmail(String email){
         this.email = email;
     }
     
-    protected void setPhoneNumber(String phoneNumber){
+    public void setPhoneNumber(String phoneNumber){
         this.phoneNumber = phoneNumber;
     }
     
-    protected void setAddress(Address address){
+    public void setAddress(Address address){
         this.address = address;
     }
     
@@ -105,16 +109,24 @@ public class Order {
         this.setAddress(new Address(address, zip, country));
     }
     
-    protected void setTos(boolean accept){
+    public void setTos(boolean accept){
         this.tos = accept;
     }
     
-    protected void setStatus(String status){
+    public void setStatus(String status){
         this.status = status;
     }
     
-    void setPaymentMethod(String method) {
+    public void setPaymentMethod(String method) {
         this.paymentMethod = method;
+    }
+    
+    public void setTotal(double total) {
+        this.total = total;
+    }
+    
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
     }
     /* Setters end */
     
