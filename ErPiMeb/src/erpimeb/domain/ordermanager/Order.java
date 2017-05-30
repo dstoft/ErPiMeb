@@ -15,18 +15,15 @@ import java.util.List;
  */
 public class Order {
     
-    private int id;
     private String name;
     private String email;
     private String phoneNumber;
     private long timeStamp;
     private String status;
-    private boolean tempOrder;
     private int orderNumber;
     private List<Product> products;
     private double total;
     private String paymentMethod;
-    private String deliveryInformation;
     private Address address;
     private boolean tos;
 
@@ -118,8 +115,24 @@ public class Order {
     public String getStatus() {
         return this.status;
     }
-    
-    public List<Product> getProducts(){
-        return this.products;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public boolean isTos() {
+        return tos;
     }
 }

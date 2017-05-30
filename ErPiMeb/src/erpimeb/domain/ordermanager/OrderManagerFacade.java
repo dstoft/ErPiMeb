@@ -15,11 +15,15 @@ public interface OrderManagerFacade {
     public abstract void setOrderAddress(String address, int zip, String country);
     public abstract void setOrderEmail(String email);
     public abstract void setOrderTOS(boolean status);
+    public ReturnCase showReturnForm(int orderId); 
+    public void submitReturnForm(ReturnCase returnCase); 
+    public boolean iswarrantyExpired(ReturnCase returnCase); 
     public abstract boolean confirmOrder();
     public abstract void cancelOrder();
-    public abstract Order showSpecificOrder(int orderId);
+    public abstract Order getSpecificOrder(int orderId);
     public abstract Order startCheckout();
     public abstract void setCurrentOrder(Order order);
     public abstract Order getCurrentOrder();
+    
     
 }

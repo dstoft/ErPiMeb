@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.webshop.ReturnProductController">
+   <children>
+      <Button layoutX="14.0" layoutY="19.0" mnemonicParsing="false" onAction="#handleReturnToParent" prefHeight="27.0" prefWidth="157.0" text="Tilbage til forrige" />
+      <Label layoutX="30.0" layoutY="165.0" text="Indtast ordre id :" />
+      <TextField fx:id="orderIdTextField" layoutX="191.0" layoutY="160.0" promptText="Indtast ordrenummer" />
+      <Text layoutX="458.0" layoutY="364.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Button layoutX="415.0" layoutY="160.0" mnemonicParsing="false" onAction="#handleGetOrder" text="Vælg ordre" />
+   </children>
+</AnchorPane>

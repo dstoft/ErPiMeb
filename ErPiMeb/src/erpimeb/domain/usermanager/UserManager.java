@@ -19,7 +19,6 @@ import java.util.List;
  */
 public class UserManager implements UserManagerFacade{
     public static UserManager manager;
-    
     public DatabaseManagerFacade dbManager;
     private CommodityManagerFacade cmf;
     
@@ -117,5 +116,9 @@ public class UserManager implements UserManagerFacade{
     @Override
     public Administrator getCurrentAdmin() {
         return this.currentAdmin;
+    }
+    
+    public int getCurrentUserId() {
+        return currentUserId;
     }
 }

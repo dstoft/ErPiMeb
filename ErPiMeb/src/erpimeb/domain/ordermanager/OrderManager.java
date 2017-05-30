@@ -94,8 +94,8 @@ public class OrderManager implements OrderManagerFacade{
     }
 
     @Override
-    public Order showSpecificOrder(int orderId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Order getSpecificOrder(int orderId) {
+        return this.dmf.createOrder(orderId);
     }
 
     @Override
@@ -124,5 +124,34 @@ public class OrderManager implements OrderManagerFacade{
     @Override
     public Order getCurrentOrder() {
         return this.currentOrder;
+    }
+    
+    @Override
+    public ReturnCase showReturnForm(int orderId){
+        // checks if the currentUser is a customer, since email is unique
+        if (this.umf.getCurrentCustomer().getEmail() != null) {
+            ReturnCase returnCase = new ReturnCase(dmf.fillOrder(orderId)); 
+        }
+            
+        //If the currentUser is not a customer. 
+        ReturnCase returnCase =  new ReturnCase(dmf.fillOrder(orderId));
+        return returnCase;
+    }
+    
+    //Saves the returnForm. 
+    @Override
+    public void submitReturnForm(ReturnCase returnCase){
+        dmf.submitReturnForm(returnCase);
+    }
+    
+    @Override
+    public boolean iswarrantyExpired(ReturnCase returnCase){
+        //Seconds in a year
+        long sec2Year = 31921072;
+        // checks if the warrenty is expired.
+        if ((System.currentTimeMillis() - sec2Year) >= returnCase.getOrder().getTimeStamp()){
+            return false;
+        }
+        return true; 
     }
 }
