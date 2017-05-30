@@ -23,18 +23,19 @@ public class Product {
     private List<String> videoLinks;
     private List<Product> relatedProducts;
     private double price;
+    private int erpSn;
     private Category category;
     private HashMap<String, String> specification;
 //    private Cart cart; ved ikke om denne skal være der da den er i en anden pakke
     
-    public Product(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, Category pickedCategory) {
+    public Product(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, int erpSn, Category pickedCategory) {
         this.name = name;
         this.images = images;
         this.videoLinks = videoLinks;
         this.description = description;
         this.specification = specifications;
         this.category = pickedCategory;
-        
+        this.erpSn = erpSn;
     }
     
     public Product(int id) {
@@ -140,5 +141,13 @@ public class Product {
 
     public void setSpecification(HashMap<String, String> specification) {
         this.specification = specification;
+    }
+    
+    public void setErpSn(int erpSn) {
+        this.erpSn = erpSn;
+    }
+    
+    public int getErpSn() {
+        return this.erpSn;
     }
 }

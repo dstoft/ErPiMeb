@@ -15,4 +15,5 @@ import java.util.List;
 public interface ErpManagerFacade {
     public abstract List<Integer> getSerialNumbers();
     public abstract void fillProduct(Product product);
+    public abstract boolean validateSerialNumber(int serialNumber);
 }

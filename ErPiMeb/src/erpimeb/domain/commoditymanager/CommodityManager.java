@@ -60,8 +60,8 @@ public class CommodityManager implements CommodityManagerFacade {
     }
 
     @Override
-    public boolean createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, Category pickedCategory) {
-        Product newProduct = new Product(name, images, videoLinks, description, specifications, pickedCategory);
+    public boolean createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, int erpSn, Category pickedCategory) {
+        Product newProduct = new Product(name, images, videoLinks, description, specifications, erpSn, pickedCategory);
         
         newProduct.setRelatedProducts(this.dbManager.getRelatedProducts(specifications));
         
@@ -134,5 +134,13 @@ public class CommodityManager implements CommodityManagerFacade {
     @Override
     public List<String> getAllSpecKeys() {
         return this.dbManager.getAllSpecKeys();
+    }
+
+    @Override
+    public boolean validateSerialNumber(int serialNumber) {
+        if(this.dbManager.isErpSnAssigned(serialNumber)) {
+            return false;
+        }
+        return this.erpManager.validateSerialNumber(serialNumber);
     }
 }

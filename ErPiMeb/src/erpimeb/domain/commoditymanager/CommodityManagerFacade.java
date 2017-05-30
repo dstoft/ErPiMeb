@@ -19,7 +19,7 @@ public interface CommodityManagerFacade {
     
     // ***** Product *****
     public abstract void fillProduct(Product product);
-    public abstract boolean createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, Category pickedCategory);
+    public abstract boolean createProduct(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, int erpSn, Category pickedCategory);
     public abstract void setCurrentProduct(Product product);
     public abstract Product getCurrentProduct();
     public abstract boolean saveChangesToProduct();
@@ -37,5 +37,6 @@ public interface CommodityManagerFacade {
     // ***** Category END *****
     
     public abstract List<String> getAllSpecKeys();
+    public abstract boolean validateSerialNumber(int serialNumber);
     
 }

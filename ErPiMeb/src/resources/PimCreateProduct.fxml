@@ -15,7 +15,7 @@
    <children>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Tilbage til PIM" />
       <TextField fx:id="nameTextField" layoutX="20.0" layoutY="83.0" promptText="Produkt navn" />
-      <TextField fx:id="priceTextField" layoutX="181.0" layoutY="83.0" prefHeight="25.0" prefWidth="92.0" promptText="Produkt pris" />
+      <TextField fx:id="erpSNrTF" layoutX="181.0" layoutY="83.0" prefHeight="25.0" prefWidth="92.0" promptText="ERP SNr" />
       <ListView fx:id="imageListView" layoutX="413.0" layoutY="82.0" prefHeight="87.0" prefWidth="137.0" />
       <ListView fx:id="videoListView" layoutX="412.0" layoutY="175.0" prefHeight="87.0" prefWidth="137.0" />
       <TextField fx:id="imageUrlTextField" layoutX="307.0" layoutY="82.0" prefHeight="25.0" prefWidth="92.0" promptText="Billede URL" />

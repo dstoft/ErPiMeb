@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -45,8 +46,6 @@ public class EditProductController implements Initializable, Switchable {
     @FXML
     private TextField nameTextField;
     @FXML
-    private TextField priceTextField;
-    @FXML
     private ListView<String> imageListView;
     @FXML
     private ListView<String> videoListView;
@@ -66,6 +65,8 @@ public class EditProductController implements Initializable, Switchable {
     private Label statusLabel;
     @FXML
     private ComboBox<Category> allCategoriesComboBox;
+    @FXML
+    private TextField erpSNrTF;
     
     /**
      * Initializes the controller class.
@@ -108,14 +109,25 @@ public class EditProductController implements Initializable, Switchable {
         this.pickedProduct.setName(this.nameTextField.getText());
         this.pickedProduct.setDescription(this.descriptionTextArea.getText());
         
-        double price;
+        int serialNumber = -1;
         try {
-            price = Double.parseDouble(this.priceTextField.getText());
+            serialNumber = Integer.parseInt(this.erpSNrTF.getText());
         } catch(NumberFormatException e) {
-            System.out.println("Number format exception regarding price!");
-            price = this.pickedProduct.getPrice();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERP SNr feltet skal være tal");
+            alert.setHeaderText("ERP serie nummer feltet skal være tal!");
+            alert.showAndWait();
+            return;
         }
-        this.pickedProduct.setPrice(price);
+        if(!this.cManager.validateSerialNumber(serialNumber)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERP SNr skal være eksisterende i ERP og være unik");
+            alert.setHeaderText("ERP serie nummer skal være eksisterende i ERP og den må ikke tilhøre et andet produkt!");
+            alert.showAndWait();
+            return;
+        }
+        
+        this.pickedProduct.setErpSn(serialNumber);
         this.pickedProduct.setSpecification(this.specs);
         this.pickedProduct.setImages(this.images);
         this.pickedProduct.setVideoLinks(this.videos);
@@ -149,7 +161,7 @@ public class EditProductController implements Initializable, Switchable {
         this.pickedProduct = pickedProduct;
         // Set pre-existing values
         nameTextField.setText(pickedProduct.getName());
-        priceTextField.setText(Double.toString(pickedProduct.getPrice()));
+        this.erpSNrTF.setText("" + pickedProduct.getErpSn());
         descriptionTextArea.setText(pickedProduct.getDescription());
         if (pickedProduct.getImages() != null) {
             for (String s : pickedProduct.getImages()) {

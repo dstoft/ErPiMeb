@@ -49,6 +49,17 @@ public class ErpManager implements ErpManagerFacade{
 
     @Override
     public void fillProduct(Product product) {
-        product.setPrice(this.price.get(product.getId()));
+        //ONLY FOR DEBUGGING WHILE THE DB CONTAINS SERIAL NUMBERS THAT ARE NOT ACTUALLY SERIAL NUMBERS
+        if(!this.serialNumbers.contains(product.getErpSn())) {
+            product.setPrice(133799);
+            return;
+        }
+        
+        product.setPrice(this.price.get(product.getErpSn()));
+    }
+
+    @Override
+    public boolean validateSerialNumber(int serialNumber) {
+        return this.serialNumbers.contains(serialNumber);
     }
 }

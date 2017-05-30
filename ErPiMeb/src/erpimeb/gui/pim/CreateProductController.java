@@ -25,6 +25,7 @@ import javafx.fxml.Initializable;
 import erpimeb.gui.Switchable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -53,8 +54,6 @@ public class CreateProductController implements Initializable, Switchable {
     @FXML
     private TextField nameTextField;
     @FXML
-    private TextField priceTextField;
-    @FXML
     private TextArea descriptionTextArea;
     @FXML
     private ListView<String> imageListView;
@@ -74,6 +73,8 @@ public class CreateProductController implements Initializable, Switchable {
     private Label statusLabel;
     @FXML
     private ComboBox<Category> allCategoriesComboBox;
+    @FXML
+    private TextField erpSNrTF;
 
     /**
      * Initializes the controller class.
@@ -116,10 +117,28 @@ public class CreateProductController implements Initializable, Switchable {
 
     @FXML
     private void handleCreateProduct(ActionEvent event) {
-        if (!nameTextField.getText().isEmpty() || !priceTextField.getText().isEmpty() || !descriptionTextArea.getText().isEmpty()) {
+        if (!this.nameTextField.getText().isEmpty() || !this.erpSNrTF.getText().isEmpty() || !this.descriptionTextArea.getText().isEmpty()) {
             CommodityManagerFacade comManager = CommodityManager.getInstance();
+            int serialNumber = -1;
+            try {
+                serialNumber = Integer.parseInt(this.erpSNrTF.getText());
+            } catch(NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERP SNr feltet skal være tal");
+                alert.setHeaderText("ERP serie nummer feltet skal være tal!");
+                alert.showAndWait();
+                return;
+            }
+            if(!comManager.validateSerialNumber(serialNumber)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERP SNr skal være eksisterende i ERP og være unik");
+                alert.setHeaderText("ERP serie nummer skal være eksisterende i ERP og den må ikke tilhøre et andet produkt!");
+                alert.showAndWait();
+                return;
+            }
+            
             comManager.createProduct(nameTextField.getText(), images, videos,
-                    descriptionTextArea.getText(), specs, 
+                    descriptionTextArea.getText(), specs, serialNumber,
                     this.allCategoriesComboBox.getSelectionModel().getSelectedItem());
 
             // Go back to PIM

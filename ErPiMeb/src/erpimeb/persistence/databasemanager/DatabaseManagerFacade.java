@@ -38,5 +38,6 @@ public interface DatabaseManagerFacade {
     public abstract List<String> getAllSpecKeys();
     public abstract List<Category> getAllCategories();
     public abstract List<Category> getNonMainCategories();
+    public abstract boolean isErpSnAssigned(int erpSn);
     
 }

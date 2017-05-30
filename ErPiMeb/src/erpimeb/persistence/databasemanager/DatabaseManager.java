@@ -233,7 +233,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
             rs.next();
             product.setName(rs.getString("Name"));
             product.setDescription(rs.getString("Description"));
-            product.setPrice(rs.getDouble("Price"));
+            product.setErpSn(rs.getInt("erp_sn"));
             if(product.getCategory() == null) {
                 product.setCategory(this.fillCategory(rs.getString("ProductCategory_Name")));
             }
@@ -392,14 +392,13 @@ public class DatabaseManager implements DatabaseManagerFacade {
             }
             
             try {
-                String query = "INSERT INTO Product(Name, Description, Price, ProductCategory_Name, ERP_SN) VALUES (?, ?, ?, ?, ?) RETURNING ProductID;";
+                String query = "INSERT INTO Product(Name, Description, ProductCategory_Name, ERP_SN) VALUES (?, ?, ?, ?) RETURNING ProductID;";
                 PreparedStatement prepSt = this.conn.prepareStatement(query);
 
                 prepSt.setString(1, product.getName());
                 prepSt.setString(2, product.getDescription());
-                prepSt.setInt(3, 1337);
-                prepSt.setString(4, product.getCategory().getName());
-                prepSt.setInt(5, (int)(Math.random()*10000));
+                prepSt.setString(3, product.getCategory().getName());
+                prepSt.setInt(4, product.getErpSn());
 
                 ResultSet rs = prepSt.executeQuery();
                 
@@ -434,15 +433,14 @@ public class DatabaseManager implements DatabaseManagerFacade {
         }
         
         try {
-            String query = "UPDATE Product SET Name=?, Description=?, ProductCategory_Name=?, Price=?, ERP_SN=? WHERE ProductID=?;";
+            String query = "UPDATE Product SET Name=?, Description=?, ProductCategory_Name=?, ERP_SN=? WHERE ProductID=?;";
             PreparedStatement prepSt = this.conn.prepareStatement(query);
 
             prepSt.setString(1, product.getName());
             prepSt.setString(2, product.getDescription());
             prepSt.setString(3, product.getCategory().getName());
-            prepSt.setInt(4, 1337);
-            prepSt.setInt(5, (int)(Math.random()*100000));
-            prepSt.setInt(6, product.getId());
+            prepSt.setInt(4, product.getErpSn());
+            prepSt.setInt(5, product.getId());
 
             prepSt.executeUpdate();
             
@@ -805,7 +803,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
     }
 
     private ResultSet getProductInfo(int id) {
-        String query = "SELECT Name, Price, Description, ProductCategory_Name FROM Product WHERE ProductID=?";
+        String query = "SELECT Name, erp_sn, Description, ProductCategory_Name FROM Product WHERE ProductID=?";
         try {
             PreparedStatement prepSt = this.conn.prepareStatement(query);
             prepSt.setInt(1, id);
@@ -912,6 +910,20 @@ public class DatabaseManager implements DatabaseManagerFacade {
         } catch (SQLException ex) {
             System.out.println("Database error regarding fetching all of the categories.");
             return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public boolean isErpSnAssigned(int erpSn) {
+        String query = "SELECT ERP_SN FROM Product WHERE ERP_SN=?";
+        try {
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, erpSn);
+            ResultSet rs = prepSt.executeQuery();
+            return rs.next();
+        } catch(SQLException e) {
+            System.out.println("Something went wrong with fetching product info from the database!" + e);
+            return false;
         }
     }
 }
