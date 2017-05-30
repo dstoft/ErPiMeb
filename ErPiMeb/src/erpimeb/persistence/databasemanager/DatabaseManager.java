@@ -11,6 +11,7 @@ import erpimeb.domain.commoditymanager.CommodityManager;
 import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
 import erpimeb.domain.ordermanager.Order;
+import erpimeb.domain.ordermanager.ReturnCase;
 import erpimeb.domain.usermanager.Address;
 import erpimeb.domain.usermanager.Customer;
 import java.io.BufferedWriter;
@@ -718,6 +719,21 @@ public class DatabaseManager implements DatabaseManagerFacade {
             return null;
         }
     }
+    public String getEmail(int orderId){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+//    private ResultSet getCategoryInfo(String categoryName) {
+//        String query = "SELECT Address, Zip, Country FROM ShipTo NATURAL JOIN Address WHERE CustomerID=?";
+//        try {
+//            PreparedStatement prepSt = this.conn.prepareStatement(query);
+//            prepSt.setInt(1, userId);
+//            return prepSt.executeQuery();
+//        } catch(SQLException e) {
+//            System.out.println("Something went wrong with fetching product info from the database!");
+//            return null;
+//        }
+//    }
     
     @Override
     public List<Long> getOrderTimestamps(String status, long since) {
@@ -926,5 +942,23 @@ public class DatabaseManager implements DatabaseManagerFacade {
             System.out.println("Something went wrong with fetching product info from the database!" + e);
             return false;
         }
+    }
+    
+    @Override
+    //Dummy data.
+    public Order fillOrder(int orderId){ 
+//        ArrayList<Product> dummyData = new ArrayList<>();
+//        Order filledOrder = new Order(1," name", "email", 
+//        "phoneNumber",  1,  "status",  true, 
+//        1, dummyData, 1, 
+//        "paymentMethod",  "deliveryInformation" , true);
+//        return filledOrder; 
+//
+// return null, is only so i dont get error before merge. 
+        return null; 
+    }
+    @Override
+    public void submitReturnForm(ReturnCase returnCase){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

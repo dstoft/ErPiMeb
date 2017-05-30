@@ -8,6 +8,7 @@ package erpimeb.domain.usermanager;
 import erpimeb.domain.commoditymanager.CommodityManager;
 import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
+import erpimeb.domain.ordermanager.Order;
 import erpimeb.persistence.databasemanager.DatabaseManager;
 import erpimeb.persistence.databasemanager.DatabaseManagerFacade;
 import java.util.List;
@@ -18,7 +19,6 @@ import java.util.List;
  */
 public class UserManager implements UserManagerFacade{
     public static UserManager manager;
-    
     public DatabaseManagerFacade dbManager;
     private CommodityManagerFacade cmf;
     
@@ -32,6 +32,7 @@ public class UserManager implements UserManagerFacade{
     public UserManager() {
         this.dbManager = DatabaseManager.getInstance();
         this.cmf = CommodityManager.getInstance();
+        this.cart = new Cart();
     }
     
     public static UserManager getInstance(){
@@ -50,6 +51,11 @@ public class UserManager implements UserManagerFacade{
         } else {
             return null;
         }
+    }
+    
+    @Override
+    public void addProduct(Product product){
+        this.cart.addProduct(product);
     }
     
     public boolean saveCustomerChanges(String name, String email, String password, String phoneNumber, Address address) {
@@ -106,5 +112,34 @@ public class UserManager implements UserManagerFacade{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Order> getOrderHistory() {
+        return this.currentUser.getOrders();
+    }
+
+    @Override
+    public Administrator getCurrentAdmin() {
+        return this.currentAdmin;
+    }
+    
+    public int getCurrentUserId() {
+        return currentUserId;
+    }
+    
+    @Override
+    public void removeProduct(Product product) {
+        this.cart.removeProduct(product);
+    }
+
+    @Override
+    public void removeOneProduct(Product product) {
+        this.cart.removeOneProduct(product);
+    }
+
+    @Override
+    public double getTotalCartPrice() {
+        return this.cart.getTotalPrice();
     }
 }

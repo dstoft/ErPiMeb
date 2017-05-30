@@ -5,10 +5,13 @@
  */
 package erpimeb.gui.webshop;
 
+import erpimeb.gui.SceneSwitcher;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import erpimeb.gui.Switchable;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 
 /**
  * FXML Controller class
@@ -27,5 +30,20 @@ public class CustomerProfileController implements Initializable, Switchable {
     @Override
     public void setupInternals() {
         
+    }
+
+    @FXML
+    private void handleReturnToParent(ActionEvent event) {
+        SceneSwitcher.cycleBackward();
+    }
+
+    @FXML
+    private void handleEditProfile(ActionEvent event) {
+        SceneSwitcher.changeScene("/resources/WebshopEditCustomerProfile.fxml", "Ændre profil");
+    }
+
+    @FXML
+    private void handleViewOrderHistory(ActionEvent event) {
+        SceneSwitcher.changeScene("/resources/WebshopOrderHistory.fxml", "Ordrehistorik");
     }
 }

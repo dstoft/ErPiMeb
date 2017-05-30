@@ -7,6 +7,7 @@ package erpimeb.domain.ordermanager;
 
 import erpimeb.domain.commoditymanager.Product;
 import erpimeb.domain.usermanager.Address;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,44 +16,75 @@ import java.util.List;
  */
 public class Order {
     
-    private int id;
     private String name;
     private String email;
     private String phoneNumber;
     private long timeStamp;
     private String status;
-    private boolean tempOrder;
     private int orderNumber;
     private List<Product> products;
     private double total;
     private String paymentMethod;
-    private String deliveryInformation;
     private Address address;
     private boolean tos;
     
     public Order(){
+        this.products = new ArrayList<>();
         this.setStatus("In Progress");
+        this.timeStamp = System.currentTimeMillis();
+    }
+
+    /* Getters begin */
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public int getOrderNumber() {
+        return orderNumber;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public Address getAddress() {
+        return address;
     }
     
-    protected void setStatus(String status){
-        this.status = status;
+    public String getEmail(){
+        return this.email;
     }
     
-    protected void addProducts(List<Product> products){
-        this.products = products;
-        this.calculateTotal();
+    protected boolean isTosVerified(){
+        return this.tos;
     }
-    
-    private void calculateTotal(){
-        for(Product prod : this.products){
-            this.total += prod.getPrice();
-        }
+
+    public List<Product> getProducts() {
+        return products;
     }
-    
-    public double getTotalPrice(){
-        return this.total;
+
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
+
+    public boolean isTos() {
+        return tos;
+    }
+    /* Getters end */
     
+    /* Setters begin */
     protected void setName(String name){
         this.name = name;
     }
@@ -77,8 +109,25 @@ public class Order {
         this.tos = accept;
     }
     
-    public String getEmail(){
-        return this.email;
+    protected void setStatus(String status){
+        this.status = status;
+    }
+    
+    void setPaymentMethod(String method) {
+        this.paymentMethod = method;
+    }
+    /* Setters end */
+    
+    /* Behavioural methods begin */
+    protected void addProducts(List<Product> products){
+        this.products = products;
+        this.calculateTotal();
+    }
+    
+    private void calculateTotal(){
+        for(Product prod : this.products){
+            this.total += prod.getPrice();
+        }
     }
     
     protected boolean isRequiredInformationFilled(){
@@ -102,8 +151,5 @@ public class Order {
         }
         return true;
     }
-    
-    protected boolean isTosVerified(){
-        return this.tos;
-    }
+    /* Behavioural methods end */
 }

@@ -11,6 +11,6 @@ package external.domain.paymentmanager;
  */
 public interface PaymentManagerFacade {
     
-    public abstract boolean iniatePayment();
+    public abstract String iniatePayment();
     
 }

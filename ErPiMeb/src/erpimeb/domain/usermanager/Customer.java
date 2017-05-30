@@ -109,4 +109,7 @@ public class Customer {
         return password;
     }
     
+    public List<Order> getOrders() {
+        return this.orders;
+    }
 }

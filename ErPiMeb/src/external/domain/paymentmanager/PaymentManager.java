@@ -20,7 +20,7 @@ public class PaymentManager implements PaymentManagerFacade{
     }
 
     @Override
-    public boolean iniatePayment() {
-        return true;
+    public String iniatePayment() {
+        return "VISA";
     }
 }

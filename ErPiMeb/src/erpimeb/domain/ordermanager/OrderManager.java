@@ -50,6 +50,11 @@ public class OrderManager implements OrderManagerFacade{
     public void setOrderName(String name) {
         this.currentOrder.setName(name);
     }
+    
+    @Override
+    public void setOrderPhone(String phoneNumber){
+        this.currentOrder.setPhoneNumber(phoneNumber);
+    }
 
     @Override
     public void setOrderAddress(String address, int zip, String country) {
@@ -71,14 +76,13 @@ public class OrderManager implements OrderManagerFacade{
         if(this.currentOrder.isRequiredInformationFilled()){
             if(this.mmf.validateEmail(this.currentOrder.getEmail())){
                 if(this.currentOrder.isTosVerified()){
-                    if(this.pmf.iniatePayment()){
-                        this.mmf.emailReceipt(this.currentOrder);
-                        this.currentOrder.setStatus("Completed");
-                        if(this.dmf.saveOrder(this.currentOrder)){
-                            this.currentOrder.setAddress(null);
-                            this.currentOrder = null;
-                            return true;
-                        }
+                    this.currentOrder.setPaymentMethod(this.pmf.iniatePayment());
+                    this.mmf.emailReceipt(this.currentOrder);
+                    this.currentOrder.setStatus("Completed");
+                    if(this.dmf.saveOrder(this.currentOrder)){
+                        this.currentOrder.setAddress(null);
+                        this.currentOrder = null;
+                        return true;
                     }
                 }
             }
@@ -94,10 +98,14 @@ public class OrderManager implements OrderManagerFacade{
     }
 
     @Override
+    public Order getSpecificOrder(int orderId) {
+        return this.dmf.createOrder(orderId);
+    }
+
+    @Override
     public Order startCheckout() {
         this.currentOrder = new Order();
-        this.products = umf.getCartProducts();
-        this.currentOrder.addProducts(this.products);
+        this.currentOrder.addProducts(umf.getCartProducts());
         Customer customer = umf.getCurrentCustomer();
         if(customer != null){
             String name = customer.getName(), email = customer.getEmail(), phoneNumber = customer.getPhoneNumber();
@@ -105,9 +113,53 @@ public class OrderManager implements OrderManagerFacade{
             this.currentOrder.setEmail(email);
             this.currentOrder.setPhoneNumber(phoneNumber);
             Address address = customer.getAddress();
-            customer.setAddress(address);
+            this.currentOrder.setAddress(address);
             customer = null;
+        } else {
+            this.currentOrder.setName(null);
+            this.currentOrder.setEmail(null);
+            this.currentOrder.setPhoneNumber(null);
+            this.currentOrder.setAddress(null);
         }
         return this.currentOrder;
+    }
+
+    @Override
+    public void setCurrentOrder(Order order) {
+        this.currentOrder = order;
+    }
+
+    @Override
+    public Order getCurrentOrder() {
+        return this.currentOrder;
+    }
+    
+    @Override
+    public ReturnCase showReturnForm(int orderId){
+        // checks if the currentUser is a customer, since email is unique
+        if (this.umf.getCurrentCustomer().getEmail() != null) {
+            ReturnCase returnCase = new ReturnCase(dmf.fillOrder(orderId)); 
+        }
+            
+        //If the currentUser is not a customer. 
+        ReturnCase returnCase =  new ReturnCase(dmf.fillOrder(orderId));
+        return returnCase;
+    }
+    
+    //Saves the returnForm. 
+    @Override
+    public void submitReturnForm(ReturnCase returnCase){
+        dmf.submitReturnForm(returnCase);
+    }
+    
+    @Override
+    public boolean iswarrantyExpired(ReturnCase returnCase){
+        //Seconds in a year
+        long sec2Year = 31921072;
+        // checks if the warrenty is expired.
+        if ((System.currentTimeMillis() - sec2Year) >= returnCase.getOrder().getTimeStamp()){
+            return false;
+        }
+        return true; 
     }
 }

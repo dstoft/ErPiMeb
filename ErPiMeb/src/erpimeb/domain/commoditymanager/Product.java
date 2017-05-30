@@ -107,7 +107,7 @@ public class Product {
     }
     
     public void addImage(String url) {
-        this.getImages().add(url);
+        this.images.add(url);
     }
     
     public void addVideo(String url) {

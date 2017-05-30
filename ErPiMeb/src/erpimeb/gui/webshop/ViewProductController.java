@@ -8,6 +8,8 @@ package erpimeb.gui.webshop;
 import erpimeb.domain.commoditymanager.CommodityManager;
 import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
+import erpimeb.domain.usermanager.UserManager;
+import erpimeb.domain.usermanager.UserManagerFacade;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +20,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.web.WebView;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -32,12 +32,13 @@ import javafx.stage.Stage;
  * @author chris
  */
 public class ViewProductController implements Initializable, Switchable {
-    private CommodityManagerFacade cManager = CommodityManager.getInstance();
-    private Product currentProduct = cManager.getCurrentProduct();
+    private CommodityManagerFacade cManager;
+    private UserManagerFacade umf;
+    private Product currentProduct;
     
     private int imageCounter = 0;
     private int videoCounter = 0;
-    private List<Image> imageList = new ArrayList<>();
+    private List<Image> imageList;
     private boolean image = true;
 
     @FXML
@@ -60,9 +61,10 @@ public class ViewProductController implements Initializable, Switchable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cManager = CommodityManager.getInstance();
+        this.cManager = CommodityManager.getInstance();
+        this.imageList = new ArrayList<>();
+        this.umf = UserManager.getInstance();
         this.currentProduct = cManager.getCurrentProduct();
-        this.setupScene();
     }
     
     /**
@@ -81,13 +83,13 @@ public class ViewProductController implements Initializable, Switchable {
         List<String> images = this.currentProduct.getImages();
 
         // For loop cannot be implemented until images are
-        /*for (String s : images) {
+        for (String s : images) {
             imageList.add(new Image(s));
-        }*/ 
-
+        }
+        
         //Add videos
         
-
+        setImagesAndVideos();
     }
     
     void setImagesAndVideos() {
@@ -100,6 +102,9 @@ public class ViewProductController implements Initializable, Switchable {
     
     @FXML
     private void cycleBackward(ActionEvent event) {
+        if(imageList.size() == 1){
+            return;
+        }
         if (image == true) {
             if (imageCounter != 0) {
                 imageCounter--;
@@ -108,11 +113,14 @@ public class ViewProductController implements Initializable, Switchable {
             videoCounter--;
         }
         
-//        setImagesAndVideos();
+        setImagesAndVideos();
     }
 
     @FXML
     private void cycleForward(ActionEvent event) {
+        if(imageList.size() == 1){
+            return;
+        }
         if (image == true) {
             if (imageCounter < imageList.size()) {
                 imageCounter++;
@@ -121,7 +129,7 @@ public class ViewProductController implements Initializable, Switchable {
             videoCounter++;
         }
         
-//        setImagesAndVideos();
+        setImagesAndVideos();
     }
 
     @FXML
@@ -150,6 +158,12 @@ public class ViewProductController implements Initializable, Switchable {
         imageView.setVisible(false);
         videoWebView.setDisable(false);
         videoWebView.setVisible(true);
+    }
+
+    @FXML
+    private void addToCart(ActionEvent event) {
+        this.umf.addProduct(this.currentProduct);
+        SceneSwitcher.changeScene("/resources/WebshopCart.fxml", "Kurv");
     }
 
 }

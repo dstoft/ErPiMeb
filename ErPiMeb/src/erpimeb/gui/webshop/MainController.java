@@ -9,7 +9,7 @@ import erpimeb.domain.commoditymanager.Category;
 import erpimeb.domain.commoditymanager.CommodityManager;
 import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.usermanager.UserManager;
-import java.io.IOException;
+import erpimeb.domain.usermanager.UserManagerFacade;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -28,6 +28,7 @@ import erpimeb.gui.SceneSwitcher;
  */
 public class MainController implements Initializable, Switchable {
     private CommodityManagerFacade cManager;
+    private UserManagerFacade umf;
     
     @FXML
     private TextField searchTerm;
@@ -38,6 +39,7 @@ public class MainController implements Initializable, Switchable {
     public void initialize(URL url, ResourceBundle rb) {
         cManager = CommodityManager.getInstance();
         this.categoryListView.getItems().addAll(cManager.getMainCategories());
+        this.umf = UserManager.getInstance();
     }    
 
     @FXML
@@ -61,13 +63,18 @@ public class MainController implements Initializable, Switchable {
         }
     }
 
-    @FXML
-    private void handleEditProfile(ActionEvent event) {
-        SceneSwitcher.changeScene("/resources/WebshopEditCustomerProfile.fxml", "Rediger profil");
-    }
-
     @Override
     public void setupInternals() {
+    }
+
+    @FXML
+    private void handleReturnOrder(ActionEvent event) {
+        if(this.umf.getCurrentCustomer() == null){
+            SceneSwitcher.changeScene("/resources/WebshopReturnProductUser.fxml", "Returner ordre");
+        } else {
+            SceneSwitcher.changeScene("/resources/WebshopOrderHistory.fxml", "Ordre oversigt");
+        }
+        
     }
 
 
