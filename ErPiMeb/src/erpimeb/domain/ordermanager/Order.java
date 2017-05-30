@@ -118,4 +118,8 @@ public class Order {
     public String getStatus() {
         return this.status;
     }
+    
+    public List<Product> getProducts(){
+        return this.products;
+    }
 }

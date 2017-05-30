@@ -5,6 +5,7 @@
  */
 package erpimeb.gui.webshop;
 
+import erpimeb.domain.commoditymanager.Product;
 import erpimeb.domain.ordermanager.Order;
 import erpimeb.domain.ordermanager.OrderManager;
 import erpimeb.domain.ordermanager.OrderManagerFacade;
@@ -18,6 +19,8 @@ import java.util.TimeZone;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
@@ -49,6 +52,9 @@ public class ViewOrderController implements Initializable, Switchable {
     @Override
     public void setupInternals() {
         Order currentOrder = this.omf.getCurrentOrder();
+        for(Product product : currentOrder.getProducts()){
+            this.orderProducts.getSelectionModel().getSelectedItems().add(product.getName());
+        }
         this.priceLabel.setText(String.valueOf(currentOrder.getTotalPrice()));
         this.statusLabel.setText(currentOrder.getStatus());
         Date date = new Date((long)currentOrder.getTimeStamp());
@@ -65,7 +71,11 @@ public class ViewOrderController implements Initializable, Switchable {
 
     @FXML
     private void handleCreateReturnCase(ActionEvent event) {
-        SceneSwitcher.changeScene("/resources/WebshopReturnCase.fxml", "Retur sag");
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText("A return case based on this order has been created and stored.");
+        alert.showAndWait();
+        SceneSwitcher.changeScene("/resources/WebshopOrderHistory.fxml", "Retur sag");
     }
     
 }

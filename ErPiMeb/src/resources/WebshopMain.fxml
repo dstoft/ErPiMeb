@@ -23,5 +23,6 @@
             <Font name="System Bold" size="28.0" />
          </font>
       </Label>
+      <Button layoutX="403.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleReturnOrder" text="Returner Ordre" />
     </children>
 </AnchorPane>

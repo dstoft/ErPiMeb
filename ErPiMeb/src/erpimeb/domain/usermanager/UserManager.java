@@ -113,4 +113,9 @@ public class UserManager implements UserManagerFacade{
     public List<Order> getOrderHistory() {
         return this.currentUser.getOrders();
     }
+
+    @Override
+    public Administrator getCurrentAdmin() {
+        return this.currentAdmin;
+    }
 }

@@ -53,7 +53,7 @@ public class LoginController implements Initializable, Switchable {
     @FXML
     private void handleLoginAction(ActionEvent event) {
         if(this.userManager.userLogin(this.username.getText(), this.password.getText())){
-            SceneSwitcher.changeScene("/resources/WebshopCustomerProfile.fxml", userManager.getCurrentCustomer().getName());
+            SceneSwitcher.changeScene("/resources/WebshopCustomerProfile.fxml", "Min side");
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Log ind kunne ikke gennemføres");
@@ -74,7 +74,9 @@ public class LoginController implements Initializable, Switchable {
 
     @Override
     public void setupInternals() {
-        
+        if(this.userManager.getCurrentCustomer() != null){
+            SceneSwitcher.changeScene("/resources/WebshopCustomerProfile.fxml", "Min side");
+        }
     }
     
 }
