@@ -83,13 +83,13 @@ public class ViewProductController implements Initializable, Switchable {
         List<String> images = cManager.getCurrentProductImages();
 
         // For loop cannot be implemented until images are
-        /*for (String s : images) {
+        for (String s : images) {
             imageList.add(new Image(s));
-        }*/ 
-
+        }
+        
         //Add videos
         
-
+        setImagesAndVideos();
     }
     
     void setImagesAndVideos() {
@@ -102,6 +102,9 @@ public class ViewProductController implements Initializable, Switchable {
     
     @FXML
     private void cycleBackward(ActionEvent event) {
+        if(imageList.size() == 1){
+            return;
+        }
         if (image == true) {
             if (imageCounter != 0) {
                 imageCounter--;
@@ -110,11 +113,14 @@ public class ViewProductController implements Initializable, Switchable {
             videoCounter--;
         }
         
-//        setImagesAndVideos();
+        setImagesAndVideos();
     }
 
     @FXML
     private void cycleForward(ActionEvent event) {
+        if(imageList.size() == 1){
+            return;
+        }
         if (image == true) {
             if (imageCounter < imageList.size()) {
                 imageCounter++;
@@ -123,7 +129,7 @@ public class ViewProductController implements Initializable, Switchable {
             videoCounter++;
         }
         
-//        setImagesAndVideos();
+        setImagesAndVideos();
     }
 
     @FXML
