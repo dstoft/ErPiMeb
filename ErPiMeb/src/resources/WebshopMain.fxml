@@ -24,5 +24,6 @@
          </font>
       </Label>
       <Button layoutX="403.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleReturnOrder" text="Returner Ordre" />
+      <Button layoutX="329.0" layoutY="372.0" mnemonicParsing="false" onAction="#handleShowCart" text="Se kurv" />
     </children>
 </AnchorPane>

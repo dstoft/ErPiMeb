@@ -35,8 +35,6 @@ import javafx.stage.Stage;
  * @author chris
  */
 public class EditProductController implements Initializable, Switchable {
-    private Stage stageRef;
-    private Scene preSceneRef;
     private Product pickedProduct;
     private List<String> images = new ArrayList<>();
     private List<String> videos = new ArrayList<>();
@@ -94,14 +92,18 @@ public class EditProductController implements Initializable, Switchable {
 
     @FXML
     private void handleAttachImage(ActionEvent event) {
-        images.add(imageUrlTextField.getText());
-        imageListView.getItems().add(imageUrlTextField.getText());
+        if(imageUrlTextField.getText().isEmpty()){
+            images.add(imageUrlTextField.getText());
+            imageListView.getItems().add(imageUrlTextField.getText());
+        }
     }
 
     @FXML
     private void handleAttachVideo(ActionEvent event) {
-        videos.add(videoLinkTextField.getText());
-        videoListView.getItems().add(videoLinkTextField.getText());
+        if(videoLinkTextField.getText().isEmpty()){
+            videos.add(videoLinkTextField.getText());
+            videoListView.getItems().add(videoLinkTextField.getText());
+        }
     }
 
     @FXML

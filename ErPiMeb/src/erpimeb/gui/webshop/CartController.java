@@ -45,7 +45,7 @@ public class CartController implements Initializable, Switchable {
     @FXML
     private GridPane productsGrid;
     @FXML
-    private Button goToCart;
+    private Button goToCheckout;
     
     /**
      * Initializes the controller class.
@@ -176,9 +176,9 @@ public class CartController implements Initializable, Switchable {
     private void updateTotal(){
         this.totalPrice.setText(String.format("%-6.2f", this.umf.getTotalCartPrice()));
         if(this.umf.getCartProducts().isEmpty()){
-            this.goToCart.setDisable(true);
+            this.goToCheckout.setDisable(true);
         } else {
-            this.goToCart.setDisable(false);
+            this.goToCheckout.setDisable(false);
         }
     }
 

@@ -42,9 +42,6 @@ import javafx.stage.Stage;
  * @author chris
  */
 public class CreateProductController implements Initializable, Switchable {
-
-    private Stage stageRef;
-    private Scene preSceneRef;
     private List<String> images = new ArrayList<>();
     private List<String> videos = new ArrayList<>();
     private ArrayList<Product> related = new ArrayList<>();
@@ -88,11 +85,6 @@ public class CreateProductController implements Initializable, Switchable {
         this.allCategoriesComboBox.getItems().addAll(comManager.getAllCategories());
     }
 
-    void setReferences(Stage stageRef, Scene preSceneRef) {
-        this.stageRef = stageRef;
-        this.preSceneRef = preSceneRef;
-    }
-
     @FXML
     private void handleReturnToParent(ActionEvent event) {
         SceneSwitcher.cycleBackward();
@@ -105,14 +97,18 @@ public class CreateProductController implements Initializable, Switchable {
 
     @FXML
     private void handleAttachImage(ActionEvent event) {
-        images.add(imageUrlTextField.getText());
-        imageListView.getItems().add(imageUrlTextField.getText());
+        if(imageUrlTextField.getText().isEmpty()){
+            images.add(imageUrlTextField.getText());
+            imageListView.getItems().add(imageUrlTextField.getText());
+        }
     }
 
     @FXML
     private void handleAttachVideo(ActionEvent event) {
-        videos.add(videoLinkTextField.getText());
-        videoListView.getItems().add(videoLinkTextField.getText());
+        if(videoLinkTextField.getText().isEmpty()){
+            videos.add(videoLinkTextField.getText());
+            videoListView.getItems().add(videoLinkTextField.getText());
+        }
     }
 
     @FXML
