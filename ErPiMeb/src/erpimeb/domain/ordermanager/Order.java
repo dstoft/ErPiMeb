@@ -78,10 +78,6 @@ public class Order {
     public String getPaymentMethod() {
         return paymentMethod;
     }
-
-    public boolean isTos() {
-        return tos;
-    }
     /* Getters end */
     
     /* Setters begin */
@@ -131,7 +127,7 @@ public class Order {
     /* Setters end */
     
     /* Behavioural methods begin */
-    protected void addProducts(List<Product> products){
+    public void addProducts(List<Product> products){
         this.products = products;
         this.calculateTotal();
     }

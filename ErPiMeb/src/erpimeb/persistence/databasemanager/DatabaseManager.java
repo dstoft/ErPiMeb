@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -58,52 +59,6 @@ public class DatabaseManager implements DatabaseManagerFacade {
             manager = new DatabaseManager();
         }
         return manager;
-    }
-    
-    @Override
-    public boolean saveCustomer(Customer currentUser) {
-
-        try {
-            Statement st = this.conn.createStatement();
-            st.executeUpdate("Begin;");
-        } catch (SQLException e) {
-            System.out.println("Something went wrong with beginning a commit for saving a customer!");
-        }
-
-        try {
-            String query = "INSERT INTO Customer(Phone, Name, Email) VALUES (?, ?, ?) RETURNING CustomerID;";
-            PreparedStatement prepSt = this.conn.prepareStatement(query);
-            prepSt.setInt(1, Integer.parseInt(currentUser.getPhoneNumber())); //Fix this line when phone in the DB is a varchar!!!!
-            prepSt.setString(2, currentUser.getName());
-            prepSt.setString(3, currentUser.getEmail());
-            ResultSet rs = prepSt.executeQuery();
-            
-            int newUserID = -1;
-            if(rs.next()) {
-                newUserID = rs.getInt("CustomerID");
-            }
-            
-            if(!currentUser.isTempCustomer() && newUserID >= 0) {
-                query = "INSERT INTO Login(CustomerID, Password) VALUES (?, ?);";
-                prepSt = this.conn.prepareStatement(query);
-                prepSt.setInt(1, newUserID);
-                prepSt.setString(2, currentUser.getPassword());
-                prepSt.executeUpdate();
-            }
-
-            
-        } catch (SQLException e) {
-            System.out.println("Database error regarding saving a customer object!" + e);
-        }
-
-        try {
-            Statement st = this.conn.createStatement();
-            st.executeUpdate("COMMIT;");
-            return true;
-        } catch (SQLException e) {
-            System.out.println("Something went wrong with commit saving a customer!");
-            return false;
-        }
     }
     
     /* Default values for Connection */
@@ -184,6 +139,70 @@ public class DatabaseManager implements DatabaseManagerFacade {
             db.password = userInput.nextLine();
         }
     }
+    
+    @Override
+    public boolean saveCustomer(Customer currentUser) {
+
+        try {
+            Statement st = this.conn.createStatement();
+            st.executeUpdate("Begin;");
+        } catch (SQLException e) {
+            System.out.println("Something went wrong with beginning a commit for saving a customer!");
+        }
+
+        try {
+            String query = "INSERT INTO Customer(Phone, Name, Email) VALUES (?, ?, ?) RETURNING CustomerID;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setString(1, currentUser.getPhoneNumber());
+            prepSt.setString(2, currentUser.getName());
+            prepSt.setString(3, currentUser.getEmail());
+            ResultSet rs = prepSt.executeQuery();
+            
+            int newUserID = -1;
+            if(rs.next()) {
+                newUserID = rs.getInt("CustomerID");
+                currentUser.setId(newUserID);
+            }
+            
+            if(!currentUser.isTempCustomer() && newUserID >= 0) {
+                query = "INSERT INTO Login(CustomerID, Password) VALUES (?, ?);";
+                prepSt = this.conn.prepareStatement(query);
+                prepSt.setInt(1, newUserID);
+                prepSt.setString(2, currentUser.getPassword());
+                prepSt.executeUpdate();
+            }
+
+            int addressID = -1;
+            Address tempAddress = currentUser.getAddress();
+            query = "INSERT INTO Address(Address, Zip, Country) VALUES (?, ?, ?) RETURNING AddressID;";
+            prepSt = this.conn.prepareStatement(query);
+            prepSt.setString(1, tempAddress.getAddress());
+            prepSt.setInt(2, tempAddress.getZip());
+            prepSt.setString(3, tempAddress.getCountry());
+            rs = prepSt.executeQuery();
+            
+            rs.next();
+            addressID = rs.getInt("AddressID");
+            
+            query = "INSERT INTO ShipsTo(AddressID, CustomerID) VALUES (?, ?);";
+            prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, addressID);
+            prepSt.setInt(2, newUserID);
+            prepSt.executeUpdate();
+            
+        } catch (SQLException e) {
+            System.out.println("Database error regarding saving a customer object!" + e);
+        }
+
+        try {
+            Statement st = this.conn.createStatement();
+            st.executeUpdate("COMMIT;");
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Something went wrong with commit saving a customer!");
+            return false;
+        }
+    }
 
     @Override
     public Customer fillCustomer(int userId) {
@@ -192,6 +211,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
         }
 
         Customer returnCustomer = new Customer();
+        returnCustomer.setId(userId);
 
         ResultSet rs = this.getCustomerInfo(userId);
         try {
@@ -212,6 +232,23 @@ public class DatabaseManager implements DatabaseManagerFacade {
         } catch (SQLException ex) {
             System.out.println("Database error regarding fetching customer addresses from a resultset!");
             return null;
+        }
+        
+        String query = "SELECT Password FROM Login WHERE CustomerID=?;";
+        PreparedStatement prepSt;
+        try {
+            prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, returnCustomer.getId());
+            rs = prepSt.executeQuery();
+            if(rs.next()) {
+                returnCustomer.setPassword(rs.getString("Password"));
+                returnCustomer.setTempCustomer(false);
+            } else {
+                returnCustomer.setTempCustomer(true);
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with fetching password!");
         }
 
         return returnCustomer;
@@ -244,17 +281,34 @@ public class DatabaseManager implements DatabaseManagerFacade {
         }
         
         // Related products
+        HashSet<Integer> productIds = new HashSet<>();
         try {
             String query = "SELECT ProductID_2 FROM Related WHERE ProductID_1=?;";
             PreparedStatement prepSt = this.conn.prepareStatement(query);
             prepSt.setInt(1, id);
             rs = prepSt.executeQuery();
             while (rs.next()) {
-                product.addRelatedProduct(new Product(rs.getInt("ProductID_2")));
+                productIds.add(rs.getInt("ProductID_2"));
             }
         } catch (SQLException e) {
             System.out.println("Database error regarding fetching product related products from a resultset!");
             return;
+        }
+        
+        try {
+            String query = "SELECT ProductID_1 FROM Related WHERE ProductID_2=?;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, id);
+            rs = prepSt.executeQuery();
+            while (rs.next()) {
+                productIds.add(rs.getInt("ProductID_1"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Database error regarding fetching product related products from a resultset!");
+            return;
+        }
+        for(Integer integer : productIds) {
+            product.addRelatedProduct(new Product(integer));
         }
         
         // Images
@@ -359,8 +413,72 @@ public class DatabaseManager implements DatabaseManagerFacade {
     }
 
     @Override
-    public boolean saveOrder(Order order) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean saveOrder(Order order, Customer customer) {
+        try {
+            Statement st = this.conn.createStatement();
+            st.executeUpdate("Begin;");
+        } catch (SQLException e) {
+            System.out.println("Something went wrong with beginning a commit for saving a customer!");
+        }
+
+        try {
+            //Insert address
+            int addressID;
+            Address tempAddress = order.getAddress();
+            String query = "INSERT INTO Address(Address, Zip, Country) VALUES (?, ?, ?) RETURNING AddressID;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setString(1, tempAddress.getAddress());
+            prepSt.setInt(2, tempAddress.getZip());
+            prepSt.setString(3, tempAddress.getCountry());
+            ResultSet rs = prepSt.executeQuery();
+            
+            rs.next();
+            addressID = rs.getInt("AddressID");
+            
+            query = "INSERT INTO \"order\"(Total, TimeStamp, Status, PaymentMethod, AddressID) VALUES (?, ?, ?, ?, ?) RETURNING OrderID;";
+            prepSt = this.conn.prepareStatement(query);
+            prepSt.setDouble(1, order.getTotal());
+            prepSt.setLong(2, order.getTimeStamp());
+            prepSt.setString(3, order.getStatus());
+            prepSt.setString(4, order.getPaymentMethod());
+            prepSt.setInt(5, addressID);
+            rs = prepSt.executeQuery();
+            
+            int orderID;
+            rs.next();
+            orderID = rs.getInt("OrderID");
+            
+            //Insert to Creates
+            if(customer.getId() <= 0) {
+                this.saveCustomer(customer);
+            }
+            query = "INSERT INTO Creates(CustomerID, OrderID) VALUES (?, ?);";
+            prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, customer.getId());
+            prepSt.setInt(2, orderID);
+            prepSt.executeUpdate();
+            
+            //Insert products!
+            for(Product product : order.getProducts()) {
+                query = "INSERT INTO ConsistsOf(ProductID, OrderID) VALUES (?, ?);";
+                prepSt = this.conn.prepareStatement(query);
+                prepSt.setInt(1, product.getId());
+                prepSt.setInt(2, orderID);
+                prepSt.executeUpdate();
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Database error regarding saving a customer object!" + e);
+        }
+
+        try {
+            Statement st = this.conn.createStatement();
+            st.executeUpdate("COMMIT;");
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Something went wrong with commit saving a customer!");
+            return false;
+        }
     }
 
     @Override
@@ -620,11 +738,6 @@ public class DatabaseManager implements DatabaseManagerFacade {
             System.out.println("Database error regarding committing a transaction!");
         }
         return whatToReturn;
-    }
-
-    @Override
-    public Order createOrder(int orderId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -930,12 +1043,11 @@ public class DatabaseManager implements DatabaseManagerFacade {
     }
     
     @Override
-    //Dummy data.
     public Order fillOrder(int orderId){ 
         Order returnOrder = new Order();
         returnOrder.setOrderId(orderId);
         
-        String query = "SELECT Total, TimeStamp, Status, PaymentMethod FROM Order WHERE OrderID=?;";
+        String query = "SELECT Total, TimeStamp, Status, PaymentMethod FROM \"order\" WHERE OrderID=?;";
         try {
             PreparedStatement prepSt = this.conn.prepareStatement(query);
             prepSt.setInt(1, returnOrder.getOrderID());
@@ -946,7 +1058,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
             returnOrder.setStatus(rs.getString("Status"));
             returnOrder.setPaymentMethod(rs.getString("PaymentMethod"));
         } catch(SQLException e) {
-            System.out.println("Database error regarding fetching order information!");
+            System.out.println("Database error regarding fetching order information!" + e);
             return null;
         }
         
@@ -961,24 +1073,40 @@ public class DatabaseManager implements DatabaseManagerFacade {
             returnOrder.setName(rs.getString("Name"));
             returnOrder.setEmail(rs.getString("Email"));
         } catch(SQLException e) {
-            System.out.println("Database error regarding fetching order information!");
+            System.out.println("Database error regarding fetching order customer information!" + e);
             return null;
         }
         
         // Address information
-        query = "SELECT Address, Zip, Country FROM Address NATURAL JOIN Customer WHERE OrderID=?;";
+        query = "SELECT Address, Zip, Country FROM Address NATURAL JOIN \"order\" WHERE OrderID=?;";
         try {
             PreparedStatement prepSt = this.conn.prepareStatement(query);
             prepSt.setInt(1, returnOrder.getOrderID());
             ResultSet rs = prepSt.executeQuery();
             rs.next();
-            returnOrder.setPhoneNumber(rs.getString("Phone"));
-            returnOrder.setName(rs.getString("Name"));
-            returnOrder.setEmail(rs.getString("Email"));
+            returnOrder.setAddress(new Address(rs.getString("Address"), rs.getInt("Zip"), rs.getString("Country")));
         } catch(SQLException e) {
-            System.out.println("Database error regarding fetching order information!");
+            System.out.println("Database error regarding fetching order address information!" + e);
             return null;
         }
+        
+        // Products
+        ArrayList<Product> tempProducts = new ArrayList<>();
+        query = "SELECT ProductID FROM ConsistsOf WHERE OrderID=?;";
+        try {
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setInt(1, returnOrder.getOrderID());
+            ResultSet rs = prepSt.executeQuery();
+            while(rs.next()) {
+                Product tempProduct = new Product(rs.getInt("ProductID"));
+                this.fillProduct(tempProduct);
+                tempProducts.add(tempProduct);
+            }
+        } catch(SQLException e) {
+            System.out.println("Database error regarding fetching order address information!");
+            return null;
+        }
+        returnOrder.addProducts(tempProducts);
         
         return returnOrder; 
     }

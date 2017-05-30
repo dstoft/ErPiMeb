@@ -23,11 +23,10 @@ public interface DatabaseManagerFacade {
     public abstract void fillProduct(Product product);
     public abstract Category fillCategory(String categoryName);
     public abstract void fillSubCategory(Category category);
-    public abstract boolean saveOrder(Order order);
+    public abstract boolean saveOrder(Order order, Customer customer);
     public abstract boolean saveCustomer(Customer customer);
     public abstract boolean saveProduct(Product product);
     public abstract boolean saveCategory(Category category);
-    public abstract Order createOrder(int orderId);
     public abstract int checkCredentials(String username, String password);
     public abstract List<Category> getMainCategories();
     public abstract List<Category> getSubcategories(String categoryName);

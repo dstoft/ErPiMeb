@@ -79,7 +79,7 @@ public class OrderManager implements OrderManagerFacade{
                     this.currentOrder.setPaymentMethod(this.pmf.iniatePayment());
                     this.mmf.emailReceipt(this.currentOrder);
                     this.currentOrder.setStatus("Completed");
-                    if(this.dmf.saveOrder(this.currentOrder)){
+                    if(this.dmf.saveOrder(this.currentOrder, this.umf.getCurrentCustomer())){
                         this.currentOrder.setAddress(null);
                         this.currentOrder = null;
                         return true;
@@ -92,14 +92,14 @@ public class OrderManager implements OrderManagerFacade{
 
     @Override
     public void cancelOrder() {
-        this.dmf.saveOrder(this.currentOrder);
+        this.dmf.saveOrder(this.currentOrder, this.umf.getCurrentCustomer());
         this.currentOrder.setAddress(null);
         this.currentOrder = null;
     }
 
     @Override
     public Order getSpecificOrder(int orderId) {
-        return this.dmf.createOrder(orderId);
+        return this.dmf.fillOrder(orderId);
     }
 
     @Override

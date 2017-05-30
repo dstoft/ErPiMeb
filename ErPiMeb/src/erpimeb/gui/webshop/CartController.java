@@ -58,36 +58,6 @@ public class CartController implements Initializable, Switchable {
 
     @Override
     public void setupInternals() {
-        // Test product objects
-//        Product testProduct = new Product(1);
-//        testProduct.addImage("/images/test.jpg");
-//        testProduct.setName("Test Produkt");
-//        testProduct.setPrice(500.50);
-//        this.umf.addProductToCart(testProduct);
-//        
-//        Product testProduct2 = new Product(2);
-//        testProduct2.addImage("/images/test2.jpg");
-//        testProduct2.setName("Test Produkt2056");
-//        testProduct2.setPrice(1000.10);
-//        this.umf.addProductToCart(testProduct2);
-//        
-//        Product testProduct3 = new Product(3);
-//        testProduct3.addImage("/images/test3.png");
-//        testProduct3.setName("Test Produkt2056");
-//        testProduct3.setPrice(1000.10);
-//        this.umf.addProductToCart(testProduct3);
-//        
-//        Product testProduct4 = new Product(4);
-//        testProduct4.addImage("/images/test4.jpg");
-//        testProduct4.setName("Test Produkt2056");
-//        testProduct4.setPrice(1000.10);
-//        this.umf.addProductToCart(testProduct4);
-//        
-//        Product testProduct5 = new Product(5);
-//        testProduct5.addImage("/images/test5.png");
-//        testProduct5.setName("Test Produkt2056");
-//        testProduct5.setPrice(1000.10);
-//        this.umf.addProductToCart(testProduct5);
         
         int i = 0;
         for(Product product : this.umf.getCartProducts()){

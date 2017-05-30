@@ -53,7 +53,7 @@ public class ViewOrderController implements Initializable, Switchable {
     public void setupInternals() {
         Order currentOrder = this.omf.getCurrentOrder();
         for(Product product : currentOrder.getProducts()){
-            this.orderProducts.getSelectionModel().getSelectedItems().add(product.getName());
+            this.orderProducts.getItems().add(product.getName());
         }
         this.priceLabel.setText(String.valueOf(currentOrder.getTotal()));
         this.statusLabel.setText(currentOrder.getStatus());

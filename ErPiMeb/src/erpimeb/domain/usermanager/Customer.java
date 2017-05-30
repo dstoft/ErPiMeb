@@ -16,6 +16,7 @@ import java.util.List;
 public class Customer {
     
     private boolean tempCustomer;
+    private int id;
     private String name;
     private Address address;
     private String phoneNumber;
@@ -39,6 +40,10 @@ public class Customer {
         address = newAddress;
     }
     
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -59,6 +64,10 @@ public class Customer {
 	this.password = password;
     }
     
+    public void setTempCustomer(boolean temp) {
+        this.tempCustomer = temp;
+    }
+    
     public void setUserInfo(String name, String email, String password, String phoneNumber, Address address) {
         this.name = name;
         this.email = email;
@@ -72,6 +81,10 @@ public class Customer {
      */
     public boolean isTempCustomer() {
         return tempCustomer;
+    }
+    
+    public int getId() {
+        return this.id;
     }
 
     /**
