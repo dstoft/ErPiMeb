@@ -16,14 +16,20 @@ import java.util.List;
 import java.util.ResourceBundle;
 import erpimeb.gui.Switchable;
 import erpimeb.gui.SceneSwitcher;
+import java.text.DecimalFormat;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebView;
 
 /**
@@ -35,6 +41,7 @@ public class ViewProductController implements Initializable, Switchable {
     private CommodityManagerFacade cManager;
     private UserManagerFacade umf;
     private Product currentProduct;
+    private DecimalFormat df = new DecimalFormat("#.##");
     
     private int imageCounter = 0;
     private int videoCounter = 0;
@@ -55,6 +62,8 @@ public class ViewProductController implements Initializable, Switchable {
     private Button rightArrow;
     @FXML
     private WebView videoWebView;
+    @FXML
+    private GridPane relatedProductsGrid;
 
     /**
      * Initializes the controller class.
@@ -76,7 +85,7 @@ public class ViewProductController implements Initializable, Switchable {
         videoWebView.setVisible(false);
         
         productName.setText(currentProduct.getName());
-        productPrice.setText(Double.toString(currentProduct.getPrice()));
+        productPrice.setText(this.df.format(currentProduct.getPrice()) + ",-");
         productDescription.setText(currentProduct.getDescription());
 
         //Add images
@@ -140,6 +149,48 @@ public class ViewProductController implements Initializable, Switchable {
     @Override
     public void setupInternals() {
         this.setupScene();
+        
+        if(!this.currentProduct.getRelatedProducts().isEmpty()){
+            int i = 1;
+            for(Product product : this.currentProduct.getRelatedProducts()){
+                this.cManager.fillProduct(product);
+                AnchorPane innerProductPane = new AnchorPane();
+                innerProductPane.setPrefSize(100, 132);
+                innerProductPane.setLayoutX(10);
+                innerProductPane.setLayoutY(10);
+                innerProductPane.setOnMouseClicked(new EventHandler(){ 
+                    @Override
+                    public void handle(Event event) {
+                        cManager.setCurrentProduct(product);
+                        SceneSwitcher.changeScene("/resources/WebshopViewProduct.fxml", product.getName());
+                    }
+                });
+
+                ImageView innerProductImage = new ImageView(product.getImages().get(0));
+                innerProductImage.setPreserveRatio(true);
+                innerProductImage.setLayoutX(10);
+                innerProductImage.setLayoutY(10);
+                innerProductImage.setFitHeight(100);
+                innerProductImage.setFitWidth(100);
+
+                Label innerProductLabelName = new Label(product.getName());
+                innerProductLabelName.setLayoutX(10);
+                innerProductLabelName.setLayoutY(110);
+                innerProductLabelName.setWrapText(false);
+                innerProductLabelName.setMaxWidth(100);
+
+                Label innerProductLabelPrice = new Label(this.df.format(product.getPrice()) + ",-");
+                innerProductLabelPrice.setLayoutX(15);
+                innerProductLabelPrice.setLayoutY(125);
+                
+                innerProductPane.getChildren().add(innerProductImage);
+                innerProductPane.getChildren().add(innerProductLabelName);
+                innerProductPane.getChildren().add(innerProductLabelPrice);
+                
+                this.relatedProductsGrid.addColumn(i, innerProductPane);
+                i++;
+            }
+        }
     }
 
     @FXML

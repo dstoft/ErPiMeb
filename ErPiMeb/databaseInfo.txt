@@ -1,5 +1,0 @@
-5432
-localhost
-ErPiMeb
-postgres
-admin

@@ -11,7 +11,6 @@ import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.usermanager.UserManager;
 import erpimeb.domain.usermanager.UserManagerFacade;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -75,6 +74,11 @@ public class MainController implements Initializable, Switchable {
             SceneSwitcher.changeScene("/resources/WebshopOrderHistory.fxml", "Ordre oversigt");
         }
         
+    }
+
+    @FXML
+    private void handleShowCart(ActionEvent event) {
+        SceneSwitcher.changeScene("/resources/WebshopCart.fxml", "Se kurv");
     }
 
 

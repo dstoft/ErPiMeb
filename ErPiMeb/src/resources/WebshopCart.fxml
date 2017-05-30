@@ -23,7 +23,7 @@
                </children>
             </AnchorPane>
          </content></ScrollPane>
-      <Button fx:id="goToCart" layoutX="492.0" layoutY="344.0" mnemonicParsing="false" onAction="#beginCheckout" text="Gå til kassen" />
+      <Button fx:id="goToCheckout" layoutX="492.0" layoutY="344.0" mnemonicParsing="false" onAction="#beginCheckout" text="Gå til kassen" />
       <Label layoutX="492.0" layoutY="263.0" text="Total pris:" />
       <Label fx:id="totalPrice" layoutX="520.0" layoutY="288.0" text="0">
          <font>

@@ -13,6 +13,9 @@ import erpimeb.domain.usermanager.UserManagerFacade;
 import erpimeb.gui.SceneSwitcher;
 import erpimeb.gui.Switchable;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -45,7 +48,7 @@ public class CartController implements Initializable, Switchable {
     @FXML
     private GridPane productsGrid;
     @FXML
-    private Button goToCart;
+    private Button goToCheckout;
     
     /**
      * Initializes the controller class.
@@ -60,7 +63,15 @@ public class CartController implements Initializable, Switchable {
     public void setupInternals() {
         
         int i = 0;
+        HashMap<Product,Integer> products = new HashMap<>();
         for(Product product : this.umf.getCartProducts()){
+            if(products.containsKey(product)){
+                products.put(product,products.get(product) + 1);
+                continue;
+            }
+            products.put(product, 1);
+        }
+        for(Product product : products.keySet()){
             AnchorPane innerProductPane = new AnchorPane();
             innerProductPane.setPrefSize(392, 70);
             innerProductPane.setLayoutX(15);
@@ -74,8 +85,11 @@ public class CartController implements Initializable, Switchable {
             Label innerProductLabelName = new Label(product.getName());
             innerProductLabelName.setLayoutX(65);
             innerProductLabelName.setLayoutY(20);
+            innerProductLabelName.setMaxWidth(155);
+            innerProductLabelName.setWrapText(false);
             
-            Label innerProductLabelPrice = new Label(String.valueOf(product.getPrice()));
+            DecimalFormat df = new DecimalFormat("#.##");
+            Label innerProductLabelPrice = new Label(df.format(product.getPrice()));
             innerProductLabelPrice.setLayoutX(290);
             innerProductLabelPrice.setLayoutY(25);
             
@@ -106,7 +120,7 @@ public class CartController implements Initializable, Switchable {
                 }
                 
             };
-            valueFactory.setValue(1);
+            valueFactory.setValue(products.get(product));
             innerProductSpinner.setValueFactory(valueFactory);
             innerProductSpinner.valueProperty().addListener(new ChangeListener<Integer>(){
                 @Override
@@ -146,9 +160,9 @@ public class CartController implements Initializable, Switchable {
     private void updateTotal(){
         this.totalPrice.setText(String.format("%-6.2f", this.umf.getTotalCartPrice()));
         if(this.umf.getCartProducts().isEmpty()){
-            this.goToCart.setDisable(true);
+            this.goToCheckout.setDisable(true);
         } else {
-            this.goToCart.setDisable(false);
+            this.goToCheckout.setDisable(false);
         }
     }
 
