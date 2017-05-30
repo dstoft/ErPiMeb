@@ -11,6 +11,7 @@ import erpimeb.domain.ordermanager.OrderManagerFacade;
 import erpimeb.gui.SceneSwitcher;
 import erpimeb.gui.Switchable;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -59,8 +60,8 @@ public class CheckoutController implements Initializable, Switchable {
     @Override
     public void setupInternals() {
         this.currentOrder = this.omf.startCheckout();
-        
-        this.totalPrice.setText(String.valueOf(this.currentOrder.getTotal()));
+        DecimalFormat df = new DecimalFormat("#.##");
+        this.totalPrice.setText(df.format(this.currentOrder.getTotal()));
         this.orderEmail.setText(this.currentOrder.getEmail());
         this.orderName.setText(this.currentOrder.getName());
         this.orderPhone.setText(this.currentOrder.getPhoneNumber());

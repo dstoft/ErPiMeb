@@ -13,6 +13,9 @@ import erpimeb.domain.usermanager.UserManagerFacade;
 import erpimeb.gui.SceneSwitcher;
 import erpimeb.gui.Switchable;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -58,39 +61,17 @@ public class CartController implements Initializable, Switchable {
 
     @Override
     public void setupInternals() {
-        // Test product objects
-//        Product testProduct = new Product(1);
-//        testProduct.addImage("/images/test.jpg");
-//        testProduct.setName("Test Produkt");
-//        testProduct.setPrice(500.50);
-//        this.umf.addProductToCart(testProduct);
-//        
-//        Product testProduct2 = new Product(2);
-//        testProduct2.addImage("/images/test2.jpg");
-//        testProduct2.setName("Test Produkt2056");
-//        testProduct2.setPrice(1000.10);
-//        this.umf.addProductToCart(testProduct2);
-//        
-//        Product testProduct3 = new Product(3);
-//        testProduct3.addImage("/images/test3.png");
-//        testProduct3.setName("Test Produkt2056");
-//        testProduct3.setPrice(1000.10);
-//        this.umf.addProductToCart(testProduct3);
-//        
-//        Product testProduct4 = new Product(4);
-//        testProduct4.addImage("/images/test4.jpg");
-//        testProduct4.setName("Test Produkt2056");
-//        testProduct4.setPrice(1000.10);
-//        this.umf.addProductToCart(testProduct4);
-//        
-//        Product testProduct5 = new Product(5);
-//        testProduct5.addImage("/images/test5.png");
-//        testProduct5.setName("Test Produkt2056");
-//        testProduct5.setPrice(1000.10);
-//        this.umf.addProductToCart(testProduct5);
         
         int i = 0;
+        HashMap<Product,Integer> products = new HashMap<>();
         for(Product product : this.umf.getCartProducts()){
+            if(products.containsKey(product)){
+                products.put(product,products.get(product) + 1);
+                continue;
+            }
+            products.put(product, 1);
+        }
+        for(Product product : products.keySet()){
             AnchorPane innerProductPane = new AnchorPane();
             innerProductPane.setPrefSize(392, 70);
             innerProductPane.setLayoutX(15);
@@ -104,8 +85,11 @@ public class CartController implements Initializable, Switchable {
             Label innerProductLabelName = new Label(product.getName());
             innerProductLabelName.setLayoutX(65);
             innerProductLabelName.setLayoutY(20);
+            innerProductLabelName.setMaxWidth(155);
+            innerProductLabelName.setWrapText(false);
             
-            Label innerProductLabelPrice = new Label(String.valueOf(product.getPrice()));
+            DecimalFormat df = new DecimalFormat("#.##");
+            Label innerProductLabelPrice = new Label(df.format(product.getPrice()));
             innerProductLabelPrice.setLayoutX(290);
             innerProductLabelPrice.setLayoutY(25);
             
@@ -136,7 +120,7 @@ public class CartController implements Initializable, Switchable {
                 }
                 
             };
-            valueFactory.setValue(1);
+            valueFactory.setValue(products.get(product));
             innerProductSpinner.setValueFactory(valueFactory);
             innerProductSpinner.valueProperty().addListener(new ChangeListener<Integer>(){
                 @Override
