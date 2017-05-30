@@ -46,6 +46,7 @@ public class Category {
     
     public void addSubcategory(Category category) {
         this.subcategories.add(category);
+        this.productList.addAll(category.productList);
     }
     
     public void addTag(String tagName) {

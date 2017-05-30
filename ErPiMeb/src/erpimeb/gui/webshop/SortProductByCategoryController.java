@@ -47,8 +47,6 @@ public class SortProductByCategoryController implements Initializable, Switchabl
         List<Category> subCategories = cManager.getSubCategories(cManager.getCurrentCategory());
         for (Category c : subCategories) {
             subCategoryListview.getItems().add(c);
-            this.cManager.setCurrentCategory(c);
-            this.foundProducts.getItems().addAll(this.sortedBy.getProductList());
         }
         
         this.cManager.setCurrentCategory(this.sortedBy);

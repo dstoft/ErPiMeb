@@ -311,6 +311,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
             }
 
             for (Category category : tempCategories) {
+                this.fillSubCategory(category);
                 returnCategory.addSubcategory(category);
             }
         } catch (SQLException e) {
@@ -682,7 +683,10 @@ public class DatabaseManager implements DatabaseManagerFacade {
             PreparedStatement prepSt = this.conn.prepareStatement(query);
             rs = prepSt.executeQuery();
             while (rs.next()) {
-                subCategories.add(this.fillSubCategory(rs.getString("categoryname_2")));
+                Category newCategory = new Category();
+                newCategory.setName(rs.getString("categoryname_2"));
+                this.fillSubCategory(newCategory);
+                subCategories.add(newCategory);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -732,16 +736,14 @@ public class DatabaseManager implements DatabaseManagerFacade {
     }
 
     @Override
-    public Category fillSubCategory(String categoryName) {
+    public void fillSubCategory(Category category) {
         // Calling this.getCategoryInfo is useless, since Category only holds a name
         ResultSet rs;
-        Category returnCategory = new Category();
-        returnCategory.setName(categoryName);
 
         // Products
         try {
             ArrayList<Product> tempProducts = new ArrayList<>();
-            String query = "SELECT DISTINCT productid FROM product NATURAL JOIN subcategory WHERE productcategory_name = '" + categoryName + "';";
+            String query = "SELECT DISTINCT productid FROM product NATURAL JOIN subcategory WHERE productcategory_name = '" + category.getName() + "';";
             PreparedStatement prepSt = this.conn.prepareStatement(query);
             //prepSt.setString(1, categoryName);
             rs = prepSt.executeQuery();
@@ -751,13 +753,12 @@ public class DatabaseManager implements DatabaseManagerFacade {
 
             for (Product product : tempProducts) {
                 this.fillProduct(product);
-                returnCategory.addProduct(product);
+                category.addProduct(product);
             }
         } catch (SQLException e) {
             System.out.println("Database error regarding fetching category's products from a resultset!");
-            return null;
+            return;
         }
-        return returnCategory;
     }
 
     @Override
