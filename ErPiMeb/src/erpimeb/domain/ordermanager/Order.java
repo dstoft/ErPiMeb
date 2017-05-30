@@ -27,19 +27,20 @@ public class Order {
     private String paymentMethod;
     private Address address;
     private boolean tos;
+    
+    public Order(){
+        this.products = new ArrayList<>();
+        this.setStatus("In Progress");
+        this.timeStamp = System.currentTimeMillis();
+    }
 
+    /* Getters begin */
     public long getTimeStamp() {
         return timeStamp;
     }
 
     public int getOrderNumber() {
         return orderNumber;
-    }
-    
-    public Order(){
-        this.products = new ArrayList<>();
-        this.setStatus("In Progress");
-        this.timeStamp = System.currentTimeMillis();
     }
 
     public String getName() {
@@ -62,21 +63,28 @@ public class Order {
         return address;
     }
     
-    protected void setStatus(String status){
-        this.status = status;
+    public String getEmail(){
+        return this.email;
     }
     
-    protected void addProducts(List<Product> products){
-        this.products = products;
-        this.calculateTotal();
+    protected boolean isTosVerified(){
+        return this.tos;
     }
-    
-    private void calculateTotal(){
-        for(Product prod : this.products){
-            this.total += prod.getPrice();
-        }
+
+    public List<Product> getProducts() {
+        return products;
     }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public boolean isTos() {
+        return tos;
+    }
+    /* Getters end */
     
+    /* Setters begin */
     protected void setName(String name){
         this.name = name;
     }
@@ -101,8 +109,25 @@ public class Order {
         this.tos = accept;
     }
     
-    public String getEmail(){
-        return this.email;
+    protected void setStatus(String status){
+        this.status = status;
+    }
+    
+    void setPaymentMethod(String method) {
+        this.paymentMethod = method;
+    }
+    /* Setters end */
+    
+    /* Behavioural methods begin */
+    protected void addProducts(List<Product> products){
+        this.products = products;
+        this.calculateTotal();
+    }
+    
+    private void calculateTotal(){
+        for(Product prod : this.products){
+            this.total += prod.getPrice();
+        }
     }
     
     protected boolean isRequiredInformationFilled(){
@@ -126,24 +151,5 @@ public class Order {
         }
         return true;
     }
-    
-    protected boolean isTosVerified(){
-        return this.tos;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public boolean isTos() {
-        return tos;
-    }
-    
-    void setPaymentMethod(String method) {
-        this.paymentMethod = method;
-    }
+    /* Behavioural methods end */
 }

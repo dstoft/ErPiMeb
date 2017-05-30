@@ -66,7 +66,7 @@ public class OrderHistoryController implements Initializable, Switchable {
             innerProductLabelId.setLayoutX(65);
             innerProductLabelId.setLayoutY(20);
             
-            Label innerProductLabelPrice = new Label(String.valueOf(order.getTotalPrice()));
+            Label innerProductLabelPrice = new Label(String.valueOf(order.getTotal()));
             innerProductLabelId.setLayoutX(150);
             innerProductLabelId.setLayoutY(20);
             

@@ -55,7 +55,7 @@ public class ViewOrderController implements Initializable, Switchable {
         for(Product product : currentOrder.getProducts()){
             this.orderProducts.getSelectionModel().getSelectedItems().add(product.getName());
         }
-        this.priceLabel.setText(String.valueOf(currentOrder.getTotalPrice()));
+        this.priceLabel.setText(String.valueOf(currentOrder.getTotal()));
         this.statusLabel.setText(currentOrder.getStatus());
         Date date = new Date((long)currentOrder.getTimeStamp());
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
