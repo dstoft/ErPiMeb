@@ -94,11 +94,6 @@ public class OrderManager implements OrderManagerFacade{
     }
 
     @Override
-    public Order showSpecificOrder(int orderId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public Order startCheckout() {
         this.currentOrder = new Order();
         this.products = umf.getCartProducts();

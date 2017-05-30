@@ -656,7 +656,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
     }
 
     @Override
-    public List<Category> getCategories() {
+    public List<Category> getMainCategories() {
         List<Category> categories = new ArrayList<>();
 
         ResultSet rs;
@@ -667,8 +667,8 @@ public class DatabaseManager implements DatabaseManagerFacade {
             while (rs.next()) {
                 categories.add(this.fillCategory(rs.getString("categoryname")));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Database error regarding fetching ");
         }
 
         return categories;

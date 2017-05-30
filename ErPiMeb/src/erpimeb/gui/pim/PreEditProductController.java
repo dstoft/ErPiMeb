@@ -67,7 +67,7 @@ public class PreEditProductController implements Initializable, Switchable {
     @FXML
     private void handlePickProduct(ActionEvent event) {
         if (searchListView.getSelectionModel().getSelectedItem() != null) {
-            cManager.pickProductToEditFromList(searchListView.getSelectionModel().getSelectedItem());
+            cManager.setCurrentProduct(searchListView.getSelectionModel().getSelectedItem());
             this.searchListView.getItems().clear();
             
             SceneSwitcher.changeScene("/resources/PimEditProduct.fxml", "PIM Backend - Rediger Produkt");

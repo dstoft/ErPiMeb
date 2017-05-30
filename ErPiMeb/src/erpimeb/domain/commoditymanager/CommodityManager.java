@@ -7,6 +7,8 @@ package erpimeb.domain.commoditymanager;
 
 import erpimeb.persistence.databasemanager.DatabaseManager;
 import erpimeb.persistence.databasemanager.DatabaseManagerFacade;
+import external.persistence.erpManager.ErpManager;
+import external.persistence.erpManager.ErpManagerFacade;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,11 +19,7 @@ import java.util.Set;
  * @author chris
  */
 public class CommodityManager implements CommodityManagerFacade {
-    private Category currentCategory;
-    private Product currentProduct;
-    
     public static CommodityManager manager;
-    private DatabaseManagerFacade dbManager;
     
     public static CommodityManager getInstance(){
         if(manager == null){
@@ -31,13 +29,18 @@ public class CommodityManager implements CommodityManagerFacade {
         return manager;
     }
     
-    public void init(){
+    private void init(){
         this.dbManager = DatabaseManager.getInstance();
+        this.erpManager = ErpManager.getInstance();
     }
     
     private Set<Category> productCategories;
     private ArrayList<Product> products;
     private String currentSearchTerm;
+    private Category currentCategory;
+    private Product currentProduct;
+    private DatabaseManagerFacade dbManager;
+    private ErpManagerFacade erpManager;
     
     @Override
     public void setSearchTerm(String searchTerm){
@@ -49,9 +52,11 @@ public class CommodityManager implements CommodityManagerFacade {
         return this.currentSearchTerm;
     }
 
+    // ***** Product *****
     @Override
     public void fillProduct(Product product) {
         this.dbManager.fillProduct(product);
+        this.erpManager.fillProduct(product);
     }
 
     @Override
@@ -64,104 +69,15 @@ public class CommodityManager implements CommodityManagerFacade {
     }
     
     @Override
-    public boolean createCategory(String name, List<Category> subcategories, List<String> tagList, List<Product> products){
-	Category newCategory = new Category(name, subcategories, tagList, products);
-	return this.dbManager.saveCategory(newCategory);
-    }
-
-    @Override
-    public List<Category> showMainCategories() {
-        return dbManager.getCategories();
-    }
-
-    @Override
-    public void pickMainCategory(Category pickedMainCategory) {
-        currentCategory = pickedMainCategory;
-    }
-
-    @Override
-    public List<Product> searchForProduct(String productName) {
-        return this.dbManager.searchForProduct(productName);
-    }
-
-    @Override
-    public void pickProductToEditFromList(int productId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void pickProductFromList(Product product) {
+    public void setCurrentProduct(Product product) {
         this.currentProduct = product;
-    }
-
-    @Override
-    public Product getProduct() {
-        return this.currentProduct;
-    }
-
-    @Override
-    public void setCategory(Category category) {
-        this.currentCategory = category;
-    }
-
-    @Override
-    public Category getCategory() {
-        return this.currentCategory;
-    }
-    
-    @Override
-    public Category getCurrentCategory() {
-        return currentCategory;
-    }
-
-    @Override
-    public List<Category> showSubCategories(Category mainCategory) {
-        return dbManager.getSubcategories(currentCategory.getName());
-    }
-
-    @Override
-    public void pickSubCategory(Category pickedSubCategory) {
-        currentCategory = pickedSubCategory;
-    }
-
-    @Override
-    public List<Product> showProducts() {
-        return currentCategory.getProductList();
+        this.erpManager.fillProduct(this.currentProduct);
     }
 
     @Override
     public Product getCurrentProduct() {
-        return currentProduct;
-    }
-
-    @Override
-    public void setCurrentProduct(Product product) {
-        currentProduct = product;
-    }
-
-    @Override
-    public List<String> getCurrentProductImages() {
-        return currentProduct.getImages();
-    }
-
-    @Override
-    public List<String> getCurrentProductVideos() {
-        return currentProduct.getVideoLinks();
-    }
-
-    @Override
-    public List<Category> showCategories() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Category pickCategory(String categoryName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void pickProductToEditFromList(Product pickedProduct) {
-        currentProduct = pickedProduct;
+        this.erpManager.fillProduct(this.currentProduct);
+        return this.currentProduct;
     }
     
     @Override
@@ -172,22 +88,51 @@ public class CommodityManager implements CommodityManagerFacade {
     }
 
     @Override
-    public List<String> getAllSpecKeys() {
-        return this.dbManager.getAllSpecKeys();
+    public List<Product> searchForProduct(String productName) {
+        return this.dbManager.searchForProduct(productName);
+    }
+    // ***** Product END *****
+    
+    // ***** Category *****
+    @Override
+    public boolean createCategory(String name, List<Category> subcategories, List<String> tagList, List<Product> products){
+	Category newCategory = new Category(name, subcategories, tagList, products);
+	return this.dbManager.saveCategory(newCategory);
+    }
+
+    @Override
+    public void setCurrentCategory(Category category) {
+        this.currentCategory = category;
+    }
+    
+    @Override
+    public Category getCurrentCategory() {
+        return this.currentCategory;
+    }
+
+    @Override
+    public List<Category> getMainCategories() {
+        return dbManager.getMainCategories();
+    }
+
+    @Override
+    public List<Category> getSubCategories(Category mainCategory) {
+        return dbManager.getSubcategories(currentCategory.getName());
     }
     
     @Override
     public List<Category> getAllCategories() {
         return this.dbManager.getAllCategories();
     }
-    
-    @Override
-    public Product getPickedProduct() {
-        return this.currentProduct;
-    }
 
     @Override
     public List<Category> getNonMainCategories() {
         return this.dbManager.getNonMainCategories();
+    }
+    // ***** Category END *****
+    
+    @Override
+    public List<String> getAllSpecKeys() {
+        return this.dbManager.getAllSpecKeys();
     }
 }

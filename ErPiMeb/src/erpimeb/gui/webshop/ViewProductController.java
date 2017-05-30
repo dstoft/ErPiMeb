@@ -61,7 +61,7 @@ public class ViewProductController implements Initializable, Switchable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cManager = CommodityManager.getInstance();
-        this.currentProduct = cManager.getProduct();
+        this.currentProduct = cManager.getCurrentProduct();
         this.setupScene();
     }
     
@@ -78,7 +78,7 @@ public class ViewProductController implements Initializable, Switchable {
         productDescription.setText(currentProduct.getDescription());
 
         //Add images
-        List<String> images = cManager.getCurrentProductImages();
+        List<String> images = this.currentProduct.getImages();
 
         // For loop cannot be implemented until images are
         /*for (String s : images) {

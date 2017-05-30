@@ -45,7 +45,7 @@ public class SearchForProductController implements Initializable, Switchable {
     @FXML
     private void handleChooseProduct(MouseEvent event) {
         if(this.foundProducts.getSelectionModel().getSelectedItem() != null){
-            commodityManager.pickProductFromList(this.foundProducts.getSelectionModel().getSelectedItem());
+            commodityManager.setCurrentProduct(this.foundProducts.getSelectionModel().getSelectedItem());
             SceneSwitcher.changeScene("/resources/WebshopViewProduct.fxml", "vis produktets navn her");
         }
     }

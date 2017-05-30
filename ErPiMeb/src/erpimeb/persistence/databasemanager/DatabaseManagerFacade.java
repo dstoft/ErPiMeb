@@ -29,7 +29,7 @@ public interface DatabaseManagerFacade {
     public abstract boolean saveCategory(Category category);
     public abstract Order createOrder(int orderId);
     public abstract int checkCredentials(String username, String password);
-    public abstract List<Category> getCategories();
+    public abstract List<Category> getMainCategories();
     public abstract List<Category> getSubcategories(String categoryName);
     public abstract List<Product> searchForProduct(String productName);
     public abstract List<Long> getOrderTimestamps(String status, long since);

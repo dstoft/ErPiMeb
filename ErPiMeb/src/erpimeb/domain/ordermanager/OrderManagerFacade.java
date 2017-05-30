@@ -17,7 +17,6 @@ public interface OrderManagerFacade {
     public abstract void setOrderTOS(boolean status);
     public abstract boolean confirmOrder();
     public abstract void cancelOrder();
-    public abstract Order showSpecificOrder(int orderId);
     public abstract Order startCheckout();
     
 }

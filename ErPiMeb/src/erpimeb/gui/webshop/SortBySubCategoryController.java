@@ -36,7 +36,7 @@ public class SortBySubCategoryController implements Initializable, Switchable {
     public void initialize(URL url, ResourceBundle rb) {
         cManager = CommodityManager.getInstance();
         
-        List<Product> categoryProducts = cManager.showProducts();
+        List<Product> categoryProducts = this.cManager.getCurrentCategory().getProductList();
         for (Product p : categoryProducts) {
             foundProducts.getItems().add(p);
         }
@@ -46,7 +46,7 @@ public class SortBySubCategoryController implements Initializable, Switchable {
     private void handleChooseProduct(MouseEvent event) {
         if(this.foundProducts.getSelectionModel().getSelectedItem() != null){
             Product pro = this.foundProducts.getSelectionModel().getSelectedItem();
-            cManager.pickProductFromList(pro);
+            cManager.setCurrentProduct(pro);
             SceneSwitcher.changeScene("/resources/WebshopViewProduct.fxml", pro.getName());
         }
     }

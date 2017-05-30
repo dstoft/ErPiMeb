@@ -37,7 +37,7 @@ public class MainController implements Initializable, Switchable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cManager = CommodityManager.getInstance();
-        this.categoryListView.getItems().addAll(cManager.showMainCategories());
+        this.categoryListView.getItems().addAll(cManager.getMainCategories());
     }    
 
     @FXML
@@ -56,7 +56,7 @@ public class MainController implements Initializable, Switchable {
     private void handleChooseCategory(MouseEvent event) {
         if(this.categoryListView.getSelectionModel().getSelectedItem() != null){
             Category cat = this.categoryListView.getSelectionModel().getSelectedItem();
-            cManager.setCategory(cat);
+            cManager.setCurrentCategory(cat);
             SceneSwitcher.changeScene("/resources/WebshopSortProductByCategory.fxml", cat.getName());
         }
     }

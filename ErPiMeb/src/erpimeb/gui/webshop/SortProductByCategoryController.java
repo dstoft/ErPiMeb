@@ -41,25 +41,25 @@ public class SortProductByCategoryController implements Initializable, Switchabl
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.cManager = CommodityManager.getInstance();
-        this.sortedBy = cManager.getCategory();
+        this.sortedBy = cManager.getCurrentCategory();
         
         // Fill category list view
-        List<Category> subCategories = cManager.showSubCategories(cManager.getCurrentCategory());
+        List<Category> subCategories = cManager.getSubCategories(cManager.getCurrentCategory());
         for (Category c : subCategories) {
             subCategoryListview.getItems().add(c);
-            this.cManager.setCategory(c);
-            this.foundProducts.getItems().addAll(this.cManager.showProducts());
+            this.cManager.setCurrentCategory(c);
+            this.foundProducts.getItems().addAll(this.sortedBy.getProductList());
         }
         
-        this.cManager.setCategory(this.sortedBy);
-        this.foundProducts.getItems().addAll(this.cManager.showProducts());
+        this.cManager.setCurrentCategory(this.sortedBy);
+        this.foundProducts.getItems().addAll(this.sortedBy.getProductList());
     }
 
     @FXML
     private void handleSelectSubCategory(MouseEvent event) {
         if(this.subCategoryListview.getSelectionModel().getSelectedItem() != null){
             Category cat = this.subCategoryListview.getSelectionModel().getSelectedItem();
-            cManager.setCategory(cat);
+            cManager.setCurrentCategory(cat);
             SceneSwitcher.changeScene("/resources/WebshopSortBySubCategory.fxml", cat.getName());
         }
     }
@@ -68,7 +68,7 @@ public class SortProductByCategoryController implements Initializable, Switchabl
     private void handleChooseProduct(MouseEvent event) {
         if(this.foundProducts.getSelectionModel().getSelectedItem() != null){
             Product pro = this.foundProducts.getSelectionModel().getSelectedItem();
-            cManager.pickProductFromList(pro);
+            cManager.setCurrentProduct(pro);
             SceneSwitcher.changeScene("/resources/WebshopViewProduct.fxml", pro.getName());
         }
     }

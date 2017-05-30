@@ -73,7 +73,7 @@ public class EditProductController implements Initializable, Switchable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         CommodityManagerFacade comManager = CommodityManager.getInstance();
-        this.setPickedProduct(comManager.getPickedProduct());
+        this.setPickedProduct(comManager.getCurrentProduct());
         
         keysComboBox.getItems().addAll(comManager.getAllSpecKeys()); // Skal hente keys fra database
         
