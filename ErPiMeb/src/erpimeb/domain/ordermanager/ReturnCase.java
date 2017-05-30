@@ -23,6 +23,22 @@ public class ReturnCase {
     public ReturnCase(Order order) {
         this.order = order;
     }
+
+    public int getReturnId() {
+        return returnId;
+    }
+
+    public String getReturnKind() {
+        return returnKind;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
     
     
 

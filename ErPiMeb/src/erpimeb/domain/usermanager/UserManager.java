@@ -94,6 +94,10 @@ public class UserManager implements UserManagerFacade{
         }
         return false;
     }
+
+    public int getCurrentUserId() {
+        return currentUserId;
+    }
     
 
 }

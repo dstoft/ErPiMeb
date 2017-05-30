@@ -477,13 +477,15 @@ public class DatabaseManager implements DatabaseManagerFacade{
     @Override
     //Dummy data.
     public Order fillOrder(int orderId){ 
-        ArrayList<Product> dummyData = new ArrayList<>();
-        Order filledOrder = new Order(1," name", "email", 
-        "phoneNumber",  1,  "status",  true, 
-        1, dummyData, 1, 
-        "paymentMethod",  "deliveryInformation" , true);
-        return filledOrder; 
-         
+//        ArrayList<Product> dummyData = new ArrayList<>();
+//        Order filledOrder = new Order(1," name", "email", 
+//        "phoneNumber",  1,  "status",  true, 
+//        1, dummyData, 1, 
+//        "paymentMethod",  "deliveryInformation" , true);
+//        return filledOrder; 
+//
+// return null, is only so i dont get error before merge. 
+    return null; 
     }
     @Override
     public void submitReturnForm(ReturnCase returnCase){

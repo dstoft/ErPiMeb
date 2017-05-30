@@ -5,9 +5,7 @@
  */
 package erpimeb.domain.ordermanager;
 
-import erpimeb.domain.commoditymanager.Category;
 import erpimeb.domain.commoditymanager.Product;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,20 +28,57 @@ public class Order {
     private String deliveryInformation;
     private boolean tos;
 
-    public Order(int id, String name, String email, String phoneNumber, long timeStamp, String status, boolean tempOrder, int orderNumber, List<Product> products, double total, String paymentMethod, String deliveryInformation, boolean tos) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.timeStamp = timeStamp;
-        this.status = status;
-        this.tempOrder = tempOrder;
-        this.orderNumber = orderNumber;
-        this.products = products;
-        this.total = total;
-        this.paymentMethod = paymentMethod;
-        this.deliveryInformation = deliveryInformation;
-        this.tos = tos;
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public boolean isTempOrder() {
+        return tempOrder;
+    }
+
+    public int getOrderNumber() {
+        return orderNumber;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public String getDeliveryInformation() {
+        return deliveryInformation;
+    }
+
+    public boolean isTos() {
+        return tos;
     }
     
 }

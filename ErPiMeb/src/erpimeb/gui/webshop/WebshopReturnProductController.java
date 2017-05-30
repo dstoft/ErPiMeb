@@ -24,15 +24,12 @@ import javafx.scene.control.TextField;
 public class WebshopReturnProductController implements Initializable {
 
     @FXML
-    private TextField productTextField;
-    @FXML
-    private TextField nameTextField;
-    @FXML
-    private TextField refundTextField;
+    private Button returntoId;
     @FXML
     private TextField orderIdTextField;
     @FXML
     private Button orderIdPressed;
+    
     private OrderManagerFacade orderManager;
 
     /**
@@ -41,13 +38,20 @@ public class WebshopReturnProductController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.orderManager = OrderManager.getInstance();
+        int enteredOrderId = Integer.parseInt(orderIdTextField.getText());
+        ReturnCase filledOrder = orderManager.showReturnForm(enteredOrderId);
+    }
+
+    @FXML
+    private void handleReturnToParent(ActionEvent event) {
+        //SceneSwitcher.cycleBackward();
+
     }
 
     @FXML
     private void orderIdButton(ActionEvent event) {
-        int enteredOrderId = Integer.parseInt(orderIdTextField.getText());
-        ReturnCase filledOrder = orderManager.showReturnForm(enteredOrderId);
-        filledOrder.
+        // Agger sceneSwitcher 
+        
     }
 
 }
