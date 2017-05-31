@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.pim.CreateCategoryController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.pim.CreateCategoryController">
    <children>
       <Button fx:id="returnButton" layoutX="23.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Tilbage til PIM" />
       <TextField fx:id="nameTextField" layoutX="23.0" layoutY="84.0" prefHeight="25.0" prefWidth="150.0" promptText="Navn" />
@@ -19,6 +19,6 @@
       <ListView fx:id="tagsListview" layoutX="270.0" layoutY="207.0" prefHeight="59.0" prefWidth="200.0" />
       <ListView fx:id="productsListview" layoutX="270.0" layoutY="281.0" prefHeight="59.0" prefWidth="200.0" />
       <TextField fx:id="tagTextField" layoutX="24.0" layoutY="224.0" promptText="Tag" />
-      <Button fx:id="productsAddButton" layoutX="33.0" layoutY="298.0" mnemonicParsing="false" onAction="#handleAddButton" text="Find product at tilføje" />
+      <Button fx:id="productsAddButton" layoutX="33.0" layoutY="298.0" mnemonicParsing="false" onAction="#handleAddButton" text="Find produkt at tilføje" />
    </children>
 </AnchorPane>

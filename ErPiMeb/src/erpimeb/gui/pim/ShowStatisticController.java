@@ -5,7 +5,7 @@
  */
 package erpimeb.gui.pim;
 
-import erpimeb.domain.statisticmanager.Graphs;
+import erpimeb.domain.statisticmanager.Graph;
 import erpimeb.domain.statisticmanager.StatisticManager;
 import erpimeb.domain.statisticmanager.StatisticManagerFacade;
 import erpimeb.gui.SceneSwitcher;
@@ -44,7 +44,7 @@ public class ShowStatisticController implements Initializable, Switchable {
         SceneSwitcher.cycleBackward();
     }
     
-    private void createLineChart(Graphs graphs) {
+    private void createLineChart(Graph graphs) {
         
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();

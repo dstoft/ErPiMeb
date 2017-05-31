@@ -11,6 +11,6 @@ package erpimeb.domain.statisticmanager;
  */
 public interface StatisticManagerFacade {
     
-    public abstract Graphs getCompletedOrders(long since);
+    public abstract Graph getCompletedOrders(long since);
     
 }

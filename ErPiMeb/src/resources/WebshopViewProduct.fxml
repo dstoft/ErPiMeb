@@ -11,24 +11,24 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane id="AnchorPane" prefHeight="470.0" prefWidth="613.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.webshop.ViewProductController">
+<AnchorPane id="AnchorPane" prefHeight="470.0" prefWidth="613.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.webshop.ViewProductController">
    <children>
       <Button fx:id="leftArrow" layoutX="73.0" layoutY="250.0" mnemonicParsing="false" onAction="#cycleBackward" text="&lt;--" />
       <ImageView fx:id="imageView" fitHeight="185.0" fitWidth="232.0" layoutX="43.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true" />
-      <Label layoutX="303.0" layoutY="60.0" text="Product Name:" />
-      <Label layoutX="303.0" layoutY="90.0" text="Product Price:" />
+      <Label layoutX="303.0" layoutY="60.0" text="Produkt navn:" />
+      <Label layoutX="303.0" layoutY="90.0" text="Produkt pris:" />
       <AnchorPane layoutX="300.0" layoutY="119.0" prefHeight="150.0" prefWidth="270.0">
          <children>
-            <Label alignment="TOP_LEFT" layoutY="8.0" prefHeight="200.0" prefWidth="200.0" text="Product Description:" wrapText="true" AnchorPane.bottomAnchor="-8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" />
+            <Label alignment="TOP_LEFT" layoutY="8.0" prefHeight="200.0" prefWidth="200.0" text="Produktbeskrivelse:" wrapText="true" AnchorPane.bottomAnchor="-8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" />
             <TextArea fx:id="productDescription" editable="false" layoutY="29.0" prefHeight="121.0" prefWidth="270.0" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0" />
          </children>
       </AnchorPane>
       <Button fx:id="rightArrow" layoutX="211.0" layoutY="250.0" mnemonicParsing="false" onAction="#cycleForward" text="--&gt;" />
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Back to search" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Tilbage til søgning" />
       <TextField fx:id="productName" editable="false" layoutX="419.0" layoutY="56.0" />
       <TextField fx:id="productPrice" editable="false" layoutX="419.0" layoutY="86.0" />
-      <Button layoutX="131.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleImages" text="Images" />
-      <Button layoutX="194.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleVideos" text="Videos" />
+      <Button layoutX="133.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleImages" text="Billeder" />
+      <Button layoutX="194.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleVideos" text="Videoer" />
       <WebView fx:id="videoWebView" layoutX="43.0" layoutY="59.0" prefHeight="185.0" prefWidth="232.0" />
       <Button layoutX="494.0" layoutY="280.0" mnemonicParsing="false" onAction="#addToCart" text="Tilføj til kurv" />
       <Label layoutX="29.0" layoutY="294.0" text="Relaterede produkter" />

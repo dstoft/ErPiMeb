@@ -13,7 +13,7 @@ import erpimeb.persistence.databasemanager.DatabaseManager;
  */
 public class StatisticManager implements StatisticManagerFacade{
     public static StatisticManager manager;
-    private Graphs graphs;
+    private Graph graphs;
     private StatisticDatabaseManagerFacade dmf;
     
     public static StatisticManager getInstance(){
@@ -28,7 +28,7 @@ public class StatisticManager implements StatisticManagerFacade{
     }
     
     @Override
-    public Graphs getCompletedOrders(long since) {Graphs returnGraphs = new Graphs(System.currentTimeMillis(), "Dag på måneden", "Antal", "Gennemførte ordre", "Gennemførte ordre");
+    public Graph getCompletedOrders(long since) {Graph returnGraphs = new Graph(System.currentTimeMillis(), "Dag på måneden", "Antal", "Gennemførte ordre", "Gennemførte ordre");
         returnGraphs.addData(this.dmf.getOrderTimestamps("complete", since));
         return returnGraphs;
     }

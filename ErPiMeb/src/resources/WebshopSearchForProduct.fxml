@@ -4,9 +4,9 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.webshop.SearchForProductController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.webshop.SearchForProductController">
    <children>
       <ListView fx:id="foundProducts" layoutX="78.0" layoutY="43.0" onMouseClicked="#handleChooseProduct" prefHeight="314.0" prefWidth="445.0" />
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Back to main page" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Tilbage til forside" />
    </children>
 </AnchorPane>

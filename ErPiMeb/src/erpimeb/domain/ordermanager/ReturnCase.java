@@ -5,10 +5,6 @@
  */
 package erpimeb.domain.ordermanager;
 
-import erpimeb.domain.commoditymanager.Product;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author AKT

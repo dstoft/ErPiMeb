@@ -16,12 +16,12 @@ import java.util.Map;
  *
  * @author AKT
  */
-public class Graphs {
+public class Graph {
     
     Map<Integer, Integer> data;
     String xAxis, yAxis, title, seriesName;
     
-    public Graphs(long creationTime, String xAxis, String yAxis, String title, String seriesName) {
+    public Graph(long creationTime, String xAxis, String yAxis, String title, String seriesName) {
         this.xAxis = xAxis;
         this.yAxis = yAxis;
         this.title = title;

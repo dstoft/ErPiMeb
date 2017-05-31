@@ -14,7 +14,6 @@ import erpimeb.gui.SceneSwitcher;
 import erpimeb.gui.Switchable;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;

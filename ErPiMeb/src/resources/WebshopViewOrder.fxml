@@ -6,10 +6,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="erpimeb.gui.webshop.ViewOrderController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.webshop.ViewOrderController">
    <children>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Tilbage til forrige side" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToParent" text="Tilbage til forrige" />
       <Button layoutX="407.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleCreateReturnCase" text="Opret retursag på denne ordre" />
       <Label layoutX="66.0" layoutY="83.0" text="Status:" />
       <Label fx:id="statusLabel" layoutX="131.0" layoutY="83.0" text="value">

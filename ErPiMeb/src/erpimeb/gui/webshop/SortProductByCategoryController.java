@@ -19,7 +19,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import erpimeb.gui.Switchable;
 import erpimeb.gui.SceneSwitcher;
-import java.util.HashSet;
 
 /**
  * FXML Controller class

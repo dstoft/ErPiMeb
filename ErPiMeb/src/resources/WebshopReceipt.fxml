@@ -6,11 +6,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="erpimeb.gui.webshop.ReceiptController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.webshop.ReceiptController">
    <children>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleReturnToMainPage" text="Tilbage til forside" />
-      <Label layoutX="40.0" layoutY="67.0" text="Ordre nummer:" />
+      <Label layoutX="40.0" layoutY="67.0" text="Ordrenummer:" />
       <Label layoutX="40.0" layoutY="95.0" text="Email:" />
       <Label layoutX="40.0" layoutY="123.0" text="Navn:" />
       <Label layoutX="40.0" layoutY="178.0" text="Total Pris:" />
