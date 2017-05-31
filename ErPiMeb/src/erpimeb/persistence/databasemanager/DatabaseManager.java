@@ -5,15 +5,16 @@
  */
 package erpimeb.persistence.databasemanager;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import erpimeb.domain.commoditymanager.Category;
-import erpimeb.domain.commoditymanager.CommodityManager;
-import erpimeb.domain.commoditymanager.CommodityManagerFacade;
+import erpimeb.domain.commoditymanager.CommodityDatabaseManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
 import erpimeb.domain.ordermanager.Order;
+import erpimeb.domain.ordermanager.OrderDatabaseManagerFacade;
 import erpimeb.domain.ordermanager.ReturnCase;
+import erpimeb.domain.statisticmanager.StatisticDatabaseManagerFacade;
 import erpimeb.domain.usermanager.Address;
 import erpimeb.domain.usermanager.Customer;
+import erpimeb.domain.usermanager.UserDatabaseManagerFacade;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,14 +26,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author chris
  */
-public class DatabaseManager implements DatabaseManagerFacade {
+public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDatabaseManagerFacade, StatisticDatabaseManagerFacade, UserDatabaseManagerFacade {
 
     public static DatabaseManager manager;
     
@@ -342,8 +341,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
         // There is no data regarding videos in the database!
     }
 
-    @Override
-    public Category fillCategory(String categoryName) {
+    private Category fillCategory(String categoryName) {
 //        connect();
         //Should probably check whether the name exists in the db first, but oh well
 
@@ -849,8 +847,7 @@ public class DatabaseManager implements DatabaseManagerFacade {
         return returnList;
     }
 
-    @Override
-    public void fillSubCategory(Category category) {
+    private void fillSubCategory(Category category) {
         // Calling this.getCategoryInfo is useless, since Category only holds a name
         ResultSet rs;
 
@@ -898,23 +895,6 @@ public class DatabaseManager implements DatabaseManagerFacade {
         
         System.out.println("Return list len: " + returnList.size());
         return returnList;
-    }
-
-    @Override
-    public List<Integer> searchForProductId(String productName) {
-        List<Integer> ids = new ArrayList<>();
-        try {
-            String SQL = "SELECT productid FROM product WHERE name = " + productName;
-            ResultSet rs = conn.createStatement().executeQuery(SQL);
-
-            while (rs.next()) {
-                ids.add(rs.getInt("productid"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return ids;
     }
 
     private ResultSet getProductInfo(int id) {

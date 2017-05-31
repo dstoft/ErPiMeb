@@ -6,9 +6,7 @@
 package erpimeb.domain.commoditymanager;
 
 import erpimeb.persistence.databasemanager.DatabaseManager;
-import erpimeb.persistence.databasemanager.DatabaseManagerFacade;
 import external.persistence.erpManager.ErpManager;
-import external.persistence.erpManager.ErpManagerFacade;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,8 +37,8 @@ public class CommodityManager implements CommodityManagerFacade {
     private String currentSearchTerm;
     private Category currentCategory;
     private Product currentProduct;
-    private DatabaseManagerFacade dbManager;
-    private ErpManagerFacade erpManager;
+    private CommodityDatabaseManagerFacade dbManager;
+    private CommodityErpManagerFacade erpManager;
     
     @Override
     public void setSearchTerm(String searchTerm){

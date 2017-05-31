@@ -10,7 +10,6 @@ import erpimeb.domain.commoditymanager.CommodityManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
 import erpimeb.domain.ordermanager.Order;
 import erpimeb.persistence.databasemanager.DatabaseManager;
-import erpimeb.persistence.databasemanager.DatabaseManagerFacade;
 import java.util.List;
 
 /**
@@ -19,7 +18,7 @@ import java.util.List;
  */
 public class UserManager implements UserManagerFacade{
     public static UserManager manager;
-    public DatabaseManagerFacade dbManager;
+    public UserDatabaseManagerFacade dbManager;
     private CommodityManagerFacade cmf;
     
     private int currentUserId;

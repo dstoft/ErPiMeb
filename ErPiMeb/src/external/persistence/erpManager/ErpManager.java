@@ -5,6 +5,7 @@
  */
 package external.persistence.erpManager;
 
+import erpimeb.domain.commoditymanager.CommodityErpManagerFacade;
 import erpimeb.domain.commoditymanager.Product;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import java.util.Random;
  *
  * @author chris
  */
-public class ErpManager implements ErpManagerFacade{
+public class ErpManager implements CommodityErpManagerFacade{
     private static ErpManager manager;
     
     public static ErpManager getInstance(){

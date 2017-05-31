@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package external.persistence.erpManager;
+package erpimeb.domain.commoditymanager;
 
-import erpimeb.domain.commoditymanager.Product;
 import java.util.List;
 
 /**
  *
  * @author chris
  */
-public interface ErpManagerFacade {
+public interface CommodityErpManagerFacade {
     public abstract List<Integer> getSerialNumbers();
     public abstract void fillProduct(Product product);
     public abstract boolean validateSerialNumber(int serialNumber);
+    
 }

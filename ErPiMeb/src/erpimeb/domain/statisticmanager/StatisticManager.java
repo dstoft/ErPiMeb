@@ -6,7 +6,6 @@
 package erpimeb.domain.statisticmanager;
 
 import erpimeb.persistence.databasemanager.DatabaseManager;
-import erpimeb.persistence.databasemanager.DatabaseManagerFacade;
 
 /**
  *
@@ -15,6 +14,7 @@ import erpimeb.persistence.databasemanager.DatabaseManagerFacade;
 public class StatisticManager implements StatisticManagerFacade{
     public static StatisticManager manager;
     private Graphs graphs;
+    private StatisticDatabaseManagerFacade dmf;
     
     public static StatisticManager getInstance(){
         if(manager == null){
@@ -23,12 +23,13 @@ public class StatisticManager implements StatisticManagerFacade{
         return manager;
     }
     
+    private StatisticManager(){
+        this.dmf = DatabaseManager.getInstance();
+    }
+    
     @Override
-    public Graphs getCompletedOrders(long since) {
-        DatabaseManagerFacade dbManager = DatabaseManager.getInstance();
-        
-        Graphs returnGraphs = new Graphs(System.currentTimeMillis(), "Dag på måneden", "Antal", "Gennemførte ordre", "Gennemførte ordre");
-        returnGraphs.addData(dbManager.getOrderTimestamps("Completed", since));
+    public Graphs getCompletedOrders(long since) {Graphs returnGraphs = new Graphs(System.currentTimeMillis(), "Dag på måneden", "Antal", "Gennemførte ordre", "Gennemførte ordre");
+        returnGraphs.addData(this.dmf.getOrderTimestamps("Completed", since));
         return returnGraphs;
     }
 }

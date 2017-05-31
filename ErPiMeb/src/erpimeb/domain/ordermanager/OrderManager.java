@@ -11,7 +11,6 @@ import erpimeb.domain.usermanager.Customer;
 import erpimeb.domain.usermanager.UserManager;
 import erpimeb.domain.usermanager.UserManagerFacade;
 import erpimeb.persistence.databasemanager.DatabaseManager;
-import erpimeb.persistence.databasemanager.DatabaseManagerFacade;
 import external.domain.mailmanager.MailManager;
 import external.domain.mailmanager.MailManagerFacade;
 import external.domain.paymentmanager.PaymentManager;
@@ -30,7 +29,7 @@ public class OrderManager implements OrderManagerFacade{
     private UserManagerFacade umf;
     private MailManagerFacade mmf;
     private PaymentManagerFacade pmf;
-    private DatabaseManagerFacade dmf;
+    private OrderDatabaseManagerFacade dmf;
     
     public OrderManager(){
         this.umf = UserManager.getInstance();
