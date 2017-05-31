@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -739,30 +741,38 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
     }
 
     @Override
-    public int checkCredentials(String username, String password) {
-        // 0 = forkert info
-        // 1 = normal bruger
-        // 2 = administrator
-        // 3 = super admin
-        // Need SQL implementation
-        // so it returns the user ID for the specified username/password combination
-        // Requires 2 different implementations for both admin login and user login, since they return 2 different values.
-        // When doing an admin login this returns the clearance level of the administrator
-        // When doing an user login this returns the user id of that username/password combination. 
-        // The following are only test values
-        switch (username) {
-            case "superadmin":
-                return 3;
-            case "admin":
-                return 2;
-            case "user":
-                return 1;
-            case "user2":
-                return 1;
-            case "prutfisk":
-                return 1;
-            default:
-                return 0;
+    public int checkCredentialsAdmin(String username, String password) {
+        // Returns clearance level
+        try {
+            ResultSet rs;
+            String query = "SELECT clearance FROM admin WHERE name =? AND password=?;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setString(1, username);
+            prepSt.setString(2, password);
+            rs = prepSt.executeQuery();
+            rs.next();
+            return rs.getInt("clearance");
+        } catch (SQLException ex) {
+            System.out.println("Error checking credentials in database.");
+            return 0;
+        }
+    }
+    
+    @Override
+    public int checkCredentialsUser(String email, String password) {
+        // Returns user id
+        try {
+            ResultSet rs;
+            String query = "SELECT customerid FROM login NATURAL JOIN customer WHERE email=? AND password =?;";
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setString(1, email);
+            prepSt.setString(2, password);
+            rs = prepSt.executeQuery();
+            rs.next();
+            return rs.getInt("customerid");
+        } catch (SQLException ex) {
+            System.out.println("Error checking credentials in database.");
+            return 0;
         }
     }
 
@@ -800,8 +810,9 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
                 this.fillSubCategory(newCategory);
                 subCategories.add(newCategory);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Something went wrong when fetching sub categories from database");
+            return null;
         }
 
         return subCategories;

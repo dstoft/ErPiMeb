@@ -78,8 +78,8 @@ public class UserManager implements UserManagerFacade{
 
     @Override
     public boolean adminLogin(String username, String password) {
-        int clearance = this.dbManager.checkCredentials(username, password);
-        if(clearance >= 2){
+        int clearance = this.dbManager.checkCredentialsAdmin(username, password);
+        if(clearance > 0){
             this.currentAdmin = new Administrator(username, clearance);
             return true;
         }
@@ -105,8 +105,9 @@ public class UserManager implements UserManagerFacade{
 
     @Override
     public boolean userLogin(String username, String password) {
-        int userId = this.dbManager.checkCredentials(username, password);
-        if(userId == 1){
+        int userId = this.dbManager.checkCredentialsUser(username, password);
+        if(userId != 0){
+            this.currentUser = this.dbManager.fillCustomer(userId);
             this.currentUserId = userId;
             return true;
         }

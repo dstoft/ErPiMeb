@@ -12,6 +12,7 @@ package erpimeb.domain.usermanager;
 public interface UserDatabaseManagerFacade {
     public abstract Customer fillCustomer(int userId);
     public abstract boolean saveCustomer(Customer customer);
-    public abstract int checkCredentials(String username, String password);
+    public abstract int checkCredentialsAdmin(String username, String password);
+    public abstract int checkCredentialsUser(String email, String password);
     
 }
