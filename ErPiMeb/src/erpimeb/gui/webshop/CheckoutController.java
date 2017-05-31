@@ -107,7 +107,7 @@ public class CheckoutController implements Initializable, Switchable {
             alert.setTitle("Din ordre er gennemført!");
             alert.setHeaderText("Din ordre er placeret og vi har registreret den i vores system. Du har modtaget en kvittering på mail.");
             alert.showAndWait();
-            SceneSwitcher.changeScene("/resources/WebshopMain.fxml", "Webshop");
+            SceneSwitcher.changeScene("/resources/WebshopReceipt.fxml", "Webshop");
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Din ordre blev ikke gennemført!");

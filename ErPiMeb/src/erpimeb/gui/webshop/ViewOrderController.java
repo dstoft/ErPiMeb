@@ -76,7 +76,9 @@ public class ViewOrderController implements Initializable, Switchable {
         alert.setTitle("Success");
         alert.setHeaderText("A return case based on this order has been created and stored.");
         alert.showAndWait();
-        SceneSwitcher.changeScene("/resources/WebshopOrderHistory.fxml", "Retur sag");
+//        SceneSwitcher.changeScene("/resources/WebshopOrderHistory.fxml", "Retur sag");
+        SceneSwitcher.cycleBackward();
+        SceneSwitcher.cycleBackward();
     }
     
 }

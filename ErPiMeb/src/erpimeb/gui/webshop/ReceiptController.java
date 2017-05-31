@@ -63,7 +63,9 @@ public class ReceiptController implements Initializable, Switchable {
 
     @FXML
     private void handleReturnToMainPage(ActionEvent event) {
-        SceneSwitcher.changeScene("/resources/WebshopMain.fxml", "Webshop");
+        SceneSwitcher.cycleBackward();
+        SceneSwitcher.cycleBackward();
+        SceneSwitcher.cycleBackward();
     }
     
     

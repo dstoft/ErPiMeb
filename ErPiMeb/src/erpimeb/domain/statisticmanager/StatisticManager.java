@@ -29,7 +29,7 @@ public class StatisticManager implements StatisticManagerFacade{
     
     @Override
     public Graphs getCompletedOrders(long since) {Graphs returnGraphs = new Graphs(System.currentTimeMillis(), "Dag på måneden", "Antal", "Gennemførte ordre", "Gennemførte ordre");
-        returnGraphs.addData(this.dmf.getOrderTimestamps("Completed", since));
+        returnGraphs.addData(this.dmf.getOrderTimestamps("complete", since));
         return returnGraphs;
     }
 }

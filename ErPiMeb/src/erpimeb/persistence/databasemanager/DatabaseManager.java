@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,6 +47,8 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
             this.password = fileInput.nextLine();
         } catch (FileNotFoundException ex) {
             System.out.println("Database info file not found.");
+        } catch (NoSuchElementException e) {
+            
         }
 
         try {
@@ -63,12 +66,12 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
     }
     
     /* Default values for Connection */
-    private int port;
+    private int port = 5432;
     private String url = "jdbc:postgresql://";
-    private String host;
-    private String databaseName;
-    private String username;
-    private String password;
+    private String host = "localhost";
+    private String databaseName = "ErPiMeb";
+    private String username = "postgres";
+    private String password = "admin";
 
     private Connection conn = null;
 
@@ -84,11 +87,15 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
             return;
         }
 
-        db.port = Integer.parseInt(fileInput.nextLine());
-        db.host = fileInput.nextLine();
-        db.databaseName = fileInput.nextLine();
-        db.username = fileInput.nextLine();
-        db.password = fileInput.nextLine();
+//        try {
+//            db.port = Integer.parseInt(fileInput.nextLine());
+//            db.host = fileInput.nextLine();
+//            db.databaseName = fileInput.nextLine();
+//            db.username = fileInput.nextLine();
+//            db.password = fileInput.nextLine();
+//        } catch(NoSuchElementException e) {
+//            System.out.println("No lines were found in the files...");
+//        }
 
         System.out.println("Here you can change the database connection information to your own.");
         System.out.println("We have put in our own default values. Change them until it matches yours.");
@@ -847,13 +854,20 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
         System.out.println("db test!");
         ArrayList<Long> returnList = new ArrayList<>();
 
-        returnList.add(1494757676748L);
-        returnList.add(1494757676748L);
-        returnList.add(1494584876748L);
-        returnList.add(1495448876748L);
-        returnList.add(1493288876748L);
-        returnList.add(1493375276748L);
-        returnList.add(1493029676748L);
+        String query = "SELECT TimeStamp FROM \"order\" WHERE Status=? AND TimeStamp>=?";
+        try {
+            PreparedStatement prepSt = this.conn.prepareStatement(query);
+            prepSt.setString(1, status);
+            prepSt.setLong(2, since);
+            ResultSet rs = prepSt.executeQuery();
+            
+            while(rs.next()) {
+                returnList.add(rs.getLong("TimeStamp"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Something went wrong with fetching product info from the database!");
+            return null;
+        }
 
         return returnList;
     }
