@@ -29,13 +29,13 @@ public class LoginController implements Initializable, Switchable {
     @FXML
     private Button adminLogin;
     @FXML
-    private TextField username;
-    @FXML
     private PasswordField password;
     @FXML
     private Button login;
     @FXML
     private Button createUser;
+    @FXML
+    private TextField email;
 
     /**
      * Initializes the controller class.
@@ -52,7 +52,7 @@ public class LoginController implements Initializable, Switchable {
 
     @FXML
     private void handleLoginAction(ActionEvent event) {
-        if(this.userManager.userLogin(this.username.getText(), this.password.getText())){
+        if(this.userManager.userLogin(this.email.getText(), this.password.getText())){
             SceneSwitcher.changeScene("/resources/WebshopCustomerProfile.fxml", "Min side");
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);

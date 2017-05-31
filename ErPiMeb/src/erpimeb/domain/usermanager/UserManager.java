@@ -104,8 +104,8 @@ public class UserManager implements UserManagerFacade{
     }
 
     @Override
-    public boolean userLogin(String username, String password) {
-        int userId = this.dbManager.checkCredentialsUser(username, password);
+    public boolean userLogin(String email, String password) {
+        int userId = this.dbManager.checkCredentialsUser(email, password);
         if(userId != 0){
             this.currentUser = this.dbManager.fillCustomer(userId);
             this.currentUserId = userId;
