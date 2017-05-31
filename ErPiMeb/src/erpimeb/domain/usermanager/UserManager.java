@@ -56,11 +56,6 @@ public class UserManager implements UserManagerFacade{
     public void addProductToCart(Product product){
         this.cart.addProduct(product);
     }
-    
-    public boolean saveCustomerChanges(String name, String email, String password, String phoneNumber, Address address) {
-        currentUser.setUserInfo(name, email, password, phoneNumber, address);
-        return this.dbManager.saveCustomer(currentUser);
-    }
 
     @Override
     public List<Product> getCartProducts() {
