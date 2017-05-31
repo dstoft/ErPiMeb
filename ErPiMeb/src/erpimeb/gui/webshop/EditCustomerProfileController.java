@@ -79,10 +79,14 @@ public class EditCustomerProfileController implements Initializable, Switchable 
     private void handleSaveChanges(ActionEvent event) {
         try {
             if (passwordField.getText().equals(rePasswordField.getText()) && checkFieldsFilled()) {
-                statusLabel.setText("Din profil er blevet opdateret.");
-                Address newAddress = new Address(addressField.getText(), Integer.parseInt(zipField.getText()), countryField.getText());
-
-                this.userManager.saveCustomerChanges(firstNameField.getText() + " " + lastNameField.getText(),emailField.getText(), phoneField.getText(), addressField.getText(), Integer.parseInt(zipField.getText()), countryField.getText());
+                Customer currentCustomer = this.userManager.getCurrentCustomer();
+                currentCustomer.setName(firstNameField.getText() + " " + lastNameField.getText());
+                currentCustomer.setPassword(this.passwordField.getText());
+                currentCustomer.setEmail(this.emailField.getText());
+                currentCustomer.setPhoneNumber(this.phoneField.getText());
+                currentCustomer.setAddress(new Address(this.addressField.getText(), Integer.parseInt(zipField.getText()), this.countryField.getText()));
+                this.userManager.saveCustomerChanges();
+                SceneSwitcher.cycleBackward();
             } else if (!checkFieldsFilled()) {
                 statusLabel.setText("De nødvendige felter må ikke være tomme. Prøv igen.");
             } else {

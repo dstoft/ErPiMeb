@@ -10,9 +10,9 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="erpimeb.gui.webshop.CheckoutController">
    <children>
-      <TextField fx:id="orderEmail" layoutX="54.0" layoutY="99.0" onKeyTyped="#updateOrderEmail" prefHeight="25.0" prefWidth="217.0" />
-      <TextField fx:id="orderName" layoutX="54.0" layoutY="144.0" onKeyTyped="#updateOrderName" prefHeight="25.0" prefWidth="217.0" />
-      <TextField fx:id="orderPhone" layoutX="54.0" layoutY="188.0" onKeyTyped="#updateOrderPhoneNumber" prefHeight="25.0" prefWidth="137.0" />
+      <TextField fx:id="orderEmail" layoutX="54.0" layoutY="99.0" prefHeight="25.0" prefWidth="217.0" />
+      <TextField fx:id="orderName" layoutX="54.0" layoutY="144.0" prefHeight="25.0" prefWidth="217.0" />
+      <TextField fx:id="orderPhone" layoutX="54.0" layoutY="188.0" prefHeight="25.0" prefWidth="137.0" />
       <TitledPane animated="false" collapsible="false" layoutX="54.0" layoutY="226.0" prefHeight="145.0" prefWidth="378.0" text="Leveringsinformationer*">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -41,6 +41,6 @@
       <Label layoutX="479.0" layoutY="205.0" text="Samlet Pris" />
       <Label layoutX="54.0" layoutY="172.0" text="Telefon nummer*" />
       <Label layoutX="442.0" layoutY="299.0" text="Terms of Service*" />
-      <CheckBox fx:id="orderTos" layoutX="538.0" layoutY="299.0" mnemonicParsing="false" onAction="#updateOrderTos" />
+      <CheckBox fx:id="orderTos" layoutX="538.0" layoutY="299.0" mnemonicParsing="false" />
    </children>
 </AnchorPane>

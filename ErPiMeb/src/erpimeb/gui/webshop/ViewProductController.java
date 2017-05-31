@@ -93,7 +93,15 @@ public class ViewProductController implements Initializable, Switchable {
 
         // For loop cannot be implemented until images are
         for (String s : images) {
-            imageList.add(new Image(s));
+            if(s.isEmpty()) {
+                continue;
+            }
+            try {
+                imageList.add(new Image(s));
+            } catch(IllegalArgumentException e) {
+                
+            }
+            
         }
         
         //Add videos
@@ -102,6 +110,9 @@ public class ViewProductController implements Initializable, Switchable {
     }
     
     void setImagesAndVideos() {
+        if(this.imageList.isEmpty()) {
+            return;
+        }
         //Set the image
         imageView.setImage(imageList.get(imageCounter));
         
@@ -166,12 +177,19 @@ public class ViewProductController implements Initializable, Switchable {
                     }
                 });
 
-                ImageView innerProductImage = new ImageView(product.getImages().get(0));
-                innerProductImage.setPreserveRatio(true);
-                innerProductImage.setLayoutX(10);
-                innerProductImage.setLayoutY(10);
-                innerProductImage.setFitHeight(100);
-                innerProductImage.setFitWidth(100);
+                if(!product.getImages().isEmpty() && !product.getImages().get(0).isEmpty()) {
+                    try {
+                        ImageView innerProductImage = new ImageView(product.getImages().get(0));
+                        innerProductImage.setPreserveRatio(true);
+                        innerProductImage.setLayoutX(10);
+                        innerProductImage.setLayoutY(10);
+                        innerProductImage.setFitHeight(100);
+                        innerProductImage.setFitWidth(100);
+                        innerProductPane.getChildren().add(innerProductImage);
+                    } catch(IllegalArgumentException e) {
+                        
+                    }
+                }
 
                 Label innerProductLabelName = new Label(product.getName());
                 innerProductLabelName.setLayoutX(10);
@@ -183,7 +201,6 @@ public class ViewProductController implements Initializable, Switchable {
                 innerProductLabelPrice.setLayoutX(15);
                 innerProductLabelPrice.setLayoutY(125);
                 
-                innerProductPane.getChildren().add(innerProductImage);
                 innerProductPane.getChildren().add(innerProductLabelName);
                 innerProductPane.getChildren().add(innerProductLabelPrice);
                 

@@ -69,11 +69,16 @@ public class CommodityManager implements CommodityManagerFacade {
     @Override
     public void setCurrentProduct(Product product) {
         this.currentProduct = product;
-        this.erpManager.fillProduct(this.currentProduct);
+        if(product != null) {
+            this.erpManager.fillProduct(this.currentProduct);
+        }
     }
 
     @Override
     public Product getCurrentProduct() {
+        if(this.currentProduct == null) {
+            return null;
+        }
         this.erpManager.fillProduct(this.currentProduct);
         return this.currentProduct;
     }

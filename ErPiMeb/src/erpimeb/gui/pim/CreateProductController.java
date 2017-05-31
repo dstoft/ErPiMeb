@@ -97,7 +97,7 @@ public class CreateProductController implements Initializable, Switchable {
 
     @FXML
     private void handleAttachImage(ActionEvent event) {
-        if(imageUrlTextField.getText().isEmpty()){
+        if(!imageUrlTextField.getText().isEmpty()){
             images.add(imageUrlTextField.getText());
             imageListView.getItems().add(imageUrlTextField.getText());
         }
@@ -105,7 +105,7 @@ public class CreateProductController implements Initializable, Switchable {
 
     @FXML
     private void handleAttachVideo(ActionEvent event) {
-        if(videoLinkTextField.getText().isEmpty()){
+        if(!videoLinkTextField.getText().isEmpty()){
             videos.add(videoLinkTextField.getText());
             videoListView.getItems().add(videoLinkTextField.getText());
         }

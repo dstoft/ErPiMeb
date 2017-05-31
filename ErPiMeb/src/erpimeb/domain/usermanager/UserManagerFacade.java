@@ -17,7 +17,7 @@ public interface UserManagerFacade {
     
     public abstract List<Product> getCartProducts();
     public abstract Customer getCurrentCustomer();
-    public abstract void saveCustomerChanges(String name, String email, String phoneNumber, String address, int zip, String country);
+    public abstract void saveCustomerChanges();
     public abstract boolean adminLogin(String username, String password);
     public abstract boolean userLogin(String username, String password);
     public abstract boolean createCustomer(String name, String password, String email, Address address, String phoneNumber);
@@ -27,5 +27,5 @@ public interface UserManagerFacade {
     public abstract void removeProductFromCart(Product product);
     public abstract void removeOneProductFromCart(Product product);
     public abstract double getTotalCartPrice();
-    
+    public abstract void clearCart();
 }

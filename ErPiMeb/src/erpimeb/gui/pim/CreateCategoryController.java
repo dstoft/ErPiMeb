@@ -130,6 +130,7 @@ public class CreateCategoryController implements Initializable, Switchable {
     @Override
     public void setupInternals() {
         this.cmf = CommodityManager.getInstance();
+        this.cmf.setCurrentProduct(null);
         this.subcategoriesDropdown.getItems().addAll(this.cmf.getNonMainCategories());
     }
 }

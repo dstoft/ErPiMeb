@@ -150,13 +150,21 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
     
     @Override
     public boolean saveCustomer(Customer currentUser) {
-
-        try {
-            Statement st = this.conn.createStatement();
-            st.executeUpdate("Begin;");
-        } catch (SQLException e) {
-            System.out.println("Something went wrong with beginning a commit for saving a customer!");
+        return this.saveCustomer(currentUser, true);
+    }
+    
+    private boolean saveCustomer(Customer currentUser, boolean withTransaction) {
+        boolean whatToReturn = true;
+        if(withTransaction) {
+            try {
+                Statement st = this.conn.createStatement();
+                st.executeUpdate("Begin;");
+            } catch (SQLException e) {
+                System.out.println("Something went wrong with beginning a commit for saving a customer!");
+                return false;
+            }
         }
+            
 
         try {
             String query = "INSERT INTO Customer(Phone, Name, Email) VALUES (?, ?, ?) RETURNING CustomerID;";
@@ -200,16 +208,20 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
             
         } catch (SQLException e) {
             System.out.println("Database error regarding saving a customer object!" + e);
+            whatToReturn = false;
         }
 
-        try {
-            Statement st = this.conn.createStatement();
-            st.executeUpdate("COMMIT;");
-            return true;
-        } catch (SQLException e) {
-            System.out.println("Something went wrong with commit saving a customer!");
-            return false;
+        if(withTransaction) {
+            try {
+                Statement st = this.conn.createStatement();
+                st.executeUpdate("COMMIT;");
+                return whatToReturn;
+            } catch (SQLException e) {
+                System.out.println("Something went wrong with commit saving a customer!");
+                return false;
+            }
         }
+        return whatToReturn;
     }
 
     @Override
@@ -421,11 +433,13 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
 
     @Override
     public boolean saveOrder(Order order, Customer customer) {
+        boolean whatToReturn = false;
         try {
             Statement st = this.conn.createStatement();
             st.executeUpdate("Begin;");
         } catch (SQLException e) {
             System.out.println("Something went wrong with beginning a commit for saving a customer!");
+            return false;
         }
 
         try {
@@ -454,10 +468,16 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
             int orderID;
             rs.next();
             orderID = rs.getInt("OrderID");
+            order.setOrderId(orderID);
+            
+            if(customer == null) {
+                customer = new Customer(order.getName(), tempAddress, order.getPhoneNumber(), order.getEmail(), "");
+                customer.setTempCustomer(true);
+            }
             
             //Insert to Creates
             if(customer.getId() <= 0) {
-                this.saveCustomer(customer);
+                this.saveCustomer(customer, false);
             }
             query = "INSERT INTO Creates(CustomerID, OrderID) VALUES (?, ?);";
             prepSt = this.conn.prepareStatement(query);
@@ -473,15 +493,16 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
                 prepSt.setInt(2, orderID);
                 prepSt.executeUpdate();
             }
-            
+            whatToReturn = true;
         } catch (SQLException e) {
             System.out.println("Database error regarding saving a customer object!" + e);
+            whatToReturn = false;
         }
 
         try {
             Statement st = this.conn.createStatement();
             st.executeUpdate("COMMIT;");
-            return true;
+            return whatToReturn;
         } catch (SQLException e) {
             System.out.println("Something went wrong with commit saving a customer!");
             return false;
@@ -826,25 +847,25 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
     }
 
     private ResultSet getCustomerInfo(int id) {
-        String query = "SELECT Name, Phone, Email FROM Product WHERE CustomerID=?";
+        String query = "SELECT Name, Phone, Email FROM Customer WHERE CustomerID=?";
         try {
             PreparedStatement prepSt = this.conn.prepareStatement(query);
             prepSt.setInt(1, id);
             return prepSt.executeQuery();
         } catch (SQLException e) {
-            System.out.println("Something went wrong with fetching product info from the database!");
+            System.out.println("Something went wrong with fetching customer info from the database!");
             return null;
         }
     }
 
     private ResultSet getAddressInfo(int userId) {
-        String query = "SELECT Address, Zip, Country FROM ShipTo NATURAL JOIN Address WHERE CustomerID=?";
+        String query = "SELECT Address, Zip, Country FROM ShipsTo NATURAL JOIN Address WHERE CustomerID=?";
         try {
             PreparedStatement prepSt = this.conn.prepareStatement(query);
             prepSt.setInt(1, userId);
             return prepSt.executeQuery();
         } catch (SQLException e) {
-            System.out.println("Something went wrong with fetching product info from the database!");
+            System.out.println("Something went wrong with fetching address info from the database!" + e);
             return null;
         }
     }

@@ -77,10 +77,9 @@ public class OrderManager implements OrderManagerFacade{
                 if(this.currentOrder.isTosVerified()){
                     this.currentOrder.setPaymentMethod(this.pmf.iniatePayment());
                     this.mmf.emailReceipt(this.currentOrder);
-                    this.currentOrder.setStatus("Completed");
+                    this.currentOrder.setStatus("complete");
                     if(this.dmf.saveOrder(this.currentOrder, this.umf.getCurrentCustomer())){
-                        this.currentOrder.setAddress(null);
-                        this.currentOrder = null;
+                        this.umf.clearCart();
                         return true;
                     }
                 }
@@ -91,9 +90,12 @@ public class OrderManager implements OrderManagerFacade{
 
     @Override
     public void cancelOrder() {
-        this.dmf.saveOrder(this.currentOrder, this.umf.getCurrentCustomer());
-        this.currentOrder.setAddress(null);
-        this.currentOrder = null;
+        if(this.currentOrder.isRequiredInformationFilled()) {
+            this.dmf.saveOrder(this.currentOrder, this.umf.getCurrentCustomer());
+            this.currentOrder.setAddress(null);
+            this.currentOrder = null;
+        }
+        
     }
 
     @Override

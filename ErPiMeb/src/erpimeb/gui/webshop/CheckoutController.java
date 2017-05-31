@@ -102,6 +102,10 @@ public class CheckoutController implements Initializable, Switchable {
 
     @FXML
     private void confirmOrder(ActionEvent event) {
+        this.omf.setOrderEmail(this.orderEmail.getText());
+        this.omf.setOrderName(this.orderName.getText());
+        this.omf.setOrderPhone(this.orderPhone.getText());
+        this.omf.setOrderTOS(this.orderTos.isSelected());
         if(this.omf.confirmOrder()){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Din ordre er gennemført!");
@@ -117,27 +121,12 @@ public class CheckoutController implements Initializable, Switchable {
     }
 
     @FXML
-    private void updateOrderEmail(KeyEvent event) {
-        this.omf.setOrderEmail(this.orderEmail.getText());
-    }
-
-    @FXML
-    private void updateOrderName(KeyEvent event) {
-        this.omf.setOrderName(this.orderName.getText());
-    }
-
-    @FXML
-    private void updateOrderPhoneNumber(KeyEvent event) {
-        this.omf.setOrderPhone(this.orderPhone.getText());
-    }
-
-    @FXML
     private void cancelOrder(ActionEvent event) {
-        this.omf.cancelOrder();
-    }
-
-    @FXML
-    private void updateOrderTos(ActionEvent event) {
+        this.omf.setOrderEmail(this.orderEmail.getText());
+        this.omf.setOrderName(this.orderName.getText());
+        this.omf.setOrderPhone(this.orderPhone.getText());
         this.omf.setOrderTOS(this.orderTos.isSelected());
+        this.omf.cancelOrder();
+        SceneSwitcher.cycleBackward();
     }
 }

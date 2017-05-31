@@ -39,7 +39,6 @@ public class SceneSwitcher {
             System.out.println("Something went wrong with changing the scene!" + ex);
         }
         currentController = loader.getController();
-        currentController.setupInternals();
         
         currentScene = new Scene(root);
         currentTitle = title;
@@ -47,6 +46,7 @@ public class SceneSwitcher {
         primaryStage.setScene(currentScene);
         primaryStage.setTitle(title);
         primaryStage.show();
+        currentController.setupInternals();
     }
     
     public static void setStage(Stage stage){

@@ -31,6 +31,7 @@ public class Order {
     public Order(){
         this.products = new ArrayList<>();
         this.setStatus("In Progress");
+        this.setPaymentMethod("Incomplete");
         this.timeStamp = System.currentTimeMillis();
     }
 

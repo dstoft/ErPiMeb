@@ -77,10 +77,17 @@ public class CartController implements Initializable, Switchable {
             innerProductPane.setLayoutX(15);
             innerProductPane.setLayoutY(10);
             
-            ImageView innerProductImage = new ImageView(product.getImages().get(0));
-            innerProductImage.setPreserveRatio(true);
-            innerProductImage.setFitHeight(60);
-            innerProductImage.setFitWidth(60);
+            if(!product.getImages().isEmpty() && !product.getImages().get(0).isEmpty()) {
+                try {
+                    ImageView innerProductImage = new ImageView(product.getImages().get(0));
+                    innerProductImage.setPreserveRatio(true);
+                    innerProductImage.setFitHeight(60);
+                    innerProductImage.setFitWidth(60);
+                    innerProductPane.getChildren().add(innerProductImage);
+                } catch(IllegalArgumentException e) {
+
+                }
+            }
             
             Label innerProductLabelName = new Label(product.getName());
             innerProductLabelName.setLayoutX(65);
@@ -145,7 +152,6 @@ public class CartController implements Initializable, Switchable {
                 }
             });
             
-            innerProductPane.getChildren().add(innerProductImage);
             innerProductPane.getChildren().add(innerProductLabelName);
             innerProductPane.getChildren().add(innerProductSpinner);
             innerProductPane.getChildren().add(innerProductLabelPrice);

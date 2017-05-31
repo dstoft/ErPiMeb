@@ -121,7 +121,7 @@ public class EditProductController implements Initializable, Switchable {
             alert.showAndWait();
             return;
         }
-        if(!this.cManager.validateSerialNumber(serialNumber)) {
+        if(!this.cManager.validateSerialNumber(serialNumber) && serialNumber != this.cManager.getCurrentProduct().getErpSn()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERP SNr skal være eksisterende i ERP og være unik");
             alert.setHeaderText("ERP serie nummer skal være eksisterende i ERP og den må ikke tilhøre et andet produkt!");

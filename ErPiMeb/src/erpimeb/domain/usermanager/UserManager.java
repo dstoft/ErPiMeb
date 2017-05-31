@@ -72,8 +72,8 @@ public class UserManager implements UserManagerFacade{
     }
 
     @Override
-    public void saveCustomerChanges(String name, String email, String phoneNumber, String address, int zip, String country) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void saveCustomerChanges() {
+        throw new UnsupportedOperationException("Not implemented yet!");
     }
 
     @Override
@@ -142,4 +142,11 @@ public class UserManager implements UserManagerFacade{
     public double getTotalCartPrice() {
         return this.cart.getTotalPrice();
     }
+
+    @Override
+    public void clearCart() {
+        this.cart = new Cart();
+    }
+    
+    
 }
