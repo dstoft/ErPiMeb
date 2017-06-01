@@ -157,7 +157,7 @@ public class EditProductController implements Initializable, Switchable {
         specListView.getItems().remove(specListView.getSelectionModel().getSelectedItem());
     }
     
-    public void setPickedProduct(Product pickedProduct) {
+    private void setPickedProduct(Product pickedProduct) {
         this.pickedProduct = pickedProduct;
         // Set pre-existing values
         nameTextField.setText(pickedProduct.getName());

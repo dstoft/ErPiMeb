@@ -10,7 +10,7 @@ package external.domain.paymentmanager;
  * @author chris
  */
 public class PaymentManager implements PaymentManagerFacade{
-    public static PaymentManager manager;
+    private static PaymentManager manager;
     
     public static PaymentManager getInstance(){
         if(manager == null){

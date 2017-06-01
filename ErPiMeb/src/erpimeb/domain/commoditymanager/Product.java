@@ -25,7 +25,6 @@ public class Product {
     private int erpSn;
     private Category category;
     private HashMap<String, String> specification;
-//    private Cart cart; ved ikke om denne skal være der da den er i en anden pakke
     
     public Product(String name, List<String> images, List<String> videoLinks, String description, HashMap<String, String> specifications, int erpSn, Category pickedCategory) {
         this.name = name;

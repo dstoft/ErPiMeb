@@ -29,6 +29,7 @@ public class Customer {
     }
 
     public Customer(String name, Address address, String phoneNumber, String email, String password) {
+        this();
 	this.name = name;
 	this.address = address;
 	this.phoneNumber = phoneNumber;
@@ -114,7 +115,7 @@ public class Customer {
         return password;
     }
     
-    public List<Order> getOrders() {
+    List<Order> getOrders() {
         return this.orders;
     }
 }

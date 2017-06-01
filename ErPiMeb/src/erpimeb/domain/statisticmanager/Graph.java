@@ -18,8 +18,8 @@ import java.util.Map;
  */
 public class Graph {
     
-    Map<Integer, Integer> data;
-    String xAxis, yAxis, title, seriesName;
+    private Map<Integer, Integer> data;
+    private String xAxis, yAxis, title, seriesName;
     
     public Graph(long creationTime, String xAxis, String yAxis, String title, String seriesName) {
         this.xAxis = xAxis;
@@ -34,7 +34,7 @@ public class Graph {
         }
     }
     
-    public void addData(List<Long> data) {
+    void addData(List<Long> data) {
         for(Long dataPoint : data) {
             int dayOfMonth = this.getDayOfMonth(dataPoint);
             this.data.put(dayOfMonth, this.data.get(dayOfMonth) + 1);

@@ -28,7 +28,7 @@ import javafx.scene.layout.AnchorPane;
  * @author DanielToft
  */
 public class ShowStatisticController implements Initializable, Switchable {
-    
+    private StatisticManagerFacade smf;
     @FXML
     private AnchorPane lineChartAP;
 
@@ -37,6 +37,7 @@ public class ShowStatisticController implements Initializable, Switchable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.smf = StatisticManager.getInstance();
     }
 
     @FXML
@@ -51,22 +52,15 @@ public class ShowStatisticController implements Initializable, Switchable {
         xAxis.setLabel(graphs.getxAxis());
         yAxis.setLabel(graphs.getyAxis());
         
-        //creating the chart
         final LineChart<String,Number> lineChart = new LineChart<>(xAxis,yAxis);
                 
         lineChart.setTitle(graphs.getTitle());
-        //defining a series
         XYChart.Series series = new XYChart.Series();
         series.setName(graphs.getSeriesName());
-        //populating the series with data
         
         Map<Integer, Integer> data = graphs.getData();
         
-        
         for(Integer integer : data.keySet()) {
-//            if(data.get(integer) == 0) {
-//                continue;
-//            }
             series.getData().add(new XYChart.Data("" + integer, data.get(integer)));
         }
         
@@ -82,8 +76,6 @@ public class ShowStatisticController implements Initializable, Switchable {
 
     @FXML
     private void handleShowStatistic(ActionEvent event) {
-        System.out.println("Statistics");
-        StatisticManagerFacade statisticManager = StatisticManager.getInstance();
-        this.createLineChart(statisticManager.getCompletedOrders(System.currentTimeMillis() - (28 * 86400000L)));
+        this.createLineChart(this.smf.getCompletedOrders(System.currentTimeMillis() - (28 * 86400000L)));
     }
 }

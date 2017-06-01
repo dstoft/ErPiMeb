@@ -62,7 +62,6 @@ public class AdminLoginController implements Initializable, Switchable {
 
     @Override
     public void setupInternals() {
-        //
         if(this.userManager.getCurrentAdmin() != null){
             SceneSwitcher.changeScene("/resources/PimMain.fxml", "PIM Backend");
         }

@@ -22,27 +22,27 @@ public class Cart {
         this.products = new ArrayList<>();
     }
     
-    public List<Product> getProducts(){
+    List<Product> getProducts(){
         return this.products;
     }
     
-    public void addProduct(Product product){
+    void addProduct(Product product){
         this.products.add(product);
         this.total += product.getPrice();
     }
     
-    public void removeProduct(Product product){
+    void removeProduct(Product product){
         while(this.products.contains(product)){
             this.removeOneProduct(product);
         }
     }
     
-    public void removeOneProduct(Product product){
+    void removeOneProduct(Product product){
         this.total -= product.getPrice();
         this.products.remove(product);
     }
     
-    public double getTotalPrice(){
+    double getTotalPrice(){
         return this.total;
     }
 }

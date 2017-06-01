@@ -17,18 +17,16 @@ import java.util.List;
  * @author chris
  */
 public class UserManager implements UserManagerFacade{
-    public static UserManager manager;
-    public UserDatabaseManagerFacade dbManager;
+    private static UserManager manager;
+    private UserDatabaseManagerFacade dbManager;
     private CommodityManagerFacade cmf;
     
     private int currentUserId;
     private Customer currentUser;
     private Administrator currentAdmin;
     private Cart cart;
-    private List<Customer> customers;
-    private List<Administrator> admins;
     
-    public UserManager() {
+    private UserManager() {
         this.dbManager = DatabaseManager.getInstance();
         this.cmf = CommodityManager.getInstance();
         this.cart = new Cart();
@@ -119,10 +117,6 @@ public class UserManager implements UserManagerFacade{
         return this.currentAdmin;
     }
     
-    public int getCurrentUserId() {
-        return currentUserId;
-    }
-    
     @Override
     public void removeProductFromCart(Product product) {
         this.cart.removeProduct(product);
@@ -142,6 +136,4 @@ public class UserManager implements UserManagerFacade{
     public void clearCart() {
         this.cart = new Cart();
     }
-    
-    
 }

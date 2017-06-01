@@ -34,7 +34,7 @@ import java.util.NoSuchElementException;
  */
 public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDatabaseManagerFacade, StatisticDatabaseManagerFacade, UserDatabaseManagerFacade {
 
-    public static DatabaseManager manager;
+    private static DatabaseManager manager;
     
     public DatabaseManager() {
         try (Scanner fileInput = new Scanner(new File("databaseInfo.txt"))) {
@@ -84,16 +84,6 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
             System.out.println("Database info file not found.");
             return;
         }
-
-//        try {
-//            db.port = Integer.parseInt(fileInput.nextLine());
-//            db.host = fileInput.nextLine();
-//            db.databaseName = fileInput.nextLine();
-//            db.username = fileInput.nextLine();
-//            db.password = fileInput.nextLine();
-//        } catch(NoSuchElementException e) {
-//            System.out.println("No lines were found in the files...");
-//        }
 
         System.out.println("Here you can change the database connection information to your own.");
         System.out.println("We have put in our own default values. Change them until it matches yours.");
@@ -361,9 +351,6 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
     }
 
     private Category fillCategory(String categoryName) {
-//        connect();
-        //Should probably check whether the name exists in the db first, but oh well
-
         // Calling this.getCategoryInfo is useless, since Category only holds a name
         ResultSet rs;
         Category returnCategory = new Category();
@@ -526,8 +513,6 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
             return false;
         }
         
-        
-        
         if(alreadyExists) {
             return this.updateProduct(product);
         } else {
@@ -688,7 +673,6 @@ public class DatabaseManager implements CommodityDatabaseManagerFacade, OrderDat
         }
     }
 
-    // implementeres når testdata er færdig
     @Override
     public boolean saveCategory(Category category) {
         boolean whatToReturn = false;

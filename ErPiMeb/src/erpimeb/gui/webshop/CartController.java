@@ -38,7 +38,6 @@ import javafx.scene.layout.GridPane;
  */
 public class CartController implements Initializable, Switchable {
     private UserManagerFacade umf;
-    private CommodityManagerFacade cmf;
     
     @FXML
     private Label totalPrice;
@@ -55,7 +54,6 @@ public class CartController implements Initializable, Switchable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.umf = UserManager.getInstance();
-        this.cmf = CommodityManager.getInstance();
     }
 
     @Override

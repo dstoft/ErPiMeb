@@ -5,9 +5,6 @@
  */
 package erpimeb.domain.usermanager;
 
-import erpimeb.domain.ordermanager.Order;
-import java.util.List;
-
 /**
  *
  * @author chris
@@ -16,8 +13,6 @@ public class Address {
     private String address;
     private Integer zip;
     private String country;
-    private List<Customer> customers;
-    private List<Order> orders;
     
     public Address(String address, Integer zip, String country) {
         this.address = address;

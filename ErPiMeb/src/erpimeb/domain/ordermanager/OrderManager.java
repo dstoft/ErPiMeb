@@ -23,7 +23,7 @@ import java.util.List;
  * @author chris
  */
 public class OrderManager implements OrderManagerFacade{
-    public static OrderManager manager;
+    private static OrderManager manager;
     private Order currentOrder;
     private List<Product> products = new ArrayList<>();
     private UserManagerFacade umf;
@@ -31,7 +31,7 @@ public class OrderManager implements OrderManagerFacade{
     private PaymentManagerFacade pmf;
     private OrderDatabaseManagerFacade dmf;
     
-    public OrderManager(){
+    private OrderManager(){
         this.umf = UserManager.getInstance();
         this.mmf = MailManager.getInstance();
         this.pmf = PaymentManager.getInstance();
@@ -140,16 +140,5 @@ public class OrderManager implements OrderManagerFacade{
     public void createAndSaveReturnCase(){
         ReturnCase returnCase = new ReturnCase(this.currentOrder);
         dmf.saveReturnCase(returnCase);
-    }
-    
-    @Override
-    public boolean iswarrantyExpired(ReturnCase returnCase){
-        //Milliseconds on 2 years
-        long sec2Year = 63072000000L;
-        // checks if the warrenty is expired.
-        if ((System.currentTimeMillis() - sec2Year) >= returnCase.getOrder().getTimeStamp()){
-            return false;
-        }
-        return true; 
     }
 }

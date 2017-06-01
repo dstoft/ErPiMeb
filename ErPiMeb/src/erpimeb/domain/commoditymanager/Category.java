@@ -42,8 +42,6 @@ public class Category {
 	return name;
     }
     
-    
-    
     public void addSubcategory(Category category) {
         this.subcategories.add(category);
         this.productList.addAll(category.productList);

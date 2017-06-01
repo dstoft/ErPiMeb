@@ -30,8 +30,8 @@ public class Order {
     
     public Order(){
         this.products = new ArrayList<>();
-        this.setStatus("In Progress");
-        this.setPaymentMethod("Incomplete");
+        this.status = "In Progress";
+        this.paymentMethod = "Incomplete";
         this.timeStamp = System.currentTimeMillis();
     }
 
@@ -68,7 +68,7 @@ public class Order {
         return this.email;
     }
     
-    protected boolean isTosVerified(){
+    boolean isTosVerified(){
         return this.tos;
     }
 
@@ -102,11 +102,11 @@ public class Order {
         this.address = address;
     }
     
-    public void setAddress(String address, int zip, String country){
+    void setAddress(String address, int zip, String country){
         this.setAddress(new Address(address, zip, country));
     }
     
-    public void setTos(boolean accept){
+    void setTos(boolean accept){
         this.tos = accept;
     }
     
@@ -139,7 +139,7 @@ public class Order {
         }
     }
     
-    protected boolean isRequiredInformationFilled(){
+    boolean isRequiredInformationFilled(){
         if(this.name == null || this.name.isEmpty()){
             return false;
         }

@@ -12,7 +12,7 @@ import erpimeb.domain.ordermanager.Order;
  * @author AKT
  */
 public class MailManager implements MailManagerFacade{
-    public static MailManager manager;
+    private static MailManager manager;
     
     public static MailManager getInstance(){
         if(manager == null){

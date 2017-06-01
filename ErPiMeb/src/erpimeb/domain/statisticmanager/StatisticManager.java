@@ -12,8 +12,7 @@ import erpimeb.persistence.databasemanager.DatabaseManager;
  * @author chris
  */
 public class StatisticManager implements StatisticManagerFacade{
-    public static StatisticManager manager;
-    private Graph graphs;
+    private static StatisticManager manager;
     private StatisticDatabaseManagerFacade dmf;
     
     public static StatisticManager getInstance(){

@@ -40,7 +40,6 @@ import javafx.scene.web.WebView;
 public class ViewProductController implements Initializable, Switchable {
     private CommodityManagerFacade cManager;
     private UserManagerFacade umf;
-    private Product currentProduct;
     private DecimalFormat df = new DecimalFormat("#.##");
     
     private int imageCounter = 0;
@@ -73,51 +72,13 @@ public class ViewProductController implements Initializable, Switchable {
         this.cManager = CommodityManager.getInstance();
         this.imageList = new ArrayList<>();
         this.umf = UserManager.getInstance();
-        this.currentProduct = cManager.getCurrentProduct();
     }
     
-    /**
-     * Sets the values of this objects fxml elements Also determines whether to
-     * show the imagery cycle buttons
-     */
-    void setupScene() {
-        videoWebView.setDisable(true);
-        videoWebView.setVisible(false);
-        
-        productName.setText(currentProduct.getName());
-        productPrice.setText(this.df.format(currentProduct.getPrice()) + ",-");
-        productDescription.setText(currentProduct.getDescription());
-
-        //Add images
-        List<String> images = this.currentProduct.getImages();
-
-        // For loop cannot be implemented until images are
-        for (String s : images) {
-            if(s.isEmpty()) {
-                continue;
-            }
-            try {
-                imageList.add(new Image(s));
-            } catch(IllegalArgumentException e) {
-                
-            }
-            
-        }
-        
-        //Add videos
-        
-        setImagesAndVideos();
-    }
-    
-    void setImagesAndVideos() {
+    private void setImagesAndVideos() {
         if(this.imageList.isEmpty()) {
             return;
         }
-        //Set the image
         imageView.setImage(imageList.get(imageCounter));
-        
-        //Set the video
-        
     }
     
     @FXML
@@ -159,11 +120,32 @@ public class ViewProductController implements Initializable, Switchable {
 
     @Override
     public void setupInternals() {
-        this.setupScene();
+        Product currentProduct = this.cManager.getCurrentProduct();
+        videoWebView.setDisable(true);
+        videoWebView.setVisible(false);
         
-        if(!this.currentProduct.getRelatedProducts().isEmpty()){
+        productName.setText(currentProduct.getName());
+        productPrice.setText(this.df.format(currentProduct.getPrice()) + ",-");
+        productDescription.setText(currentProduct.getDescription());
+
+        List<String> images = currentProduct.getImages();
+
+        for (String s : images) {
+            if(s.isEmpty()) {
+                continue;
+            }
+            try {
+                imageList.add(new Image(s));
+            } catch(IllegalArgumentException e) {
+                
+            }
+            
+        }
+        setImagesAndVideos();
+        
+        if(!currentProduct.getRelatedProducts().isEmpty()){
             int i = 1;
-            for(Product product : this.currentProduct.getRelatedProducts()){
+            for(Product product : currentProduct.getRelatedProducts()){
                 this.cManager.fillProduct(product);
                 AnchorPane innerProductPane = new AnchorPane();
                 innerProductPane.setPrefSize(100, 132);
@@ -230,7 +212,7 @@ public class ViewProductController implements Initializable, Switchable {
 
     @FXML
     private void addToCart(ActionEvent event) {
-        this.umf.addProductToCart(this.currentProduct);
+        this.umf.addProductToCart(this.cManager.getCurrentProduct());
         SceneSwitcher.changeScene("/resources/WebshopCart.fxml", "Kurv");
     }
 

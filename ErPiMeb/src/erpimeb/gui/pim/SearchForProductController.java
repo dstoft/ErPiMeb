@@ -16,10 +16,8 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -28,10 +26,7 @@ import javafx.stage.Stage;
  */
 public class SearchForProductController implements Initializable, Switchable {
 
-    private Stage stageRef;
-    private Scene preSceneRef;
-
-    private CommodityManagerFacade cManager = CommodityManager.getInstance();
+    private CommodityManagerFacade cManager;
 
     @FXML
     private TextField searchTextField;
@@ -43,7 +38,7 @@ public class SearchForProductController implements Initializable, Switchable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        this.cManager = CommodityManager.getInstance();
     }
 
     @FXML

@@ -10,7 +10,7 @@ package external.domain.mediamanager;
  * @author AKT
  */
 public class MediaManager implements MediaManagerFacade{
-    public static MediaManager manager;
+    private static MediaManager manager;
     
     public static MediaManager getInstance(){
         if(manager == null){

@@ -17,17 +17,16 @@ import java.util.Set;
  * @author chris
  */
 public class CommodityManager implements CommodityManagerFacade {
-    public static CommodityManager manager;
+    private static CommodityManager manager;
     
     public static CommodityManager getInstance(){
         if(manager == null){
             manager = new CommodityManager();
-            manager.init();
         }
         return manager;
     }
     
-    private void init(){
+    private CommodityManager(){
         this.dbManager = DatabaseManager.getInstance();
         this.erpManager = ErpManager.getInstance();
     }
